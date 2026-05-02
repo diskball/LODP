@@ -3,13 +3,15 @@ _SETTINGS:SetEraModern()
 
 local my_ctld = CTLD:New(coalition.side.RED,{"R_Cargo"})
 
-my_ctld:AddTroopsCargo("Anti-Air",{"AAR"},CTLD_CARGO.Enum.TROOPS,2,90,0)
-my_ctld:AddTroopsCargo("Infantry",{"RIFLER"},CTLD_CARGO.Enum.TROOPS,6,90,0)
-my_ctld:AddCratesCargo("M-113",{"RED SCOUT"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld:AddCratesCargo("Leopard",{"RED TANK"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld:AddCratesCargo("SA-8",{"RED SA8"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld:AddCratesCargo("SA-15",{"RED SA15"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld:AddCratesCargo("EWR",{"RED EWR"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
+-- Configure RED coalition cargo from centralized CARGO_TYPES
+for _, cargo in ipairs(CARGO_TYPES) do
+    if cargo.type == "troops" then
+        my_ctld:AddTroopsCargo(cargo.red.name, {cargo.red.groupName}, CTLD_CARGO.Enum.TROOPS, cargo.count, 90, 0)
+    else
+        my_ctld:AddCratesCargo(cargo.red.name, {cargo.red.groupName}, CTLD_CARGO.Enum.VEHICLE, cargo.count, 1000, 0)
+    end
+end
+
 my_ctld.EngineerSearch = 2000 -- teams will search for crates in this radius.
 my_ctld.useprefix = true -- (DO NOT SWITCH THIS OFF UNLESS YOU KNOW WHAT YOU ARE DOING!) Adjust **before** starting CTLD. If set to false, *all* choppers of the coalition side will be enabled for CTLD.
 my_ctld.CrateDistance = 100 -- List and Load crates in this radius only.
@@ -53,13 +55,15 @@ my_ctld:__Start(5)
 
 local my_ctld2 = CTLD:New(coalition.side.BLUE,{"B_Cargo"})
 
-my_ctld2:AddTroopsCargo("Anti-Air",{"AAB"},CTLD_CARGO.Enum.TROOPS,2,90,0)
-my_ctld2:AddTroopsCargo("Infantry",{"RIFLEB"},CTLD_CARGO.Enum.TROOPS,6,90,0)
-my_ctld2:AddCratesCargo("M-113",{"BLUE SCOUT"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld2:AddCratesCargo("Leopard",{"BLUE TANK"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld2:AddCratesCargo("SA-8",{"BLUE SA8"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld2:AddCratesCargo("SA-15",{"BLUE SA15"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
-my_ctld2:AddCratesCargo("EWR",{"BLUE EWR"},CTLD_CARGO.Enum.VEHICLE,1,1000,0)
+-- Configure BLUE coalition cargo from centralized CARGO_TYPES
+for _, cargo in ipairs(CARGO_TYPES) do
+    if cargo.type == "troops" then
+        my_ctld2:AddTroopsCargo(cargo.blue.name, {cargo.blue.groupName}, CTLD_CARGO.Enum.TROOPS, cargo.count, 90, 0)
+    else
+        my_ctld2:AddCratesCargo(cargo.blue.name, {cargo.blue.groupName}, CTLD_CARGO.Enum.VEHICLE, cargo.count, 1000, 0)
+    end
+end
+
 my_ctld2.EngineerSearch = 2000 -- teams will search for crates in this radius.
 my_ctld2.useprefix = true -- (DO NOT SWITCH THIS OFF UNLESS YOU KNOW WHAT YOU ARE DOING!) Adjust **before** starting CTLD. If set to false, *all* choppers of the coalition side will be enabled for CTLD.
 my_ctld2.CrateDistance = 100 -- List and Load crates in this radius only.
@@ -100,26 +104,124 @@ my_ctld2:SetUnitCapabilities("OH58D", false, false, 0, 0, 14, 400)
 my_ctld2:__Start(5)
 
 -- ==================
--- COST CONFIG
+-- CARGO & COST CONFIGURATION
 -- ==================
 
-local COSTS = {
-    MANPADS  = 100,
-    Infantry = 50,
-    Scout    = 150,
-    Leopard  = 250,
-    SA8      = 300,
-    SA15     = 350,
-    EWR      = 250,
+-- Central cargo definition for both coalitions
+-- Manage all cargo types, names, and group assignments in one place
+local CARGO_TYPES = {
+    -- Troops
+    {
+        key = "MANPADS",
+        displayName = "MANPADS",
+        type = "troops",
+        count = 2,
+        cost = 100,
+        red = { name = "Anti-Air", groupName = "AAR" },
+        blue = { name = "Anti-Air", groupName = "AAB" }
+    },
+    {
+        key = "Infantry",
+        displayName = "Infantry",
+        type = "troops",
+        count = 6,
+        cost = 50,
+        red = { name = "Infantry", groupName = "RIFLER" },
+        blue = { name = "Infantry", groupName = "RIFLEB" }
+    },
+    -- Vehicles
+    {
+        key = "Scout",
+        displayName = "M-113",
+        type = "crate",
+        count = 1,
+        cost = 150,
+        red = { name = "M-113", groupName = "RED SCOUT" },
+        blue = { name = "M-113", groupName = "BLUE SCOUT" }
+    },
+    {
+        key = "Leopard",
+        displayName = "Leopard",
+        type = "crate",
+        count = 1,
+        cost = 250,
+        red = { name = "Leopard", groupName = "RED TANK" },
+        blue = { name = "Leopard", groupName = "BLUE TANK" }
+    },
+    {
+        key = "SA8",
+        displayName = "SA-8",
+        type = "crate",
+        count = 1,
+        cost = 300,
+        red = { name = "SA-8", groupName = "RED SA8" },
+        blue = { name = "SA-8", groupName = "BLUE SA8" }
+    },
+    {
+        key = "SA15",
+        displayName = "SA-15",
+        type = "crate",
+        count = 1,
+        cost = 350,
+        red = { name = "SA-15", groupName = "RED SA15" },
+        blue = { name = "SA-15", groupName = "BLUE SA15" }
+    },
+    {
+        key = "EWR",
+        displayName = "EWR",
+        type = "crate",
+        count = 1,
+        cost = 250,
+        red = { name = "EWR", groupName = "RED EWR" },
+        blue = { name = "EWR", groupName = "BLUE EWR" }
+    },
 }
 
+-- Legacy COSTS table for backwards compatibility (auto-generated from CARGO_TYPES)
+local COSTS = {}
+for _, cargo in ipairs(CARGO_TYPES) do
+    COSTS[cargo.key] = cargo.cost
+end
+
 -- ==================
--- HELPER FUNCTION
+-- GENERIC BUY FUNCTION (auto-works for both coalitions)
 -- ==================
 
-local function refreshCTLDMenus(ctld)
-    for unitname, _ in pairs(ctld.MenusDone) do
-        ctld.MenusDone[unitname] = nil
+local function buyItem(ctldInstance, coalitionName, cargoKey)
+    local success, balance = bank.getBalance(coalitionName)
+    
+    -- Find cargo definition
+    local cargoDefinition = nil
+    for _, cargo in ipairs(CARGO_TYPES) do
+        if cargo.key == cargoKey then
+            cargoDefinition = cargo
+            break
+        end
+    end
+    
+    if not cargoDefinition then
+        return
+    end
+    
+    if success and balance >= cargoDefinition.cost then
+        local coalition = coalitionName == "red" and coalition.side.RED or coalition.side.BLUE
+        local cargoConfig = cargoDefinition[coalitionName]
+        
+        if cargoDefinition.type == "troops" then
+            ctldInstance:AddStockTroops(cargoConfig.name, 1)
+        else
+            ctldInstance:AddStockCrates(cargoConfig.name, 1)
+        end
+        
+        refreshCTLDMenus(ctldInstance)
+        
+        local coalitionNum = coalitionName == "red" and 1 or 2
+        bank.withdawFunds(coalitionNum, cargoDefinition.cost)
+        
+        MESSAGE:New("Purchase complete. " .. cargoDefinition.displayName .. " added.", 10):ToCoalition(coalition)
+    else
+        local coalition = coalitionName == "red" and coalition.side.RED or coalition.side.BLUE
+        MESSAGE:New("Insufficient funds. Credits needed: " .. cargoDefinition.cost .. ".", 10):ToCoalition(coalition)
     end
 end
 
@@ -146,241 +248,45 @@ function displayBankBalanceRed()
 end
 
 -- ==================
--- BLUE BUY FUNCTIONS (my_ctld2)
+-- AUTO-GENERATED MENUS (from CARGO_TYPES)
 -- ==================
 
-function buyMANPADSBlue()
-    local success, balance = bank.getBalance("blue")
-    if success and balance >= COSTS.MANPADS then
-        my_ctld2:AddStockTroops("Anti-Air", 1)
-        refreshCTLDMenus(my_ctld2)
-        bank.withdawFunds(2, COSTS.MANPADS)
-        MESSAGE:New("Purchase complete. MANPADS added.", 10):ToCoalition(coalition.side.BLUE)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.MANPADS .. ".", 10):ToCoalition(coalition.side.BLUE)
-    end
-end
-
-function buyInfantryBlue()
-    local success, balance = bank.getBalance("blue")
-    if success and balance >= COSTS.Infantry then
-        my_ctld2:AddStockTroops("Infantry", 1)
-        refreshCTLDMenus(my_ctld2)
-        bank.withdawFunds(2, COSTS.Infantry)
-        MESSAGE:New("Purchase complete. Infantry added.", 10):ToCoalition(coalition.side.BLUE)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.Infantry .. ".", 10):ToCoalition(coalition.side.BLUE)
-    end
-end
-
-function buyScoutBlue()
-    local success, balance = bank.getBalance("blue")
-    if success and balance >= COSTS.Scout then
-        my_ctld2:AddStockCrates("M-113", 1)
-        refreshCTLDMenus(my_ctld2)
-        bank.withdawFunds(2, COSTS.Scout)
-        MESSAGE:New("Purchase complete. M-113 added.", 10):ToCoalition(coalition.side.BLUE)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.Scout .. ".", 10):ToCoalition(coalition.side.BLUE)
-    end
-end
-
-function buyLeopardBlue()
-    local success, balance = bank.getBalance("blue")
-    if success and balance >= COSTS.Leopard then
-        my_ctld2:AddStockCrates("Leopard", 1)
-        refreshCTLDMenus(my_ctld2)
-        bank.withdawFunds(2, COSTS.Leopard)
-        MESSAGE:New("Purchase complete. Leopard added.", 10):ToCoalition(coalition.side.BLUE)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.Leopard .. ".", 10):ToCoalition(coalition.side.BLUE)
-    end
-end
-
-function buySA8Blue()
-    local success, balance = bank.getBalance("blue")
-    if success and balance >= COSTS.SA8 then
-        my_ctld2:AddStockCrates("SA-8", 1)
-        refreshCTLDMenus(my_ctld2)
-        bank.withdawFunds(2, COSTS.SA8)
-        MESSAGE:New("Purchase complete. SA-8 added.", 10):ToCoalition(coalition.side.BLUE)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.SA8 .. ".", 10):ToCoalition(coalition.side.BLUE)
-    end
-end
-
-function buySA15Blue()
-    local success, balance = bank.getBalance("blue")
-    if success and balance >= COSTS.SA15 then
-        my_ctld2:AddStockCrates("SA-15", 1)
-        refreshCTLDMenus(my_ctld2)
-        bank.withdawFunds(2, COSTS.SA15)
-        MESSAGE:New("Purchase complete. SA-15 added.", 10):ToCoalition(coalition.side.BLUE)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.SA15 .. ".", 10):ToCoalition(coalition.side.BLUE)
-    end
-end
-
-function buyEWRBlue()
-    local success, balance = bank.getBalance("blue")
-    if success and balance >= COSTS.EWR then
-        my_ctld2:AddStockCrates("EWR", 1)
-        refreshCTLDMenus(my_ctld2)
-        bank.withdawFunds(2, COSTS.EWR)
-        MESSAGE:New("Purchase complete. EWR added.", 10):ToCoalition(coalition.side.BLUE)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.EWR .. ".", 10):ToCoalition(coalition.side.BLUE)
-    end
-end
-
--- ==================
--- RED BUY FUNCTIONS (my_ctld)
--- ==================
-
-function buyMANPADSRed()
-    local success, balance = bank.getBalance("red")
-    if success and balance >= COSTS.MANPADS then
-        my_ctld:AddStockTroops("Anti-Air", 1)
-        refreshCTLDMenus(my_ctld)
-        bank.withdawFunds(1, COSTS.MANPADS)
-        MESSAGE:New("Purchase complete. MANPADS added.", 10):ToCoalition(coalition.side.RED)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.MANPADS .. ".", 10):ToCoalition(coalition.side.RED)
-    end
-end
-
-function buyInfantryRed()
-    local success, balance = bank.getBalance("red")
-    if success and balance >= COSTS.Infantry then
-        my_ctld:AddStockTroops("Infantry", 1)
-        refreshCTLDMenus(my_ctld)
-        bank.withdawFunds(1, COSTS.Infantry)
-        MESSAGE:New("Purchase complete. Infantry added.", 10):ToCoalition(coalition.side.RED)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.Infantry .. ".", 10):ToCoalition(coalition.side.RED)
-    end
-end
-
-function buyScoutRed()
-    local success, balance = bank.getBalance("red")
-    if success and balance >= COSTS.Scout then
-        my_ctld:AddStockCrates("M-113", 1)
-        refreshCTLDMenus(my_ctld)
-        bank.withdawFunds(1, COSTS.Scout)
-        MESSAGE:New("Purchase complete. M-113 added.", 10):ToCoalition(coalition.side.RED)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.Scout .. ".", 10):ToCoalition(coalition.side.RED)
-    end
-end
-
-function buyLeopardRed()
-    local success, balance = bank.getBalance("red")
-    if success and balance >= COSTS.Leopard then
-        my_ctld:AddStockCrates("Leopard", 1)
-        refreshCTLDMenus(my_ctld)
-        bank.withdawFunds(1, COSTS.Leopard)
-        MESSAGE:New("Purchase complete. Leopard added.", 10):ToCoalition(coalition.side.RED)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.Leopard .. ".", 10):ToCoalition(coalition.side.RED)
-    end
-end
-
-function buySA8Red()
-    local success, balance = bank.getBalance("red")
-    if success and balance >= COSTS.SA8 then
-        my_ctld:AddStockCrates("SA-8", 1)
-        refreshCTLDMenus(my_ctld)
-        bank.withdawFunds(1, COSTS.SA8)
-        MESSAGE:New("Purchase complete. SA-8 added.", 10):ToCoalition(coalition.side.RED)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.SA8 .. ".", 10):ToCoalition(coalition.side.RED)
-    end
-end
-
-function buySA15Red()
-    local success, balance = bank.getBalance("red")
-    if success and balance >= COSTS.SA15 then
-        my_ctld:AddStockCrates("SA-15", 1)
-        refreshCTLDMenus(my_ctld)
-        bank.withdawFunds(1, COSTS.SA15)
-        MESSAGE:New("Purchase complete. SA-15 added.", 10):ToCoalition(coalition.side.RED)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.SA15 .. ".", 10):ToCoalition(coalition.side.RED)
-    end
-end
-
-function buyEWRRed()
-    local success, balance = bank.getBalance("red")
-    if success and balance >= COSTS.EWR then
-        my_ctld:AddStockCrates("EWR", 1)
-        refreshCTLDMenus(my_ctld)
-        bank.withdawFunds(1, COSTS.EWR)
-        MESSAGE:New("Purchase complete. EWR added.", 10):ToCoalition(coalition.side.RED)
-    else
-        MESSAGE:New("Insufficient funds. Credits needed: " .. COSTS.EWR .. ".", 10):ToCoalition(coalition.side.RED)
-    end
-end
-
--- ==================
--- BLUE MENU
--- ==================
-
+-- BLUE COALITION MENU
 local mainMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Support and Upgrades")
-
 local bankMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Check Budget", mainMenuBlue)
 MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Show Available Budget", bankMenuBlue, displayBankBalanceBlue)
 
 local suppliesMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy CTLD Crates", mainMenuBlue)
 
-local manpadsMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy MANPADS ("..COSTS.MANPADS..")", suppliesMenuBlue)
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", manpadsMenuBlue, buyMANPADSBlue)
+-- Generate cargo purchase menus for BLUE
+for _, cargo in ipairs(CARGO_TYPES) do
+    local menuText = "Buy " .. cargo.displayName .. " (" .. cargo.cost .. ")"
+    local cargoMenu = MENU_COALITION:New(coalition.side.BLUE, menuText, suppliesMenuBlue)
+    MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", cargoMenu, 
+        function() buyItem(my_ctld2, "blue", cargo.key) end)
+end
 
-local infantryMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy Infantry ("..COSTS.Infantry..")", suppliesMenuBlue)
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", infantryMenuBlue, buyInfantryBlue)
-
-local scoutMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy M-113 ("..COSTS.Scout..")", suppliesMenuBlue)
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", scoutMenuBlue, buyScoutBlue)
-
-local leopardMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy Leopard ("..COSTS.Leopard..")", suppliesMenuBlue)
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", leopardMenuBlue, buyLeopardBlue)
-
-local sa8MenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy SA-8 ("..COSTS.SA8..")", suppliesMenuBlue)
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", sa8MenuBlue, buySA8Blue)
-
-local sa15MenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy SA-15 ("..COSTS.SA15..")", suppliesMenuBlue)
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", sa15MenuBlue, buySA15Blue)
-
-local ewrMenuBlue = MENU_COALITION:New(coalition.side.BLUE, "Buy EWR ("..COSTS.EWR..")", suppliesMenuBlue)
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Complete Purchase", ewrMenuBlue, buyEWRBlue)
-
--- ==================
--- RED MENU
--- ==================
-
+-- RED COALITION MENU
 local mainMenuRed = MENU_COALITION:New(coalition.side.RED, "Support and Upgrades")
-
 local bankMenuRed = MENU_COALITION:New(coalition.side.RED, "Check Budget", mainMenuRed)
 MENU_COALITION_COMMAND:New(coalition.side.RED, "Show Available Budget", bankMenuRed, displayBankBalanceRed)
 
 local suppliesMenuRed = MENU_COALITION:New(coalition.side.RED, "Buy CTLD Crates", mainMenuRed)
 
-local manpadsMenuRed = MENU_COALITION:New(coalition.side.RED, "Buy MANPADS ("..COSTS.MANPADS..")", suppliesMenuRed)
-MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", manpadsMenuRed, buyMANPADSRed)
+-- Generate cargo purchase menus for RED
+for _, cargo in ipairs(CARGO_TYPES) do
+    local menuText = "Buy " .. cargo.displayName .. " (" .. cargo.cost .. ")"
+    local cargoMenu = MENU_COALITION:New(coalition.side.RED, menuText, suppliesMenuRed)
+    MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", cargoMenu, 
+        function() buyItem(my_ctld, "red", cargo.key) end)
+end
 
-local infantryMenuRed = MENU_COALITION:New(coalition.side.RED, "Buy Infantry ("..COSTS.Infantry..")", suppliesMenuRed)
-MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", infantryMenuRed, buyInfantryRed)
+-- ==================
+-- HELPER FUNCTION
+-- ==================
 
-local scoutMenuRed = MENU_COALITION:New(coalition.side.RED, "Buy M-113 ("..COSTS.Scout..")", suppliesMenuRed)
-MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", scoutMenuRed, buyScoutRed)
-
-local leopardMenuRed = MENU_COALITION:New(coalition.side.RED, "Buy Leopard ("..COSTS.Leopard..")", suppliesMenuRed)
-MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", leopardMenuRed, buyLeopardRed)
-
-local sa8MenuRed = MENU_COALITION:New(coalition.side.RED, "Buy SA-8 ("..COSTS.SA8..")", suppliesMenuRed)
-MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", sa8MenuRed, buySA8Red)
-
-local sa15MenuRed = MENU_COALITION:New(coalition.side.RED, "Buy SA-15 ("..COSTS.SA15..")", suppliesMenuRed)
-MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", sa15MenuRed, buySA15Red)
-
-local ewrMenuRed = MENU_COALITION:New(coalition.side.RED, "Buy EWR ("..COSTS.EWR..")", suppliesMenuRed)
-MENU_COALITION_COMMAND:New(coalition.side.RED, "Complete Purchase", ewrMenuRed, buyEWRRed)
+local function refreshCTLDMenus(ctld)
+    for unitname, _ in pairs(ctld.MenusDone) do
+        ctld.MenusDone[unitname] = nil
+    end
+end
