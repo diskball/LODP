@@ -283,8 +283,10 @@ function cfxOwnedZones.addOwnedZone(aZone)
 	-- CUSTOM: Add property to link zone to an airport for control
 	if aZone:hasProperty("controlsAirport") then
 		aZone.controlsAirport = aZone:getStringFromZoneProperty("controlsAirport", "none")
+	else
+		aZone.controlsAirport = aZone.name
 	end
-		
+
 	aZone.unbeatable = aZone:getBoolFromZoneProperty("unbeatable", false)
 	aZone.untargetable = aZone:getBoolFromZoneProperty("untargetable", false)
 	
