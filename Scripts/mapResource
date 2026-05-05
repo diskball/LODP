@@ -1,0 +1,14 @@
+mapResource = 
+{
+	["ResKey_Action_9"] = "bank.lua",
+	["ResKey_Action_24"] = "cfxMX.lua",
+	["ResKey_Action_21"] = "persistence.lua",
+	["ResKey_Action_19"] = "CTLD & Menus.lua",
+	["ResKey_Action_7"] = "Moose_ (2).lua",
+	["ResKey_Action_10"] = "income.lua",
+	["ResKey_Action_11"] = "dcsCommon.lua",
+	["ResKey_Action_22"] = "unitPersistence.lua",
+	["ResKey_Action_12"] = "cfxZones.lua",
+	["ResKey_Action_13"] = "cfxOwnedZones_modified.lua",
+	["ResKey_Action_23"] = "commander.lua",
+} -- end of mapResource
