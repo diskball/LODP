@@ -157,11 +157,25 @@ local function buildMenus(coalitionSide, sideName, ctldInstance)
 
     local suppliesMenu = MENU_COALITION:New(coalitionSide, "Buy CTLD Crates", mainMenu)
 
-    for _, unit in ipairs(UNIT_CONFIG) do
-        local buyMenu = MENU_COALITION:New(coalitionSide, "Buy " .. unit.menuName .. " (" .. unit.cost .. ")",
-            suppliesMenu)
-        MENU_COALITION_COMMAND:New(coalitionSide, "Complete Purchase", buyMenu, buyUnit, coalitionSide, sideName,
-            ctldInstance, unit)
+    -- Paginate units into groups of 9 items per page
+    local itemsPerPage = 9
+    local totalUnits = #UNIT_CONFIG
+    local totalPages = math.ceil(totalUnits / itemsPerPage)
+
+    for pageNum = 1, totalPages do
+        local startIdx = (pageNum - 1) * itemsPerPage + 1
+        local endIdx = math.min(pageNum * itemsPerPage, totalUnits)
+        local pageLabel = string.format("Page %d (Items %d-%d)", pageNum, startIdx, endIdx)
+        
+        local pageMenu = MENU_COALITION:New(coalitionSide, pageLabel, suppliesMenu)
+
+        for i = startIdx, endIdx do
+            local unit = UNIT_CONFIG[i]
+            local buyMenu = MENU_COALITION:New(coalitionSide, "Buy " .. unit.menuName .. " (" .. unit.cost .. ")",
+                pageMenu)
+            MENU_COALITION_COMMAND:New(coalitionSide, "Complete Purchase", buyMenu, buyUnit, coalitionSide, sideName,
+                ctldInstance, unit)
+        end
     end
 end
 
