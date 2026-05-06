@@ -101,16 +101,15 @@ Each side has a persistent bank balance. Purchasing units via CTLD draws from yo
 - There are **3 additional neutral Factories** scattered across the map available for capture, providing extra income to the team that holds them.
 
 ### Bank Penalties
-Losing player-controlled aircraft incurs a financial penalty for your coalition. These penalties are automatically deducted from your coalition's bank balance.
-
+Losing player-controlled aircraft incurs a financial penalty for your coalition. These penalties are automatically deducted from your coalition's bank balance50
 **Aircraft Loss Penalties by Category:**
 
 | Aircraft Category | Penalty | Examples |
 | :--- | :--- | :--- |
 | **Modern Multi-role (Fox3)** | §150 | F-16C_50, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
-| **Cold War/Older Fighters** | §200 | Su-25 series, Su-27/30, F-4 Phantom, F-5 Tiger, Mirage F1 variants, M-2000C |
-| **Attack Helicopters** | §100 | AH-64D, Ka-50, Mi-28N, Mi-24P/V |
-| **Transport Helicopters** | §50 | UH-1H, Mi-8MT |
+| **Cold War/Older Fighters** | §75 | Su-25 series, Su-27/30, F-4 Phantom, F-5 Tiger, Mirage F1 variants, M-2000C |
+| **Attack Helicopters** | §75 | AH-64D, Ka-50, Mi-28N, Mi-24P/V |
+| **Transport Helicopters** | §25 | UH-1H, Mi-8MT |
 
 **When Penalties Apply:**
 - Crashing your aircraft.
