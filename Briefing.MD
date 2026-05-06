@@ -78,7 +78,7 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | **SA-8** | SA-8 | SHORAD Anti-Air | §400 | 1 |
 | **Leopard** | Leopard | Main Battle Tank | §400 | 1 |
 | **SA-15M1** | SA-15M1 | Mobile SAM | §1550 | 2 |
-| **SA-15M2** | SA-15M2 | Mobile SAM | §1800 | 2 |
+| **SA-15M2** | SA-15M2 | Mobile SAM | §3000 | 3 |
 | **SA-10** | SA-10 | Heavy Long-Range SAM | §10000 | 4 |
 
 ### Logistics Airframes & Transport Details
@@ -103,17 +103,25 @@ Each side has a persistent bank balance. Purchasing units via CTLD draws from yo
 ### Bank Penalties
 Losing player-controlled aircraft incurs a financial penalty for your coalition. These penalties are automatically deducted from your coalition's bank balance.
 
--   **Aircraft Loss Penalties:**
-    -   **Planes:** §100 per lost aircraft.
-    -   **Helicopters:** §25 per lost helicopter.
--   **When Penalties Apply:**
-    -   Crashing your aircraft.
-    -   Ejecting from your aircraft.
-    -   Your aircraft being destroyed.
-    -   Disconnecting from your aircraft while airborne or not safely on the ground (e.g., moving on a taxiway).
-    -   Your pilot being killed in action.
--   **Notifications:** When a penalty is applied, a message will be broadcast to your coalition, detailing the penalty amount and your coalition's updated bank balance.
--   **Insufficient Funds:** If your coalition's bank balance is insufficient to cover a penalty, an error message will be displayed, but the penalty will still be recorded.
+**Aircraft Loss Penalties by Category:**
+
+| Aircraft Category | Penalty | Examples |
+| :--- | :--- | :--- |
+| **Modern Multi-role (Fox3)** | §150 | F-16C_50, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
+| **Cold War/Older Fighters** | §200 | Su-25 series, Su-27/30, F-4 Phantom, F-5 Tiger, Mirage F1 variants, M-2000C |
+| **Attack Helicopters** | §100 | AH-64D, Ka-50, Mi-28N, Mi-24P/V |
+| **Transport Helicopters** | §50 | UH-1H, Mi-8MT |
+
+**When Penalties Apply:**
+- Crashing your aircraft.
+- Ejecting from your aircraft.
+- Your aircraft being destroyed.
+- Disconnecting from your aircraft while airborne or not safely on the ground (e.g., moving on a taxiway).
+- Your pilot being killed in action.
+
+**Notifications:** When a penalty is applied, a message will be broadcast to your coalition, detailing the aircraft type, penalty amount, and your coalition's updated bank balance.
+
+**Insufficient Funds:** If your coalition's bank balance is insufficient to cover a penalty, an error message will be displayed, but the penalty will still be recorded.
 
 ### Zone Control & Victory Conditions
 - **Zone Status Display:** The current status of all zones (RED, BLUE, CONTESTED, NEUTRAL) is displayed in-game after any ownership change, showing: `ZONE CONTROL: RED [count] | BLUE [count] | CONTESTED [count] | NEUTRAL [count] (of [total])`.

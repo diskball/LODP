@@ -1,4 +1,61 @@
 -- ==================
+-- CTLD BUG FIXES
+-- ==================
+-- Fix MOOSE CTLD loading bugs where empty strings in saved templates crash the script
+-- AND bypass the stock check so saved units always spawn regardless of current warehouse stock
+local old_InjectVehicles = CTLD.InjectVehicles
+function CTLD:InjectVehicles(Zone, Cargo, Surfacetypes, PreciseLocation, Structure, TimeStamp)
+    local new_templates = {}
+    for _, t in pairs(Cargo.Templates or {}) do
+        if type(t) == "string" and t ~= "" then
+            table.insert(new_templates, t)
+        end
+    end
+    Cargo.Templates = new_templates
+
+    local name = Cargo:GetName()
+    if name then
+        for _, _cgo in pairs(self.Cargo_Crates or {}) do
+            if _cgo:GetName() == name then
+                local stock = _cgo:GetStock()
+                if stock ~= -1 and stock ~= nil then
+                    _cgo:AddStock(1)
+                end
+                break
+            end
+        end
+    end
+
+    return old_InjectVehicles(self, Zone, Cargo, Surfacetypes, PreciseLocation, Structure, TimeStamp)
+end
+
+local old_InjectTroops = CTLD.InjectTroops
+function CTLD:InjectTroops(Zone, Cargo, Surfacetypes, PreciseLocation, Structure, TimeStamp)
+    local new_templates = {}
+    for _, t in pairs(Cargo.Templates or {}) do
+        if type(t) == "string" and t ~= "" then
+            table.insert(new_templates, t)
+        end
+    end
+    Cargo.Templates = new_templates
+
+    local name = Cargo:GetName()
+    if name then
+        for _, _cgo in pairs(self.Cargo_Troops or {}) do
+            if _cgo:GetName() == name then
+                local stock = _cgo:GetStock()
+                if stock ~= -1 and stock ~= nil then
+                    _cgo:AddStock(1)
+                end
+                break
+            end
+        end
+    end
+
+    return old_InjectTroops(self, Zone, Cargo, Surfacetypes, PreciseLocation, Structure, TimeStamp)
+end
+
+-- ==================
 -- CONFIGURATION
 -- ==================
 
@@ -17,7 +74,7 @@ local UNIT_CONFIG = {
     { id = "SA13",           menuName = "SA-13",          ctldName = "SA-13",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA13",           blueGroup = "BLUE SA13",           size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 400 },
     { id = "SA8",            menuName = "SA-8",           ctldName = "SA-8",           type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA8",            blueGroup = "BLUE SA8",            size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 400 },
     { id = "SA15M1",         menuName = "SA-15M1",        ctldName = "SA-15M1",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M1",         blueGroup = "BLUE SA15M1",         size = 2, mass = 1000, subcategory = "Anti-Air",       cost = 1550 },
-    { id = "SA15M2",         menuName = "SA-15M2",        ctldName = "SA-15M2",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M2",         blueGroup = "BLUE SA15M2",         size = 2, mass = 1000, subcategory = "Anti-Air",       cost = 1800 },
+    { id = "SA15M2",         menuName = "SA-15M2",        ctldName = "SA-15M2",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M2",         blueGroup = "BLUE SA15M2",         size = 3, mass = 1000, subcategory = "Anti-Air",       cost = 3000 },
     { id = "EWR",            menuName = "EWR",            ctldName = "EWR",            type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED EWR",            blueGroup = "BLUE EWR",            size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 550 },
     { id = "SA10",           menuName = "SA-10",          ctldName = "SA-10",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA10",           blueGroup = "BLUE SA10",           size = 4, mass = 1000, subcategory = "Anti-Air",       cost = 10000 },
     { id = "Gaz66",          menuName = "Gaz-66 Truck",   ctldName = "Gaz-66 Truck",   type = CTLD_CARGO.Enum.VEHICLE, redGroup = "Truck_Red",          blueGroup = "Truck_Blue",          size = 1, mass = 1000, subcategory = "Transport",      cost = 100 },
@@ -48,6 +105,8 @@ local LOAD_ZONES = {
     "Loadzone FH08",
     "Loadzone GJ35",
     "Loadzone EJ08",
+    "Loadzone EJ58",
+    "Loadzone FK72",
     "Loadzone Maykop",
     "Loadzone GH30",
     "Loadzone KM56",
@@ -106,9 +165,9 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     ctldInstance.ChinookTroopCircleRadius = 5
     ctldInstance.onestepmenu = true
     ctldInstance.enableLoadSave = true
-    ctldInstance.saveinterval = 600
-    ctldInstance.filename = "missionsave.csv"
-    ctldInstance.filepath = "C:\\Users\\myname\\Saved Games\\DCS\\Missions\\MyMission"
+    ctldInstance.saveinterval = 180
+    ctldInstance.filename = (coalitionSide == coalition.side.RED) and "missionsave_red.csv" or "missionsave_blue.csv"
+    ctldInstance.filepath = lfs.writedir() .. "Missions\\LODP_DML_1_0_CTLD_Saves\\"
 
     -- ==================
     -- CA TRUCK SUPPORT
@@ -144,13 +203,15 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     end
 
     ctldInstance:__Start(5)
+    
 
     return ctldInstance
 end
 
 local my_ctld = configureCTLD(coalition.side.RED, "R_Cargo")
 local my_ctld2 = configureCTLD(coalition.side.BLUE, "B_Cargo")
-
+my_ctld:__Load(10)
+my_ctld2:__Load(10)
 
 -- ==================
 -- MENUS AND BALANCE

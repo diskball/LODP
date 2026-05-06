@@ -6,13 +6,82 @@ bankPenalties.requiredLibs = {
 	"bank"
 }
 
+-- Aircraft categorization lookup tables (flyable modules only)
+-- Names match DCS warehouses file exactly
+bankPenalties.modernMultirolePlanes = {
+	-- Modern Fox3/Advanced fighters only
+	["F-16C_50"] = true,
+	["FA-18C_hornet"] = true,
+	["MiG-29S"] = true,
+	["JF-17"] = true,            -- JF-17 Thunder
+	["J-11A"] = true,            -- J-11A (Chinese Su-27 variant)
+	["F-15E"] = true,
+	["F-15ESE"] = true,
+	["F-15C"] = true,
+}
+
+bankPenalties.coldWarBomberPlanes = {
+	-- Cold War era and Fox2 modern fighters
+	["Su-25"] = true,
+	["Su-25T"] = true,
+	["Su-25TM"] = true,
+	["MiG-29A"] = true,
+	["MiG-29 Fulcrum"] = true,
+	["Su-27"] = true,
+	["Su-30"] = true,
+	["Su-33"] = true,
+	
+	-- F-4 Phantom variants
+	["F-4E"] = true,
+	["F-4E-45MC"] = true,
+	
+	-- F-5 Tiger variants
+	["F-5E"] = true,
+	["F-5E-3"] = true,
+	["F-5E-3_FC"] = true,
+	
+	-- Mirage 2000 variants
+	["M-2000C"] = true,
+	
+	-- Mirage F1 variants
+	["Mirage-F1AD"] = true,
+	["Mirage-F1CR"] = true,
+	["Mirage-F1BD"] = true,
+	["Mirage-F1M-EE"] = true,
+	["Mirage-F1EQ"] = true,
+	["Mirage-F1C"] = true,
+	["Mirage-F1CE"] = true,
+	["Mirage-F1BE"] = true,
+	["Mirage-F1CZ"] = true,
+	["Mirage-F1M-CE"] = true,
+}
+
+bankPenalties.attackHelis = {
+	-- Attack/Combat helicopters
+	["AH-64D"] = true,
+	["AH-64D_BLK_II"] = true,
+	["Ka-50"] = true,
+	["Ka-50_3"] = true,
+	["Mi-28N"] = true,
+	["Mi-24P"] = true,
+	["Mi-24V"] = true,
+}
+
+bankPenalties.transportHelis = {
+	-- Transport/Utility helicopters
+	["UH-1H"] = true,
+	["Mi-8MT"] = true,
+}
+
 -- Default penalties if config zone is not found
-bankPenalties.planePenalty = 100
-bankPenalties.heliPenalty = 50
+bankPenalties.modernMultirolePlanePenalty = 100
+bankPenalties.coldWarBomberPlanePenalty = 75
+bankPenalties.attackHeliPenalty = 50
+bankPenalties.transportHeliPenalty = 25
 bankPenalties.verbose = false
 
--- Keep track of active players: key = unitName, value = {coaName, isPlane}
-bankPenalties.activePlayers = {} 
+-- Keep track of active players: key = unitName, value = {coaName, category, displayName}
+bankPenalties.activePlayers = {}  
 
 function bankPenalties.readConfigZone()
 	local theZone = cfxZones.getZoneByName("bankPenaltyConfig") 
@@ -20,9 +89,47 @@ function bankPenalties.readConfigZone()
 		theZone = cfxZones.createSimpleZone("bankPenaltyConfig") 
 	end 
 	
-	bankPenalties.planePenalty = theZone:getNumberFromZoneProperty("planePenalty", 100)
-	bankPenalties.heliPenalty = theZone:getNumberFromZoneProperty("heliPenalty", 50)
+	bankPenalties.modernMultirolePlanePenalty = theZone:getNumberFromZoneProperty("modernMultirolePlanePenalty", 150)
+	bankPenalties.coldWarBomberPlanePenalty = theZone:getNumberFromZoneProperty("coldWarBomberPlanePenalty", 200)
+	bankPenalties.attackHeliPenalty = theZone:getNumberFromZoneProperty("attackHeliPenalty", 100)
+	bankPenalties.transportHeliPenalty = theZone:getNumberFromZoneProperty("transportHeliPenalty", 50)
 	bankPenalties.verbose = theZone:getBoolFromZoneProperty("verbose", false)
+end
+
+function bankPenalties.categorizeAircraft(unitDesc, unitTypeName)
+	-- Check if it's a helicopter or plane
+	if unitDesc.category == Unit.Category.HELICOPTER then
+		if bankPenalties.attackHelis[unitTypeName] then
+			return "attackHeli", "Attack Helicopter"
+		else
+			return "transportHeli", "Transport Helicopter"
+		end
+	elseif unitDesc.category == Unit.Category.AIRPLANE then
+		if bankPenalties.modernMultirolePlanes[unitTypeName] then
+			return "modernMultirolePlane", "Modern/Multi-role"
+		elseif bankPenalties.coldWarBomberPlanes[unitTypeName] then
+			return "coldWarBomberPlane", "Cold War/Bomber"
+		else
+			-- Default to modern if not categorized
+			return "modernMultirolePlane", "Modern/Multi-role (uncategorized)"
+		end
+	else
+		return "unknown", "Unknown"
+	end
+end
+
+function bankPenalties.getPenaltyAmount(category)
+	if category == "attackHeli" then
+		return bankPenalties.attackHeliPenalty
+	elseif category == "transportHeli" then
+		return bankPenalties.transportHeliPenalty
+	elseif category == "modernMultirolePlane" then
+		return bankPenalties.modernMultirolePlanePenalty
+	elseif category == "coldWarBomberPlane" then
+		return bankPenalties.coldWarBomberPlanePenalty
+	else
+		return bankPenalties.modernMultirolePlanePenalty -- fallback
+	end
 end
 
 bankPenalties.eventHandler = {}
@@ -62,16 +169,20 @@ function bankPenalties.eventHandler:onEvent(event)
 				if coa == 2 then coaName = "blue" end
 				
 				if coaName ~= "neutral" then
-					local airframeType = (desc.category == Unit.Category.AIRPLANE) and "plane" or "heli"
+					-- Get unit type name for categorization
+					local unitTypeName = desc.typeName or "unknown"
+					local category, displayName = bankPenalties.categorizeAircraft(desc, unitTypeName)
+					
 					-- Normalize unit name to lowercase to handle DCS case inconsistencies
 					local normalizedUName = string.lower(uName)
 					bankPenalties.activePlayers[normalizedUName] = {
 						coaName = coaName,
-						isPlane = (desc.category == Unit.Category.AIRPLANE),
+						category = category,
+						displayName = displayName,
 						playerName = playerName
 					}
 					if bankPenalties.verbose then
-						trigger.action.outText("bankPenalties: registered " .. playerName .. " (" .. normalizedUName .. ") " .. airframeType .. " for tracking", 10)
+						trigger.action.outText("bankPenalties: registered " .. playerName .. " (" .. normalizedUName .. ") [" .. displayName .. "] for tracking", 10)
 					end
 				else
 					if bankPenalties.verbose then
@@ -201,7 +312,7 @@ function bankPenalties.eventHandler:onEvent(event)
 			-- IMMEDIATELY unregister to prevent double-charging (e.g., Ejection -> Crash cascade)
 			bankPenalties.activePlayers[normalizedUName] = nil
 			
-			local penaltyAmt = playerData.isPlane and bankPenalties.planePenalty or bankPenalties.heliPenalty
+			local penaltyAmt = bankPenalties.getPenaltyAmount(playerData.category)
 			
 			-- Withdraw funds using the public bank API
 			local successBank = bank.withdawFunds(playerData.coaName, penaltyAmt)
@@ -211,8 +322,7 @@ function bankPenalties.eventHandler:onEvent(event)
 				local balanceSuccess, newBalance = bank.getBalance(playerData.coaName)
 				local balanceStr = balanceSuccess and tostring(newBalance) or "unknown"
 				
-				local airframeType = playerData.isPlane and "plane" or "helicopter"
-				local msg = "⚠️ Penalty! " .. playerData.playerName .. "'s " .. airframeType .. " " .. reason .. ". " .. string.upper(playerData.coaName) .. " lost §" .. penaltyAmt .. " (Balance: §" .. balanceStr .. ")"
+				local msg = "⚠️ Penalty! " .. playerData.playerName .. " [" .. playerData.displayName .. "] " .. reason .. ". " .. string.upper(playerData.coaName) .. " lost §" .. penaltyAmt .. " (Balance: §" .. balanceStr .. ")"
 				
 				local coaId = (playerData.coaName == "red") and 1 or 2
 				
@@ -250,7 +360,11 @@ function bankPenalties.start()
 	world.addEventHandler(bankPenalties.eventHandler)
 
 	local verboseMsg = bankPenalties.verbose and " (VERBOSE MODE)" or ""
-	trigger.action.outText("bankPenalties v" .. bankPenalties.version .. " started." .. verboseMsg .. " Plane penalty: §" .. bankPenalties.planePenalty .. ", Heli penalty: §" .. bankPenalties.heliPenalty, 30)
+	local penaltyInfo = "Modern/Multi: §" .. bankPenalties.modernMultirolePlanePenalty .. 
+		" | CW/Bomber: §" .. bankPenalties.coldWarBomberPlanePenalty ..
+		" | Attack Heli: §" .. bankPenalties.attackHeliPenalty ..
+		" | Transport Heli: §" .. bankPenalties.transportHeliPenalty
+	trigger.action.outText("bankPenalties v" .. bankPenalties.version .. " started." .. verboseMsg .. " | Penalties: " .. penaltyInfo, 30)
 	return true 
 end
 
