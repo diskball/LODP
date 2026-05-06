@@ -1,7 +1,7 @@
-# Mission Briefing: Lok-On Greece Dynamic Playground
+# Mission Briefing: Lock-On Greece Dynamic Playground
 
 ## Overview
-**Lok-On Greece Dynamic Playground** is a persistent, dynamic PvP multiplayer mission. 
+**Lock-On Greece Dynamic Playground** is a persistent, dynamic PvP multiplayer mission. 
 Two coalitions (**RED** vs **BLUE**) compete for total map control.
 The ultimate objective is to capture all airbases and Forward Arming and Refueling Points (FARPs) across the theatre.
  
@@ -10,7 +10,7 @@ The ultimate objective is to capture all airbases and Forward Arming and Refueli
 ---
 
 ## Objectives
-- **Primary Goal:** Capture and hold all Airbases and FARPs on the map. In total 31 (Bases, FARPS, FOBs and Factories)
+- **Primary Goal:** Capture and hold all Airbases and FARPs on the map. In total 32 (Bases, FARPS, FOBs and Factories)
 - **Logistics & Economy:** Utilize the CTLD system to purchase, transport, and deploy troops and vehicles. Control over logistics is essential to pushing the frontline and maintaining defenses.
 - **Victory Condition:** Achieving total control of all Airbases, FARPs, and Factories will initiate a **5-minute victory countdown**. If your coalition maintains control of all zones until the countdown expires, you win the mission.
 ---
@@ -39,12 +39,13 @@ Additionally, Mineralnye Vody and Gudauta start off as neutral and when captured
 ### FARPs (Forward Arming and Refueling Points)
 The following FARPs are distributed across the map for forward logistics and rearming:
 - GH02
-- GH30
+- GH30 (Red on start)
 - FH08
 - FH66
 - FJ21
 - FK72
 - EJ08 (Blue on start)
+- EJ58 (Blue on start)
 - EJ44
 - GJ35
 - KM56 (Red on start)
@@ -65,6 +66,7 @@ Players can generate and transport units using helicopters or trucks via the CTL
 ### Deployable Vehicles
 | Unit Type | Name | Role | Cost | Crates |
 | :--- | :--- | :--- | :--- | :--- |
+| **FARP Logistics** | FARP Logistics | FARP Logistics | §50 | 1 |
 | **Gaz-66** | Gaz-66 Truck | Transport | §100 | 1 |
 | **M-113** | Scout | Recon/Light Armor | §100 | 1 |
 | **JTAC** | JTAC | Lasing & Targeting | §150 | 1 |
@@ -87,6 +89,7 @@ Transport capabilities depend on the airframe:
 - **CH-47Fbl1:** 31 Troops or 2 Cargo Crates (Slingload/Internal)
 - **Gaz-66 (Truck):** 6 Troops or 2 Cargo Crates
 - *Note: AH-64D and OH-58D are combat-only and cannot carry troops or CTLD crates.*
+-  After capturing a FARP it is necessary to deploy and build a **FARP Logistics** crate so that players are able to refuel and re-arm
 
 ---
 
@@ -94,7 +97,7 @@ Transport capabilities depend on the airframe:
 Each side has a persistent bank balance. Purchasing units via CTLD draws from your coalition's budget. Secure objectives and hold territory to maintain a steady income flow and afford heavier assets like the SA-10 and Leopard MBTs.
 
 **Income Generation:**
-- Each team starts with **2 captured Factories** that generate income every hour.
+- Each team starts with **1 captured Factory** that generate income every hour.
 - There are **3 additional neutral Factories** scattered across the map available for capture, providing extra income to the team that holds them.
 
 ### Bank Penalties
@@ -102,7 +105,7 @@ Losing player-controlled aircraft incurs a financial penalty for your coalition.
 
 -   **Aircraft Loss Penalties:**
     -   **Planes:** §100 per lost aircraft.
-    -   **Helicopters:** §50 per lost helicopter.
+    -   **Helicopters:** §25 per lost helicopter.
 -   **When Penalties Apply:**
     -   Crashing your aircraft.
     -   Ejecting from your aircraft.

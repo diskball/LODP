@@ -6,21 +6,22 @@ _SETTINGS:SetPlayerMenuOff()
 _SETTINGS:SetEraModern()
 
 local UNIT_CONFIG = {
-    { id = "MANPADS",   menuName = "MANPADS",      ctldName = "Anti-Air",     type = CTLD_CARGO.Enum.TROOPS,  redGroup = "AAR",           blueGroup = "AAB",            size = 1, mass = 90,   subcategory = "Anti-Air",   cost = 100 },
-    { id = "Infantry",  menuName = "Infantry",     ctldName = "Infantry",     type = CTLD_CARGO.Enum.TROOPS,  redGroup = "RIFLER",        blueGroup = "RIFLEB",         size = 4, mass = 90,   subcategory = "Troops",     cost = 50 },
-    { id = "Scout",     menuName = "M-113",        ctldName = "M-113",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SCOUT",     blueGroup = "BLUE SCOUT",     size = 1, mass = 1000, subcategory = "Scout",      cost = 100 },
-    { id = "JTAC",      menuName = "JTAC",         ctldName = "JTAC",         type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED JTAC",      blueGroup = "BLUE JTAC",      size = 1, mass = 1000, subcategory = "Scout",      cost = 150 },
-    { id = "T55",       menuName = "T-55",         ctldName = "T-55",         type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED T55",       blueGroup = "BLUE T55",       size = 1, mass = 1000, subcategory = "MBT",        cost = 150 },
-    { id = "Shilka",    menuName = "Shilka",       ctldName = "Shilka",       type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED Shilka",    blueGroup = "BLUE Shilka",    size = 1, mass = 1000, subcategory = "Anti-Air",   cost = 180 },
-    { id = "Chaparral", menuName = "Chaparral",    ctldName = "Chaparral",    type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED Chaparral", blueGroup = "BLUE Chaparral", size = 1, mass = 1000, subcategory = "Anti-Air",   cost = 200 },
-    { id = "Leopard",   menuName = "Leopard",      ctldName = "Leopard",      type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED TANK",      blueGroup = "BLUE TANK",      size = 1, mass = 1000, subcategory = "MBT",        cost = 400 },
-    { id = "SA13",      menuName = "SA-13",        ctldName = "SA-13",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA13",      blueGroup = "BLUE SA13",      size = 1, mass = 1000, subcategory = "Anti-Air",   cost = 400 },
-    { id = "SA8",       menuName = "SA-8",         ctldName = "SA-8",         type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA8",       blueGroup = "BLUE SA8",       size = 1, mass = 1000, subcategory = "Anti-Air",   cost = 400 },
-    { id = "SA15M1",    menuName = "SA-15M1",      ctldName = "SA-15M1",      type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M1",    blueGroup = "BLUE SA15M1",    size = 2, mass = 1000, subcategory = "Anti-Air",   cost = 1550 },
-    { id = "SA15M2",    menuName = "SA-15M2",      ctldName = "SA-15M2",      type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M2",    blueGroup = "BLUE SA15M2",    size = 2, mass = 1000, subcategory = "Anti-Air",   cost = 1800 },
-    { id = "EWR",       menuName = "EWR",          ctldName = "EWR",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED EWR",       blueGroup = "BLUE EWR",       size = 1, mass = 1000, subcategory = "Anti-Air",   cost = 550 },
-    { id = "SA10",      menuName = "SA-10",        ctldName = "SA-10",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA10",      blueGroup = "BLUE SA10",      size = 4, mass = 1000, subcategory = "Anti-Air",   cost = 10000 },
-    { id = "Gaz66",     menuName = "Gaz-66 Truck", ctldName = "Gaz-66 Truck", type = CTLD_CARGO.Enum.VEHICLE, redGroup = "Truck_Red",     blueGroup = "Truck_Blue",     size = 1, mass = 1000, subcategory = "Transport",  cost = 100 },
+    { id = "MANPADS",        menuName = "MANPADS",        ctldName = "Anti-Air",       type = CTLD_CARGO.Enum.TROOPS,  redGroup = "AAR",                blueGroup = "AAB",                 size = 1, mass = 90,   subcategory = "Anti-Air",       cost = 100 },
+    { id = "Infantry",       menuName = "Infantry",       ctldName = "Infantry",       type = CTLD_CARGO.Enum.TROOPS,  redGroup = "RIFLER",             blueGroup = "RIFLEB",              size = 4, mass = 90,   subcategory = "Troops",         cost = 50 },
+    { id = "Scout",          menuName = "M-113",          ctldName = "M-113",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SCOUT",          blueGroup = "BLUE SCOUT",          size = 1, mass = 1000, subcategory = "Scout",          cost = 100 },
+    { id = "JTAC",           menuName = "JTAC",           ctldName = "JTAC",           type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED JTAC",           blueGroup = "BLUE JTAC",           size = 1, mass = 1000, subcategory = "Scout",          cost = 150 },
+    { id = "T55",            menuName = "T-55",           ctldName = "T-55",           type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED T55",            blueGroup = "BLUE T55",            size = 1, mass = 1000, subcategory = "MBT",            cost = 150 },
+    { id = "Shilka",         menuName = "Shilka",         ctldName = "Shilka",         type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED Shilka",         blueGroup = "BLUE Shilka",         size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 180 },
+    { id = "Chaparral",      menuName = "Chaparral",      ctldName = "Chaparral",      type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED Chaparral",      blueGroup = "BLUE Chaparral",      size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 200 },
+    { id = "Leopard",        menuName = "Leopard",        ctldName = "Leopard",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED TANK",           blueGroup = "BLUE TANK",           size = 1, mass = 1000, subcategory = "MBT",            cost = 400 },
+    { id = "SA13",           menuName = "SA-13",          ctldName = "SA-13",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA13",           blueGroup = "BLUE SA13",           size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 400 },
+    { id = "SA8",            menuName = "SA-8",           ctldName = "SA-8",           type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA8",            blueGroup = "BLUE SA8",            size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 400 },
+    { id = "SA15M1",         menuName = "SA-15M1",        ctldName = "SA-15M1",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M1",         blueGroup = "BLUE SA15M1",         size = 2, mass = 1000, subcategory = "Anti-Air",       cost = 1550 },
+    { id = "SA15M2",         menuName = "SA-15M2",        ctldName = "SA-15M2",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M2",         blueGroup = "BLUE SA15M2",         size = 2, mass = 1000, subcategory = "Anti-Air",       cost = 1800 },
+    { id = "EWR",            menuName = "EWR",            ctldName = "EWR",            type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED EWR",            blueGroup = "BLUE EWR",            size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 550 },
+    { id = "SA10",           menuName = "SA-10",          ctldName = "SA-10",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA10",           blueGroup = "BLUE SA10",           size = 4, mass = 1000, subcategory = "Anti-Air",       cost = 10000 },
+    { id = "Gaz66",          menuName = "Gaz-66 Truck",   ctldName = "Gaz-66 Truck",   type = CTLD_CARGO.Enum.VEHICLE, redGroup = "Truck_Red",          blueGroup = "Truck_Blue",          size = 1, mass = 1000, subcategory = "Transport",      cost = 100 },
+    { id = "FARP_logistics", menuName = "FARP_logistics", ctldName = "FARP_logistics", type = CTLD_CARGO.Enum.VEHICLE, redGroup = "FARP_logistics_red", blueGroup = "FARP_logistics_blue", size = 1, mass = 1000, subcategory = "FARP Logistics", cost = 50 },
 }
 
 local CHOPPER_CONFIG = {
@@ -81,7 +82,7 @@ local function configureCTLD(coalitionSide, cargoPrefix)
             -- Log warning if group doesn't exist (especially important for trucks)
             if string.find(unit.id, "Truck") or string.find(unit.id, "939") or string.find(unit.id, "66") then
                 env.info("CTLD: Warning - Truck group '" ..
-                groupName .. "' not found. Create this group in Mission Editor to use " .. unit.menuName)
+                    groupName .. "' not found. Create this group in Mission Editor to use " .. unit.menuName)
             end
         end
     end
@@ -109,7 +110,7 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     ctldInstance.filename = "missionsave.csv"
     ctldInstance.filepath = "C:\\Users\\myname\\Saved Games\\DCS\\Missions\\MyMission"
 
-        -- ==================
+    -- ==================
     -- CA TRUCK SUPPORT
     -- ==================
 
@@ -121,7 +122,7 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     -- Create SET_CLIENT for BLUE CA vehicles (player-driven trucks)
     -- In mission editor: Create client slots named "Truck_Blue_*" with vehicle type "M 818" or "Gaz-66"
     local blueTruckers = SET_CLIENT:New():HandleCASlots():FilterCoalitions("blue"):FilterPrefixes("Truck_Blue")
-    :FilterStart()
+        :FilterStart()
     ctldInstance:AllowCATransport(true, blueTruckers)
 
     -- Add all load zones
