@@ -65,6 +65,8 @@ cfxOwnedZones.name = "cfxOwnedZones"
       - Zone ownership now properly maintained with numKeep units
       - If zone is owned and unit count drops below numCap but >= numKeep, zone is kept
       - If unit count drops below numKeep, zone becomes neutral
+      - Added hasGUI option to config zone
+      - Added F10 radio menu command to see zone status report
 
 --]]--
 cfxOwnedZones.requiredLibs = {
@@ -177,6 +179,42 @@ function cfxOwnedZones.checkRedVictory()
 		trigger.action.outSound(cfxOwnedZones.victorySound)
 	end
 	cfxOwnedZones.redVictoryTimer = nil
+end
+
+function cfxOwnedZones.showZoneStatusForCoalition(coa)
+	local myZones = {}
+	local neutralZones = {}
+	local contestedZones = {}
+	local enemyZones = {}
+	
+	for idx, theZone in pairs(cfxOwnedZones.zones) do
+		if theZone.owner == coa then
+			table.insert(myZones, theZone.name)
+		elseif theZone.owner == 0 then
+			table.insert(neutralZones, theZone.name)
+		elseif theZone.owner == 3 then
+			table.insert(contestedZones, theZone.name)
+		else
+			table.insert(enemyZones, theZone.name)
+		end
+	end
+	
+	local msg = "ZONE STATUS REPORT\n====================\n"
+	if #myZones > 0 then
+		msg = msg .. "\nOUR ZONES (" .. #myZones .. "):\n- " .. table.concat(myZones, "\n- ") .. "\n"
+	else
+		msg = msg .. "\nOUR ZONES (0)\n"
+	end
+	
+	if #contestedZones > 0 then
+		msg = msg .. "\nCONTESTED ZONES (" .. #contestedZones .. "):\n- " .. table.concat(contestedZones, "\n- ") .. "\n"
+	end
+	
+	if #neutralZones > 0 then
+		msg = msg .. "\nNEUTRAL ZONES (" .. #neutralZones .. "):\n- " .. table.concat(neutralZones, "\n- ") .. "\n"
+	end
+	
+	trigger.action.outTextForCoalition(coa, msg, 20)
 end
 
 function cfxOwnedZones.conqTemplate(aZone, newOwner, lastOwner) 
@@ -1001,6 +1039,7 @@ function cfxOwnedZones.readConfigZone(theZone)
 	if theZone:hasProperty("announce") then 
 		cfxZones.announcer = theZone:getBoolFromZoneProperty("announce", true)
 	end 
+	cfxOwnedZones.hasGUI = theZone:getBoolFromZoneProperty("hasGUI", true)
 	
 	if theZone:hasProperty("r!") then 
 		cfxOwnedZones.redTriggerFlag = theZone:getStringFromZoneProperty("r!", "*<cfxnone>")
@@ -1141,6 +1180,11 @@ function cfxOwnedZones.init()
 	cfxOwnedZones.gatherAllManagedOwnedZones()
 	trigger.action.outText("+++owdZ: Gathered " .. #cfxOwnedZones.allManagedOwnedZones .. " managed zones", 30)
 	
+	if cfxOwnedZones.hasGUI then
+		missionCommands.addCommandForCoalition(coalition.side.RED, "Zone Status Report", nil, cfxOwnedZones.showZoneStatusForCoalition, coalition.side.RED)
+		missionCommands.addCommandForCoalition(coalition.side.BLUE, "Zone Status Report", nil, cfxOwnedZones.showZoneStatusForCoalition, coalition.side.BLUE)
+	end
+
 	if persistence then 
 		-- sign up for persistence 
 		trigger.action.outText("+++owdZ: Registering persistence handler...", 30)

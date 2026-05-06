@@ -58,21 +58,19 @@ bankPenalties.coldWarBomberPlanes = {
 
 bankPenalties.attackHelis = {
 	-- Attack/Combat helicopters
-	["AH-64D"] = true,
 	["AH-64D_BLK_II"] = true,
 	["Ka-50"] = true,
 	["Ka-50_3"] = true,
 	["Mi-28N"] = true,
 	["Mi-24P"] = true,
-	["Mi-24V"] = true,
-	["OH-58D"] = true,
-	["OH-58D(R)"] = true,
+	["OH58D"] = true,
 }
 
 bankPenalties.transportHelis = {
 	-- Transport/Utility helicopters
 	["UH-1H"] = true,
 	["Mi-8MT"] = true,
+	["CH-47Fbl1"] = true,
 }
 
 -- Default penalties if config zone is not found
