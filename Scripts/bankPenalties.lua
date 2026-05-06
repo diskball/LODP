@@ -65,6 +65,8 @@ bankPenalties.attackHelis = {
 	["Mi-28N"] = true,
 	["Mi-24P"] = true,
 	["Mi-24V"] = true,
+	["OH-58D"] = true,
+	["OH-58D(R)"] = true,
 }
 
 bankPenalties.transportHelis = {

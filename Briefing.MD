@@ -108,7 +108,7 @@ Losing player-controlled aircraft incurs a financial penalty for your coalition.
 | :--- | :--- | :--- |
 | **Modern Multi-role (Fox3)** | §150 | F-16C_50, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
 | **Cold War/Older Fighters** | §75 | Su-25 series, Su-27/30, F-4 Phantom, F-5 Tiger, Mirage F1 variants, M-2000C |
-| **Attack Helicopters** | §75 | AH-64D, Ka-50, Mi-28N, Mi-24P/V |
+| **Attack Helicopters** | §75 | AH-64D, Ka-50, Mi-28N, Mi-24P/V, OH-58D, OH-58D(R) |
 | **Transport Helicopters** | §25 | UH-1H, Mi-8MT |
 
 **When Penalties Apply:**
