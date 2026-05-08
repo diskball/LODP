@@ -100,6 +100,9 @@ Each side has a persistent bank balance. Purchasing units via CTLD draws from yo
 - Each team starts with **1 captured Factory** that generate income every hour.
 - There are **3 additional neutral Factories** scattered across the map available for capture, providing extra income to the team that holds them.
 
+**Bonuses:**
+- **Zone Capture Bonus:** When a zone changes ownership, the capturing team receives **§100**.
+
 ### Bank Penalties
 Losing player-controlled aircraft incurs a financial penalty for your coalition. These penalties are automatically deducted from your coalition's bank balance50
 **Aircraft Loss Penalties by Category:**
@@ -110,6 +113,9 @@ Losing player-controlled aircraft incurs a financial penalty for your coalition.
 | **Cold War/Older Fighters** | §75 | Su-25 series, Su-27/30, F-4 Phantom, F-5 Tiger, Mirage F1 variants, M-2000C |
 | **Attack Helicopters** | §75 | AH-64D, Ka-50, Mi-28N, Mi-24P/V, OH-58D, OH-58D(R) |
 | **Transport Helicopters** | §25 | UH-1H, Mi-8MT |
+
+**Safe Landing Bonus:**
+- Fixed-wing aircraft (jets/props) landing safely at a friendly airbase will earn their coalition **§10**. (Helicopters are excluded from this bonus).
 
 **When Penalties Apply:**
 - Crashing your aircraft.

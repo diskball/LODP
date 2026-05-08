@@ -203,6 +203,45 @@ function bankPenalties.eventHandler:onEvent(event)
 		return
 	end
 
+	-- Process Safe Landing Bonus (Fixed-wing planes only)
+	if id == world.event.S_EVENT_LAND then
+		local unit = event.initiator
+		local airbase = event.place
+		
+		local success, uName = pcall(unit.getName, unit)
+		if success and uName then
+			local normalizedUName = string.lower(uName)
+			local playerData = bankPenalties.activePlayers[normalizedUName]
+			
+			-- Check if player is tracked and is NOT a helicopter
+			if playerData and playerData.category ~= "attackHeli" and playerData.category ~= "transportHeli" then
+				-- Ensure they landed on a valid airbase/carrier that has a getCoalition function
+				if airbase and type(airbase.getCoalition) == "function" then
+					local abCoa = airbase:getCoalition()
+					local unitCoa = unit:getCoalition()
+					
+					if abCoa == unitCoa then
+						local now = timer.getTime()
+						-- 60 second debounce to prevent bouncing/touch-and-go exploits
+						if not playerData.lastLandTime or (now - playerData.lastLandTime) > 60 then
+							playerData.lastLandTime = now
+							
+							local bonusAmt = 10
+							local successBank = bank.addFunds(playerData.coaName, bonusAmt)
+							if successBank then
+								local balanceSuccess, newBalance = bank.getBalance(playerData.coaName)
+								local balanceStr = balanceSuccess and tostring(newBalance) or "unknown"
+								local msg = "🛬 Safe Return! " .. playerData.playerName .. " [" .. playerData.displayName .. "] landed safely at a friendly base. " .. string.upper(playerData.coaName) .. " received a bonus of §" .. bonusAmt .. " (Balance: §" .. balanceStr .. ")"
+								local coaId = (playerData.coaName == "red") and 1 or 2
+								trigger.action.outTextForCoalition(coaId, msg, 15)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
 	-- Process events that could lead to a penalty
 	if id == world.event.S_EVENT_PLAYER_LEAVE_UNIT or 
 	   id == world.event.S_EVENT_EJECTION or
@@ -327,7 +366,7 @@ function bankPenalties.eventHandler:onEvent(event)
 				local coaId = (playerData.coaName == "red") and 1 or 2
 				
 				-- ALWAYS send penalty message to coalition (regardless of verbose setting)
-				trigger.action.outTextToCoalition(coaId, msg, 15)
+				trigger.action.outTextForCoalition(coaId, msg, 15)
 				
 				-- Additional debug logging when verbose enabled
 				if bankPenalties.verbose then
@@ -337,7 +376,7 @@ function bankPenalties.eventHandler:onEvent(event)
 				-- Bank withdrawal failed - still notify coalition
 				local coaId = (playerData.coaName == "red") and 1 or 2
 				local errMsg = "❌ Penalty system error: insufficient funds or account error"
-				trigger.action.outTextToCoalition(coaId, errMsg, 15)
+				trigger.action.outTextForCoalition(coaId, errMsg, 15)
 				
 				if bankPenalties.verbose then
 					trigger.action.outText("[DEBUG] bankPenalties: FAILED to withdraw §" .. penaltyAmt .. " from " .. playerData.coaName, 10)

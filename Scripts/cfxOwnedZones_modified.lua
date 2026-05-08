@@ -471,6 +471,18 @@ function cfxOwnedZones.zoneConquered(aZone, theSide, formerOwner) -- 0 = neutral
 	cfxOwnedZones.bangSide(theSide, 1, aZone) -- winner 
 	cfxOwnedZones.bangSide(formerOwner, -1, aZone) -- loser 
 	
+	-- CUSTOM: Bank Bonus for Capturing
+	if bank and bank.addFunds and (theSide == 1 or theSide == 2) then
+		local bonusAmt = 100
+		local successBank = bank.addFunds(theSide, bonusAmt)
+		if successBank then
+			local balanceSuccess, newBalance = bank.getBalance(theSide)
+			local balanceStr = balanceSuccess and tostring(newBalance) or "unknown"
+			local msg = "💰 Zone Secured! Your coalition received a bonus of §" .. bonusAmt .. " (Balance: §" .. balanceStr .. ")"
+			trigger.action.outTextForCoalition(theSide, msg, 15)
+		end
+	end
+
 	-- update map
 	
 	-- CUSTOM: Handle airport control based on zone ownership
