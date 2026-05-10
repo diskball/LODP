@@ -39,10 +39,10 @@ def main():
     mission_stub = mission_pb2_grpc.MissionServiceStub(channel)
 
     # In-memory trackers
+    # active_players tracks unit_id -> player_name
+    active_players = {}
     # active_weapons tracks weapon_id -> { shooter_name, weapon_type }
     active_weapons = {}
-    # pending_kills tracks target_unit_id -> { shooter_name, weapon_type }
-    pending_kills = {}
 
     print("Connected to DCS-gRPC. Listening for events...")
     
@@ -58,99 +58,97 @@ def main():
             if event_type:
                 print(f"DEBUG: Received event type -> {event_type}")
 
-            # 1. Catch S_EVENT_SHOT: Store who fired what weapon
-            if event_type == 'shot':
-                print(f"--- RAW EVENT (shot) ---\n{event}")
+            # 1. Catch player slotting in
+            if event_type == 'player_enter_unit':
+                enter = event.player_enter_unit
+                if enter.HasField('initiator') and enter.initiator.HasField('unit'):
+                    unit_id = str(enter.initiator.unit.id)
+                    player_name = enter.initiator.unit.player_name if enter.initiator.unit.player_name else "Unknown Player"
+                    active_players[unit_id] = player_name
+                    print(f">>> [{datetime.now().strftime('%H:%M:%S')}] PLAYER SLOTTED: {player_name} entered unit {enter.initiator.unit.name} ({enter.initiator.unit.type})")
+
+            # 2. Catch player leaving a slot
+            elif event_type == 'player_leave_unit':
+                leave = event.player_leave_unit
+                if leave.HasField('initiator') and leave.initiator.HasField('unit'):
+                    unit_id = str(leave.initiator.unit.id)
+                    player_name = active_players.pop(unit_id, leave.initiator.unit.player_name if leave.initiator.unit.player_name else "Unknown Player")
+                    print(f">>> [{datetime.now().strftime('%H:%M:%S')}] PLAYER LEFT: {player_name} left unit {leave.initiator.unit.name}")
+
+            # 2a. Catch birth events as a fallback to map player names to units
+            elif event_type == 'birth':
+                birth = event.birth
+                if birth.HasField('initiator') and birth.initiator.HasField('unit'):
+                    if birth.initiator.unit.player_name:
+                        unit_id = str(birth.initiator.unit.id)
+                        active_players[unit_id] = birth.initiator.unit.player_name
+
+            # 3. Catch S_EVENT_SHOT: A player shoots a missile or drops a bomb
+            elif event_type == 'shot':
                 shot = event.shot
-                
-                # Safely extract fields based on the nested protobuf structure
-                weapon_id = str(shot.weapon.id) if shot.HasField('weapon') else "Unknown_ID"
-                weapon_name = shot.weapon_name if shot.weapon_name else "Unknown Weapon"
-                
-                shooter = "Unknown"
                 if shot.HasField('initiator') and shot.initiator.HasField('unit'):
-                    shooter = shot.initiator.unit.name
+                    unit_id = str(shot.initiator.unit.id)
                     
-                print(f"DEBUG [SHOT]: {shooter} fired {weapon_name} (ID: {weapon_id})")
-                active_weapons[weapon_id] = {
-                    "shooter": shooter,
-                    "weapon": weapon_name
-                }
-
-            # 2. Catch S_EVENT_HIT: Link the weapon to the target
-            elif event_type == 'hit':
-                print(f"--- RAW EVENT (hit) ---\n{event}")
-                hit = event.hit
-                
-                weapon_id = str(hit.weapon.id) if hit.HasField('weapon') else "Unknown_ID"
-                target_id = "Unknown"
-                target_type = "Unknown"
-                
-                if hit.HasField('target') and hit.target.HasField('unit'):
-                    target_id = str(hit.target.unit.id)
-                    target_type = hit.target.unit.type
+                    # Cross-reference with our tracker to ensure we know who is shooting
+                    player_name = active_players.get(unit_id) or shot.initiator.unit.player_name
                     
-                print(f"DEBUG [HIT]: Weapon {weapon_id} hit Target {target_id} ({target_type})")
-                
-                # If we tracked this weapon being fired, mark the target as hit by it
-                if weapon_id in active_weapons and target_id != "Unknown":
-                    pending_kills[target_id] = active_weapons[weapon_id]
-
-            # 3. Catch S_EVENT_DEAD: Trigger the final database report
-            elif event_type == 'dead':
-                print(f"--- RAW EVENT (dead) ---\n{event}")
-                dead = event.dead
-                
-                target_id = "Unknown"
-                target_type = "Unknown"
-                if dead.HasField('initiator') and dead.initiator.HasField('unit'):
-                    target_id = str(dead.initiator.unit.id)
-                    target_type = dead.initiator.unit.type
-                    
-                print(f"DEBUG [DEAD]: Unit {target_id} ({target_type}) died.")
-
-                # Check if this dead unit was recently hit by a tracked weapon
-                if target_id in pending_kills:
-                    kill_data = pending_kills.pop(target_id)
-                    shooter = kill_data["shooter"]
-                    weapon = kill_data["weapon"]
-
-                    print(f">>> [{datetime.now().strftime('%H:%M:%S')}] KILL RECORDED (via Dead): {shooter} killed {target_type} with {weapon} <<<")
-
-                    # Export and save data to the database
-                    db_cursor.execute(
-                        "INSERT INTO kills (timestamp, shooter_name, target_type, weapon_name) VALUES (datetime('now', 'localtime'), ?, ?, ?)",
-                        (shooter, target_type, weapon)
-                    )
-                    db_conn.commit()
+                    if player_name:
+                        weapon_id = str(shot.weapon.id) if shot.HasField('weapon') else "Unknown_ID"
+                        weapon_name = shot.weapon_name if shot.weapon_name else "Unknown Weapon"
                         
-            # 4. Catch S_EVENT_KILL: (Alternative / Fallback) DCS often provides direct kill events
+                        print(f">>> [{datetime.now().strftime('%H:%M:%S')}] PLAYER SHOT: {player_name} fired {weapon_name} (Weapon ID: {weapon_id})")
+                        active_weapons[weapon_id] = {
+                            "shooter": player_name,
+                            "weapon": weapon_name
+                        }
+
+            # 4. Catch S_EVENT_KILL: A player missile/bomb destroyed a unit
             elif event_type == 'kill':
-                print(f"--- RAW EVENT (kill) ---\n{event}")
                 kill = event.kill
-                
-                shooter = "Unknown"
-                target_type = "Unknown"
-                weapon = kill.weapon_name if kill.weapon_name else "Unknown Weapon"
-                
                 if kill.HasField('initiator') and kill.initiator.HasField('unit'):
-                    shooter = kill.initiator.unit.name
-                if kill.HasField('target') and kill.target.HasField('unit'):
-                    target_type = kill.target.unit.type
+                    unit_id = str(kill.initiator.unit.id)
+                    player_name = active_players.get(unit_id) or kill.initiator.unit.player_name
                     
-                print(f">>> [{datetime.now().strftime('%H:%M:%S')}] KILL RECORDED (via Kill): {shooter} killed {target_type} with {weapon} <<<")
+                    if player_name:
+                        target_type = "Unknown Target"
+                        if kill.HasField('target'):
+                            if kill.target.HasField('unit'):
+                                target_type = kill.target.unit.type
+                            elif kill.target.HasField('scenery'):
+                                target_type = "Scenery Object"
+                        
+                        weapon_name = kill.weapon_name if kill.weapon_name else "Unknown Weapon"
+                        print(f">>> [{datetime.now().strftime('%H:%M:%S')}] PLAYER KILL RECORDED: {player_name} killed {target_type} with {weapon_name}")
+                        
+                        db_cursor.execute(
+                            "INSERT INTO kills (timestamp, shooter_name, target_type, weapon_name) VALUES (datetime('now', 'localtime'), ?, ?, ?)",
+                            (player_name, target_type, weapon_name)
+                        )
+                        db_conn.commit()
 
-                # Export and save data to the database
-                db_cursor.execute(
-                    "INSERT INTO kills (timestamp, shooter_name, target_type, weapon_name) VALUES (datetime('now', 'localtime'), ?, ?, ?)",
-                    (shooter, target_type, weapon)
-                )
-                db_conn.commit()
+            # 5. Catch S_EVENT_HIT: A weapon impacts a target
+            elif event_type == 'hit':
+                hit = event.hit
+                weapon_id = str(hit.weapon.id) if hit.HasField('weapon') else "Unknown_ID"
+                
+                # Check if this weapon was tracked from a player's 'shot' event
+                if weapon_id in active_weapons:
+                    shooter = active_weapons[weapon_id]["shooter"]
+                    weapon_name = active_weapons[weapon_id]["weapon"]
+                    
+                    target_name = "Unknown Target / Scenery"
+                    if hit.HasField('target'):
+                        if hit.target.HasField('unit'):
+                            target_name = f"{hit.target.unit.type} ({hit.target.unit.name})"
+                        elif hit.target.HasField('scenery'):
+                            target_name = "Scenery Object"
+                            
+                    print(f">>> [{datetime.now().strftime('%H:%M:%S')}] PLAYER HIT: {shooter} hit {target_name} with {weapon_name}")
 
-            elif event_type in ['score', 'unit_lost']:
-                # Print raw structure to see if we can extract kill data from it
-                print(f"--- RAW EVENT ({event_type}) ---\n{event}")
-            elif event_type not in ['human_failure', 'pilot_dead', 'crash', 'player_enter_unit', 'player_leave_unit', 'takeoff', 'land']:
+            # Ignore spammy and empty events to keep logs clean
+            elif event_type in ['shooting_start', 'shooting_end', 'unit_lost', 'human_failure', 'pilot_dead', 'crash', 'takeoff', 'land', 'engine_startup', 'engine_shutdown', 'weapon_add', 'player_change_slot', 'score']:
+                pass
+            else:
                 # Print raw structure of other events to discover their exact field names
                 print(f"--- RAW EVENT ({event_type}) ---\n{event}")
 

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\diskb\\\\Documents\\\\Dev\\\\LODP\" -Force)",
+      "Bash(Select-Object Name, FullName, Mode)",
+      "Bash(Sort-Object Mode -Descending)"
+    ]
+  }
+}
