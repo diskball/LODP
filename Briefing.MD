@@ -10,46 +10,82 @@ The ultimate objective is to capture all airbases and Forward Arming and Refueli
 ---
 
 ## Objectives
-- **Primary Goal:** Capture and hold all Airbases and FARPs on the map. In total 32 (Bases, FARPS, FOBs and Factories)
+- **Primary Goal:** Capture and hold all Airbases, FARPs, and Factories on the map — **32 capturable zones** in total (15 airbases, 12 FARPs, 5 factories)
 - **Logistics & Economy:** Utilize the CTLD system to purchase, transport, and deploy troops and vehicles. Control over logistics is essential to pushing the frontline and maintaining defenses.
 - **Victory Condition:** Achieving total control of all Airbases, FARPs, and Factories will initiate a **5-minute victory countdown**. If your coalition maintains control of all zones until the countdown expires, you win the mission.
 ---
 
 ## Locations
 
-### Airbases
-The following major airbases are active and feature logistics loadzones:
-- Batumi
-- Beslan (Red on start)
-- Sukhumi
-- Sochi
-- Maykop (Blue on start)
-- Mozdok
-- Nalchik
-- Krymsk (Blue Main Base)
-- Senaki
-- Tsiblishi (Red Main Base)
+There are **32 capturable zones** in total: 15 airbases, 12 FARPs, and 5 factories. Two permanent main bases (Krymsk and Tbilisi-Lochini) are not capturable and always belong to their coalition.
 
-Note the map has some extra minor airpbases that need to be captured but do not offer logistics support.
+### Main Bases (Permanent — Not Capturable)
 
-## Weapon Restrictions
-Advanced weapons and FOX 3 missiles are only available in the main base of each coalition (Krymsk and Tsiblishi).
-Additionally, Mineralnye Vody and Gudauta start off as neutral and when captured offer an Forward Main Base for the captor that contains advanced weaponry and slots in its wearhouse.
+| Airbase | Coalition | Notes |
+| :--- | :--- | :--- |
+| **Tbilisi-Lochini** | RED | Red Main Base — FOX-3 & advanced weapons available |
+| **Krymsk** | BLUE | Blue Main Base — FOX-3 & advanced weapons available |
+
+Capturing **Mineralnye Vody** or **Gudauta** grants the capturing coalition a Forward Main Base with advanced weaponry and aircraft slots in the warehouse.
+
+### Airbases with Logistics (Loadzone available)
+
+| Airbase | Starting Owner |
+| :--- | :--- |
+| Batumi | 🔴 RED |
+| Mozdok | 🔴 RED |
+| Maykop | 🔵 BLUE |
+| Senaki | ⚪ NEUTRAL |
+| Sukhumi | ⚪ NEUTRAL |
+| Sochi | ⚪ NEUTRAL |
+| Nalchik | ⚪ NEUTRAL |
+
+### Airbases without Logistics (Capturable, no Loadzone)
+
+| Airbase | Starting Owner |
+| :--- | :--- |
+| Beslan | 🔴 RED |
+| Kutaisi | 🔴 RED |
+| Krasnodar-Centre | 🔵 BLUE |
+| Kobuleti | ⚪ NEUTRAL |
+| Gudauta | ⚪ NEUTRAL |
+| Mineralnye Vody | ⚪ NEUTRAL |
+| Krasnodar | ⚪ NEUTRAL |
+| Gelendzhik | ⚪ NEUTRAL |
 
 ### FARPs (Forward Arming and Refueling Points)
-The following FARPs are distributed across the map for forward logistics and rearming:
-- GH02
-- GH30 (Red on start)
-- FH08
-- FH66
-- FJ21
-- FK72
-- EJ08 (Blue on start)
-- EJ58 (Blue on start)
-- EJ44
-- GJ35
-- KM56 (Red on start)
-- KQ73
+
+| FARP | Starting Owner | Loadzone |
+| :--- | :--- | :--- |
+| GH02 | 🔴 RED | Yes |
+| GH30 | 🔴 RED | Yes |
+| FH66 | 🔴 RED | Yes |
+| KM56 | 🔴 RED | Yes |
+| EJ08 | 🔵 BLUE | Yes |
+| EJ44 | 🔵 BLUE | Yes |
+| EJ58 | 🔵 BLUE | Yes |
+| FK72 | 🔵 BLUE | Yes |
+| FH08 | 🔵 BLUE | Yes |
+| KQ73 | 🔵 BLUE | Yes |
+| GJ35 | ⚪ NEUTRAL | Yes |
+| FJ21 | ⚪ NEUTRAL | No |
+
+### Factories
+
+| Factory | Starting Owner |
+| :--- | :--- |
+| Red Factory 1 | 🔴 RED |
+| Blue Factory 1 | 🔵 BLUE |
+| Blue Factory 2 | ⚪ NEUTRAL |
+| Red Factory 2 | ⚪ NEUTRAL |
+| Neutral Factory | ⚪ NEUTRAL |
+
+Each coalition begins with **1 factory** generating income. Three additional factories are neutral and available for capture.
+
+---
+
+## Weapon Restrictions
+Advanced weapons and FOX-3 missiles are only available at your coalition's **Main Base** (Krymsk for BLUE, Tbilisi-Lochini for RED). Capturing Mineralnye Vody or Gudauta unlocks a Forward Main Base with additional advanced slots and warehouse stock for the capturing coalition.
 
 ---
 
