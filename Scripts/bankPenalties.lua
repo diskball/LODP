@@ -57,20 +57,22 @@ bankPenalties.coldWarBomberPlanes = {
 }
 
 bankPenalties.attackHelis = {
-	-- Attack/Combat helicopters
+	-- Attack/Combat helicopters and heavy cargo aircraft (same penalty tier)
 	["AH-64D_BLK_II"] = true,
 	["Ka-50"] = true,
 	["Ka-50_3"] = true,
 	["Mi-28N"] = true,
 	["Mi-24P"] = true,
 	["OH58D"] = true,
+	["CH-47Fbl1"] = true,   -- heavy cargo heli
+	["C-130J-30"] = true,   -- cargo fixed-wing
 }
 
 bankPenalties.transportHelis = {
 	-- Transport/Utility helicopters
 	["UH-1H"] = true,
+	["UH-60L"] = true,
 	["Mi-8MT"] = true,
-	["CH-47Fbl1"] = true,
 }
 
 -- Default penalties if config zone is not found
@@ -105,7 +107,9 @@ function bankPenalties.categorizeAircraft(unitDesc, unitTypeName)
 			return "transportHeli", "Transport Helicopter"
 		end
 	elseif unitDesc.category == Unit.Category.AIRPLANE then
-		if bankPenalties.modernMultirolePlanes[unitTypeName] then
+		if bankPenalties.attackHelis[unitTypeName] then
+			return "attackHeli", "Cargo Transport"
+		elseif bankPenalties.modernMultirolePlanes[unitTypeName] then
 			return "modernMultirolePlane", "Modern/Multi-role"
 		elseif bankPenalties.coldWarBomberPlanes[unitTypeName] then
 			return "coldWarBomberPlane", "Cold War/Bomber"
@@ -129,6 +133,47 @@ function bankPenalties.getPenaltyAmount(category)
 		return bankPenalties.coldWarBomberPlanePenalty
 	else
 		return bankPenalties.modernMultirolePlanePenalty -- fallback
+	end
+end
+
+-- Public function called by cfxBaseEnforcer (and any other module) to apply
+-- a loss penalty directly. Handles units not yet in activePlayers by
+-- reconstructing playerData from the live unit object.
+function bankPenalties.penalizeUnit(unit, reason)
+	if not unit then return end
+	local success, uName = pcall(unit.getName, unit)
+	if not success or not uName then return end
+	local normalizedUName = string.lower(uName)
+	local playerData = bankPenalties.activePlayers[normalizedUName]
+	if not playerData then
+		local pSuccess, pName = pcall(unit.getPlayerName, unit)
+		if not pSuccess or not pName then return end
+		local dSuccess, desc = pcall(unit.getDesc, unit)
+		if not dSuccess or not desc then return end
+		if desc.category ~= Unit.Category.AIRPLANE and desc.category ~= Unit.Category.HELICOPTER then return end
+		local coa = unit:getCoalition()
+		local coaName = coa == 1 and "red" or coa == 2 and "blue" or "neutral"
+		if coaName == "neutral" then return end
+		local category, displayName = bankPenalties.categorizeAircraft(desc, desc.typeName or "unknown")
+		playerData = { coaName = coaName, category = category, displayName = displayName, playerName = pName }
+	end
+	-- Unregister immediately to prevent double-charging from subsequent events (e.g. PLAYER_LEAVE_UNIT)
+	bankPenalties.activePlayers[normalizedUName] = nil
+	local penaltyAmt = bankPenalties.getPenaltyAmount(playerData.category)
+	local successBank = bank.withdawFunds(playerData.coaName, penaltyAmt)
+	local coaId = (playerData.coaName == "red") and 1 or 2
+	if successBank then
+		local balanceSuccess, newBalance = bank.getBalance(playerData.coaName)
+		local balanceStr = balanceSuccess and tostring(newBalance) or "unknown"
+		local msg = "⚠️ Penalty! " .. playerData.playerName .. " [" .. playerData.displayName .. "] "
+			.. (reason or "violated base rules") .. ". "
+			.. string.upper(playerData.coaName) .. " lost §" .. penaltyAmt .. " (Balance: §" .. balanceStr .. ")"
+		trigger.action.outTextForCoalition(coaId, msg, 15)
+	else
+		trigger.action.outTextForCoalition(coaId, "❌ Penalty system error: could not charge penalty", 15)
+	end
+	if bankPenalties.verbose then
+		trigger.action.outText("[DEBUG] bankPenalties.penalizeUnit: penalized " .. uName .. " for: " .. (reason or "?"), 10)
 	end
 end
 

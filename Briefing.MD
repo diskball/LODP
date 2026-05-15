@@ -67,7 +67,7 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | Unit Type | Name | Role | Cost | Crates |
 | :--- | :--- | :--- | :--- | :--- |
 | **FARP Logistics** | FARP Logistics | FARP Logistics | §50 | 1 |
-| **Gaz-66** | Gaz-66 Truck | Transport | §100 | 1 |
+| **Gaz-66** | Gaz-66 Truck | Transport | §100 | 1 | -- Temporarely removed
 | **M-113** | Scout | Recon/Light Armor | §100 | 1 |
 | **JTAC** | JTAC | Lasing & Targeting | §150 | 1 |
 | **T-55** | T-55 | Main Battle Tank | §150 | 1 |
@@ -84,6 +84,7 @@ Players can generate and transport units using helicopters or trucks via the CTL
 ### Logistics Airframes & Transport Details
 Transport capabilities depend on the airframe:
 - **UH-1H:** 6 Troops or 1 Cargo Crate (Slingload/Internal)
+- **UH-60L** *(free mod required)*: 6 Troops or 2 Cargo Crates (Slingload/Internal)
 - **Mi-24P:** 6 Troops or 1 Cargo Crate (Slingload/Internal)
 - **Mi-8MTV2:** 12 Troops or 1 Cargo Crate (Slingload/Internal)
 - **CH-47Fbl1:** 31 Troops or 2 Cargo Crates (Slingload/Internal)
@@ -94,7 +95,7 @@ Transport capabilities depend on the airframe:
 ---
 
 ## Coalition Budgets & Economy
-Each side has a persistent bank balance. Purchasing units via CTLD draws from your coalition's budget. Secure objectives and hold territory to maintain a steady income flow and afford heavier assets like the SA-10 and Leopard MBTs.
+Each side starts with a bank balance of **§10,000**. Purchasing units via CTLD draws from your coalition's budget. Secure objectives and hold territory to maintain a steady income flow and afford heavier assets like the SA-10 and Leopard MBTs.
 
 **Income Generation:**
 - Each team starts with **1 captured Factory** that generate income every hour.
@@ -111,8 +112,9 @@ Losing player-controlled aircraft incurs a financial penalty for your coalition.
 | :--- | :--- | :--- |
 | **Modern Multi-role (Fox3)** | §150 | F-16C_50, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
 | **Cold War/Older Fighters** | §75 | Su-25 series, Su-27/30, F-4 Phantom, F-5 Tiger, Mirage F1 variants, M-2000C |
-| **Attack Helicopters** | §75 | AH-64D, Ka-50, Mi-28N, Mi-24P/V, OH-58D, OH-58D(R) |
-| **Transport Helicopters** | §25 | UH-1H, Mi-8MT |
+| **Attack Helicopters** | §75 | AH-64D, Ka-50 (all variants), Mi-28N, Mi-24P, OH-58D |
+| **Heavy Cargo** | §75 | CH-47Fbl1, C-130J-30 |
+| **Transport Helicopters** | §25 | UH-1H, UH-60L, Mi-8MT |
 
 **Safe Landing Bonus:**
 - Fixed-wing aircraft (jets/props) landing safely at a friendly airbase will earn their coalition **§10**. (Helicopters are excluded from this bonus).
@@ -126,7 +128,7 @@ Losing player-controlled aircraft incurs a financial penalty for your coalition.
 
 **Notifications:** When a penalty is applied, a message will be broadcast to your coalition, detailing the aircraft type, penalty amount, and your coalition's updated bank balance.
 
-**Insufficient Funds:** If your coalition's bank balance is insufficient to cover a penalty, an error message will be displayed, but the penalty will still be recorded.
+**Insufficient Funds:** If your coalition's bank balance is insufficient to cover a penalty, an error message will be broadcast to your coalition but no funds will be deducted.
 
 ### Zone Control & Victory Conditions
 - **Zone Status Display:** The current status of all zones (RED, BLUE, CONTESTED, NEUTRAL) is displayed in-game after any ownership change, showing: `ZONE CONTROL: RED [count] | BLUE [count] | CONTESTED [count] | NEUTRAL [count] (of [total])`.

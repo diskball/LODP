@@ -50,14 +50,16 @@ cfxBaseEnforcer.verbose        = true
 cfxBaseEnforcer.warnMessage    = true
 cfxBaseEnforcer.warnSeconds    = 15
 
--- Unit types that are ALLOWED to spawn/land at NEUTRAL bases.
--- All other types will be kicked when blockNeutral = true.
+-- Unit types ALLOWED to land at NEUTRAL bases (cargo-capable only).
+-- Must stay in sync with CHOPPER_CONFIG entries where troops=true or crates=true
+-- in CTLD & Menus_refactored.lua. Attack helis (AH-64D, OH58D) are intentionally absent.
+-- Spawn at neutral bases is always blocked regardless of this list.
 cfxBaseEnforcer.neutralWhitelist = {
-    ["Mi-24P"]     = true,
-    ["UH-1H"]      = true,
-    ["Mi-8MTV2"]   = true,
-    ["CH-47Fbl1"]  = true,
-    ["C-130J-30"]  = true,
+    ["Mi-24P"]    = true,   -- cargo heli (CTLD)
+    ["UH-1H"]     = true,   -- cargo heli (CTLD)
+    ["Mi-8MTV2"]  = true,   -- cargo heli (CTLD)
+    ["CH-47Fbl1"] = true,   -- cargo heli (CTLD)
+    ["C-130J-30"] = true,   -- cargo fixed-wing
 }
 
 -- ──────────────────────────────────────────────────────────────────────────────
@@ -169,9 +171,9 @@ local function checkUnit(unit, eventType)
     local playerName = unit:getPlayerName()
     if not playerName or playerName == "" then return end
 
-    local unitName  = unit:getName()
-    local coalition = unit:getCoalition()  -- 1=red, 2=blue
-    local pos       = unit:getPoint()
+    local unitName        = unit:getName()
+    local playerCoalition = unit:getCoalition()  -- 1=red, 2=blue
+    local pos             = unit:getPoint()
 
     -- Find nearest airbase.
     local airbase, distance = findNearestAirbase(pos)
@@ -197,7 +199,7 @@ local function checkUnit(unit, eventType)
     if cfxBaseEnforcer.verbose then
         trigger.action.outText(
             "+++BaseEnf: " .. eventType .. " – player '" .. playerName ..
-            "' (" .. coalName(coalition) .. ") at '" .. airbaseName ..
+            "' (" .. coalName(playerCoalition) .. ") at '" .. airbaseName ..
             "' owned by " .. coalName(owner), 10)
     end
 
@@ -230,11 +232,11 @@ local function checkUnit(unit, eventType)
             shouldKick = true
             reason = "Base '" .. airbaseName .. "' is CONTESTED. Access is denied."
         end
-    elseif owner ~= coalition then
+    elseif owner ~= playerCoalition then
         -- The base belongs to the enemy.
         shouldKick = true
         reason = "Base '" .. airbaseName .. "' is controlled by " ..
-                 coalName(owner) .. ". You (" .. coalName(coalition) ..
+                 coalName(owner) .. ". You (" .. coalName(playerCoalition) ..
                  ") may not use enemy-controlled bases."
     end
 
@@ -253,6 +255,14 @@ local function checkUnit(unit, eventType)
     end
 
     if playerID then
+        -- Apply bank penalty before the kick so the unit still exists for lookup.
+        -- This unregisters the unit from bankPenalties to prevent a double-charge
+        -- from the PLAYER_LEAVE_UNIT event that fires when the slot is cleared.
+        if bankPenalties and bankPenalties.penalizeUnit then
+            local penaltyReason = (eventType == "LAND" and "landed" or "spawned")
+                .. " at a " .. coalName(owner):lower() .. " base (" .. airbaseName .. ")"
+            bankPenalties.penalizeUnit(unit, penaltyReason)
+        end
         kickToSpectators(playerID, unitName, reason)
     else
         -- Single-player or net API unavailable.

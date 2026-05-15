@@ -11,10 +11,10 @@ SCHEDULER:New(nil, function()
     MESSAGE:New("Server restarting in 1 minute!", 20, "SERVER"):ToAll()
 end, {}, restartTime - 60)
 
--- Execute the restart flag
+-- Execute the restart
 SCHEDULER:New(nil, function()
     MESSAGE:New("Restarting Server...", 10, "SERVER"):ToAll()
-    
-    -- Set a flag that the Mission Editor can use to load the next mission
-    trigger.action.setUserFlag("MISSION_RESTART", 1)
+    -- Restart via DCS GUI layer so it loads the current mission file dynamically,
+    -- avoiding any hardcoded path in Mission Editor triggers.
+    net.dostring_in("gui", "DCS.loadMission(DCS.getMissionFilepath())")
 end, {}, restartTime)

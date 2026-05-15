@@ -395,8 +395,7 @@ function cfxOwnedZones.bangRed(value, theZone)
 end
 
 function cfxOwnedZones.bangBlue(value, theZone)
-	if not cfxOwnedZones.blueTriggerFlag then return end 
-	local newVal = trigger.misc.getUserFlag(cfxOwnedZones.blueTriggerFlag) + value 
+	if not cfxOwnedZones.blueTriggerFlag then return end
 	cfxZones.pollFlag(cfxOwnedZones.blueTriggerFlag, cfxOwnedZones.method, cfxOwnedZones)
 end
 
@@ -718,14 +717,7 @@ function cfxOwnedZones.update()
 			-- nothing happened, do nothing 
 		else 
 			-- Zone ownership changed - trigger conquest events
-			if newOwner == 0 then -- zone turned neutral 
-				cfxOwnedZones.zoneConquered(theZone, newOwner, lastOwner)
-			elseif newOwner == 3 then -- zone is contested
-				cfxOwnedZones.zoneConquered(theZone, newOwner, lastOwner)
-			else
-				cfxOwnedZones.zoneConquered(theZone, newOwner, lastOwner)
-			end
-			-- Display zone status summary after any ownership change
+			cfxOwnedZones.zoneConquered(theZone, newOwner, lastOwner)
 			cfxOwnedZones.displayZoneStatus()
 		end
 		theZone.owner = newOwner
@@ -847,14 +839,13 @@ function cfxOwnedZones.update()
 end
 
 function cfxOwnedZones.sideOwnsAll(theSide, useAllManaged)
-	local themAll = cfxOwnedZones.zones 
-	if useAllManaged then themAll = cfxZones.allManagedOwnedZones end 
-	for key, aZone in pairs(themAll) do 
-		if aZone.owner ~= theSide then 
+	local themAll = useAllManaged and cfxZones.allManagedOwnedZones or cfxOwnedZones.zones
+	if next(themAll) == nil then return false end  -- empty table = no zones loaded, not a victory
+	for key, aZone in pairs(themAll) do
+		if aZone.owner ~= theSide then
 			return false
 		end
 	end
-	-- if we get here, all your base are belong to us 
 	return true
 end
 
@@ -1162,55 +1153,42 @@ function cfxOwnedZones.init()
 	-- now add all zones to my zones table, and convert the owner property into 
 	-- a proper attribute 
 	for k, aZone in pairs(pZones) do
-		-- CUSTOM: Set initial airport state based on zone ownership
-		if aZone.controlsAirport and aZone.controlsAirport ~= "none" then
-			local airportName = aZone.controlsAirport
-			local status, err = pcall(function()
-				local airport = AIRBASE:FindByName(airportName)
-				if airport then
-					local initialOwner = aZone.owner
-					if initialOwner == 1 then -- RED owns zone initially
-						trigger.action.airportActivate(airport:GetID(), coalition.side.RED)
-					elseif initialOwner == 2 then -- BLUE owns zone initially
-						trigger.action.airportActivate(airport:GetID(), coalition.side.BLUE)
-					elseif initialOwner == 0 or initialOwner == 3 then -- Neutral or Contested initially
-						trigger.action.airportDeactivate(airport:GetID(), coalition.side.RED)
-						trigger.action.airportDeactivate(airport:GetID(), coalition.side.BLUE)
-					end
-				end
-			end)
-			if not status then
-				trigger.action.outText("+++owdZ: ERROR initializing airport for zone '" .. aZone.name .. "': " .. tostring(err), 30)
-			end
-		end
-		cfxOwnedZones.addOwnedZone(aZone)
+		cfxOwnedZones.addOwnedZone(aZone)  -- must run first: sets aZone.controlsAirport
 	end
-	trigger.action.outText("+++owdZ: Added " .. #cfxOwnedZones.zones .. " zones to cfxOwnedZones", 30)
+	local zoneCount = 0
+	for _ in pairs(cfxOwnedZones.zones) do zoneCount = zoneCount + 1 end
+	trigger.action.outText("+++owdZ: Added " .. zoneCount .. " zones to cfxOwnedZones", 30)
 	
 	-- gather ALL managed owner zones 
 	trigger.action.outText("+++owdZ: Gathering all managed owner zones...", 30)
 	cfxOwnedZones.gatherAllManagedOwnedZones()
-	trigger.action.outText("+++owdZ: Gathered " .. #cfxOwnedZones.allManagedOwnedZones .. " managed zones", 30)
+	local managedCount = 0
+	for _ in pairs(cfxOwnedZones.allManagedOwnedZones) do managedCount = managedCount + 1 end
+	trigger.action.outText("+++owdZ: Gathered " .. managedCount .. " managed zones", 30)
 	
 	if cfxOwnedZones.hasGUI then
 		missionCommands.addCommandForCoalition(coalition.side.RED, "Zone Status Report", nil, cfxOwnedZones.showZoneStatusForCoalition, coalition.side.RED)
 		missionCommands.addCommandForCoalition(coalition.side.BLUE, "Zone Status Report", nil, cfxOwnedZones.showZoneStatusForCoalition, coalition.side.BLUE)
 	end
 
-	if persistence then 
-		-- sign up for persistence 
+	if persistence then
+		-- sign up for persistence
 		trigger.action.outText("+++owdZ: Registering persistence handler...", 30)
 		callbacks = {}
 		callbacks.persistData = cfxOwnedZones.saveData
 		persistence.registerModule("cfxOwnedZones", callbacks)
-		-- now load my data 
+		-- now load my data
 		cfxOwnedZones.loadData()
 		trigger.action.outText("+++owdZ: Persistence data loaded", 30)
+		-- loadData staggers zone draws 0.5s apart; schedule verify after all draws settle
+		timer.scheduleFunction(cfxOwnedZones.verifyNeutralAirports, {}, timer.getTime() + 15)
 	else
 		trigger.action.outText("+++owdZ: No persistence module available", 30)
+		-- No saved state, still verify initial airport assignments are correct
+		timer.scheduleFunction(cfxOwnedZones.verifyNeutralAirports, {}, timer.getTime() + 5)
 	end
 	
-	initialized = true 
+	cfxOwnedZones.initialized = true
 	trigger.action.outText("+++owdZ: Scheduling update timer...", 30)
 	cfxOwnedZones.updateSchedule = timer.scheduleFunction(cfxOwnedZones.update, {}, timer.getTime() + 1/cfxOwnedZones.ups)
 	

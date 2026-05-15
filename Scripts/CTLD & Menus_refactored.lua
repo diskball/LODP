@@ -77,15 +77,18 @@ local UNIT_CONFIG = {
     { id = "SA15M2",         menuName = "SA-15M2",        ctldName = "SA-15M2",        type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA15M2",         blueGroup = "BLUE SA15M2",         size = 3, mass = 1000, subcategory = "Anti-Air",       cost = 3000 },
     { id = "EWR",            menuName = "EWR",            ctldName = "EWR",            type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED EWR",            blueGroup = "BLUE EWR",            size = 1, mass = 1000, subcategory = "Anti-Air",       cost = 550 },
     { id = "SA10",           menuName = "SA-10",          ctldName = "SA-10",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SA10",           blueGroup = "BLUE SA10",           size = 4, mass = 1000, subcategory = "Anti-Air",       cost = 10000 },
-    { id = "Gaz66",          menuName = "Gaz-66 Truck",   ctldName = "Gaz-66 Truck",   type = CTLD_CARGO.Enum.VEHICLE, redGroup = "Truck_Red",          blueGroup = "Truck_Blue",          size = 1, mass = 1000, subcategory = "Transport",      cost = 100 },
+    --{ id = "Gaz66",          menuName = "Gaz-66 Truck",   ctldName = "Gaz-66 Truck",   type = CTLD_CARGO.Enum.VEHICLE, redGroup = "Truck_Red",          blueGroup = "Truck_Blue",          size = 1, mass = 1000, subcategory = "Transport",      cost = 100 },
     { id = "FARP_logistics", menuName = "FARP_logistics", ctldName = "FARP_logistics", type = CTLD_CARGO.Enum.VEHICLE, redGroup = "FARP_logistics_red", blueGroup = "FARP_logistics_blue", size = 1, mass = 1000, subcategory = "FARP Logistics", cost = 50 },
+    { id = "Ammo truck",     menuName = "Ammo truck",     ctldName = "Ammo truck",     type = CTLD_CARGO.Enum.VEHICLE, redGroup = "Ammo_Truck_Red",     blueGroup = "Ammo_Truck_Blue",     size = 1, mass = 1000, subcategory = "FARP Logistics", cost = 25 },
 }
 
 local CHOPPER_CONFIG = {
     { type = "Mi-24P",        troops = true,  crates = true,  maxCrates = 1, maxTroops = 6,  length = 20, mass = 3000 },
     { type = "UH-1H",         troops = true,  crates = true,  maxCrates = 1, maxTroops = 6,  length = 15, mass = 1600 },
+    { type = "UH-60L",        troops = true,  crates = true,  maxCrates = 2, maxTroops = 6,  length = 20, mass = 2600 },
     { type = "Mi-8MTV2",      troops = true,  crates = true,  maxCrates = 1, maxTroops = 12, length = 15, mass = 3000 },
     { type = "CH-47Fbl1",     troops = true,  crates = true,  maxCrates = 2, maxTroops = 31, length = 20, mass = 8000 },
+    { type = "C-130J-30",     troops = true,  crates = true,  maxCrates = 7, maxTroops = 36, length = 35, mass = 21000 },
     { type = "AH-64D_BLK_II", troops = false, crates = false, maxCrates = 0, maxTroops = 0,  length = 17, mass = 200 },
     { type = "OH58D",         troops = false, crates = false, maxCrates = 0, maxTroops = 0,  length = 14, mass = 400 },
 }
@@ -114,6 +117,7 @@ local LOAD_ZONES = {
     "Loadzone Nalchik",
     "Loadzone Krymsk",
     "Loadzone Senaki",
+    "Loadzone Tbilisi-Lockini",
 }
 
 -- ==================
@@ -165,7 +169,7 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     ctldInstance.ChinookTroopCircleRadius = 5
     ctldInstance.onestepmenu = true
     ctldInstance.enableLoadSave = true
-    ctldInstance.saveinterval = 180
+    ctldInstance.saveinterval = 1800
     ctldInstance.filename = (coalitionSide == coalition.side.RED) and "missionsave_red.csv" or "missionsave_blue.csv"
     ctldInstance.filepath = lfs.writedir() .. "Missions\\LODP_DML_1_0_CTLD_Saves\\"
 
@@ -173,16 +177,16 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     -- CA TRUCK SUPPORT
     -- ==================
 
-    -- Create SET_CLIENT for RED CA vehicles (player-driven trucks)
-    -- In mission editor: Create client slots named "Truck_Red_*" with vehicle type "M 818" or "Gaz-66"
-    local redTruckers = SET_CLIENT:New():HandleCASlots():FilterCoalitions("red"):FilterPrefixes("Truck_Red"):FilterStart()
-    ctldInstance:AllowCATransport(true, redTruckers)
-
-    -- Create SET_CLIENT for BLUE CA vehicles (player-driven trucks)
-    -- In mission editor: Create client slots named "Truck_Blue_*" with vehicle type "M 818" or "Gaz-66"
-    local blueTruckers = SET_CLIENT:New():HandleCASlots():FilterCoalitions("blue"):FilterPrefixes("Truck_Blue")
-        :FilterStart()
-    ctldInstance:AllowCATransport(true, blueTruckers)
+    -- Each CTLD instance manages only its own coalition's trucks.
+    -- Calling AllowCATransport twice overwrites the first set, causing both instances
+    -- to manage the same (blue) trucks and fight over F10 menu ownership.
+    if coalitionSide == coalition.side.RED then
+        local redTruckers = SET_CLIENT:New():HandleCASlots():FilterCoalitions("red"):FilterPrefixes("Truck_Red"):FilterStart()
+        ctldInstance:AllowCATransport(true, redTruckers)
+    else
+        local blueTruckers = SET_CLIENT:New():HandleCASlots():FilterCoalitions("blue"):FilterPrefixes("Truck_Blue"):FilterStart()
+        ctldInstance:AllowCATransport(true, blueTruckers)
+    end
 
     -- Add all load zones
     for _, zoneName in ipairs(LOAD_ZONES) do
@@ -203,7 +207,7 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     end
 
     ctldInstance:__Start(5)
-    
+
 
     return ctldInstance
 end
@@ -286,3 +290,75 @@ end
 
 buildMenus(coalition.side.RED, "red", my_ctld)
 buildMenus(coalition.side.BLUE, "blue", my_ctld2)
+
+-- ==================
+-- CA TRUCK CARGO FIX
+-- ==================
+-- Problem: CTLD:_EventHandler clears Loaded_Cargo[unitName] both when a player
+-- LEAVES a CA ground slot (PlayerLeaveUnit) and when they ENTER one (PlayerEnterUnit).
+-- This loses all truck cargo whenever a CA player uses F-keys to observe other units.
+--
+-- Why the previous world.addEventHandler approach failed: Moose registers its own
+-- world.addEventHandler at startup (before our script runs), so all Moose module
+-- callbacks (including CTLD's clear) fire BEFORE ours. Loaded_Cargo is already nil
+-- by the time our handler reads it.
+--
+-- Fix: Monkey-patch CTLD._EventHandler at the class level. Since Moose calls the
+-- method by name via its dispatch table (resolved at HandleEvent time, ~5s after
+-- __Start), our patched version is stored as the callback. We run BEFORE the original
+-- clear, capture cargo on leave, and restore it 0.1s after enter.
+
+local _caTruckCargoBackup = {}  -- unitName → { [ctld_instance] = UTILS.DeepCopy(Loaded_Cargo) }
+
+local _orig_CTLD_EventHandler = CTLD._EventHandler
+function CTLD:_EventHandler(EventData)
+    if self.allowCATransport then
+        local id       = EventData.id
+        local unitname = EventData.IniUnitName or "none"
+        local unit     = EventData.IniUnit
+
+        local function isGroundUnit()
+            if not unit then return false end
+            local ok, result = pcall(function() return unit:IsGround() end)
+            return ok and result
+        end
+
+        if id == EVENTS.PlayerLeaveUnit then
+            if isGroundUnit() then
+                local loaded = self.Loaded_Cargo and self.Loaded_Cargo[unitname]
+                if loaded and ((loaded.Cratesloaded or 0) > 0 or (loaded.Troopsloaded or 0) > 0) then
+                    -- Save cargo before CTLD wipes it
+                    _caTruckCargoBackup[unitname] = _caTruckCargoBackup[unitname] or {}
+                    _caTruckCargoBackup[unitname][self] = UTILS.DeepCopy(loaded)
+                else
+                    -- Left with no cargo: clear stale backup so it isn't restored
+                    if _caTruckCargoBackup[unitname] then
+                        _caTruckCargoBackup[unitname][self] = nil
+                    end
+                end
+            end
+
+        elseif id == EVENTS.UnitLost then
+            -- Truck was destroyed: discard backup (cargo is gone)
+            if isGroundUnit() and _caTruckCargoBackup[unitname] then
+                _caTruckCargoBackup[unitname][self] = nil
+            end
+
+        elseif id == EVENTS.PlayerEnterAircraft or id == EVENTS.PlayerEnterUnit then
+            if isGroundUnit() then
+                local saved = _caTruckCargoBackup[unitname] and _caTruckCargoBackup[unitname][self]
+                if saved then
+                    local ctldRef = self
+                    -- Schedule restore 0.1s after enter so it runs after CTLD's synchronous clear
+                    timer.scheduleFunction(function()
+                        if ctldRef.Loaded_Cargo then
+                            ctldRef.Loaded_Cargo[unitname] = saved
+                        end
+                    end, {}, timer.getTime() + 0.1)
+                end
+            end
+        end
+    end
+
+    return _orig_CTLD_EventHandler(self, EventData)
+end
