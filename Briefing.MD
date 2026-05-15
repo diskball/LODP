@@ -67,7 +67,8 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | Unit Type | Name | Role | Cost | Crates |
 | :--- | :--- | :--- | :--- | :--- |
 | **FARP Logistics** | FARP Logistics | FARP Logistics | §50 | 1 |
-| **Gaz-66** | Gaz-66 Truck | Transport | §100 | 1 | -- Temporarely removed
+| **Ammo Truck** | Ammo Truck | FARP Resupply | §25 | 1 |
+| **Gaz-66** | Gaz-66 Truck | Transport | §100 | 1 |
 | **M-113** | Scout | Recon/Light Armor | §100 | 1 |
 | **JTAC** | JTAC | Lasing & Targeting | §150 | 1 |
 | **T-55** | T-55 | Main Battle Tank | §150 | 1 |
@@ -81,6 +82,37 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | **SA-15M2** | SA-15M2 | Mobile SAM | §3000 | 3 |
 | **SA-10** | SA-10 | Heavy Long-Range SAM | §10000 | 4 |
 
+### How CTLD Works — Loading, Deploying & Building
+
+#### Purchasing Units
+Open the **F10 Radio Menu** while in a helicopter or truck at a **Loadzone** to purchase and internally load troops or cargo crates. No slingloading is required — all cargo is carried internally.
+
+**Key rules:**
+- You must be within **2,000 m** of a Loadzone to load crates.
+- You cannot build/deploy units inside a Loadzone — fly or drive away first.
+- Crates can be dropped anywhere on the map, not just in designated zones.
+
+#### Step-by-Step Deployment
+1. **Fly to any Loadzone** — blue smoke marks active loadzones on the F10 map.
+2. **Open F10 menu → CTLD** and purchase the unit you want. Funds are deducted from your coalition bank immediately.
+3. **Fly to your desired deployment location** and use the F10 menu to unload the crate.
+4. **Land near the dropped crate** and use the F10 menu to **Build** it. Building takes **30 seconds**.
+5. The unit spawns and is ready to fight.
+
+#### Deploying Troops
+Troops work the same way but require no build step — they deploy immediately when unloaded. Drop them inside a zone to begin capturing it.
+
+#### Interaction Ranges
+| Action | Range |
+| :--- | :--- |
+| Load crate from Loadzone | 2,000 m |
+| Pack up a deployed crate | 2,000 m |
+| Build (unpack) a dropped crate | 2,000 m |
+| Build time | **30 seconds** |
+
+#### Trucks (Combined Arms)
+CA-slot truck players can also transport troops and crates using the same F10 menu. Trucks carry **6 Troops or 2 Cargo Crates**.
+
 ### Logistics Airframes & Transport Details
 Transport capabilities depend on the airframe:
 - **UH-1H:** 6 Troops or 1 Cargo Crate (Slingload/Internal)
@@ -89,7 +121,8 @@ Transport capabilities depend on the airframe:
 - **Mi-8MTV2:** 12 Troops or 1 Cargo Crate (Slingload/Internal)
 - **CH-47Fbl1:** 31 Troops or 2 Cargo Crates (Slingload/Internal)
 - **Gaz-66 (Truck):** 6 Troops or 2 Cargo Crates
-- *Note: AH-64D and OH-58D are combat-only and cannot carry troops or CTLD crates.*
+- *Note: AH-64D and OH-58D (Kiowa) are combat-only and cannot carry troops or CTLD crates.*
+- *Note: The Gaz-66 truck is temporarily out of order due to known issues and is currently unavailable.*
 -  After capturing a FARP it is necessary to deploy and build a **FARP Logistics** crate so that players are able to refuel and re-arm
 
 ---

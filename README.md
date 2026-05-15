@@ -20,7 +20,7 @@ This is a sophisticated multiplayer mission framework designed for cooperative t
 ### Mission File
 The compiled mission is located at:
 ```
-Miz files/LODP_DML.miz
+Miz files/LODP_DML_1_0_Full_Map.miz
 ```
 
 ### Development
@@ -72,9 +72,10 @@ The mission is built on **11 core Lua modules**:
 
 ### Logistics
 - Moose CTLD helicopter cargo system
-- Loadable troops and vehicles
-- Zone-based cargo operations
-- Helicopter capability management
+- Loadable troops and vehicles (infantry, armor, SAMs, FARP support)
+- Zone-based cargo operations at loadzones
+- Multiple airframe support: UH-1H, UH-60L, Mi-8MTV2, Mi-24P, CH-47Fbl1
+- Combat-only airframes: AH-64D, OH-58D (Kiowa)
 
 ## Configuration
 
@@ -116,4 +117,4 @@ For mission editing assistance, refer to:
 
 ---
 
-*Version: LODP DML • Last updated: May 2, 2026*
+*Version: LODP DML 1.0 • Last updated: May 15, 2026*

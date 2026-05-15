@@ -64,7 +64,7 @@ _SETTINGS:SetEraModern()
 
 local UNIT_CONFIG = {
     { id = "MANPADS",        menuName = "MANPADS",        ctldName = "Anti-Air",       type = CTLD_CARGO.Enum.TROOPS,  redGroup = "AAR",                blueGroup = "AAB",                 size = 1, mass = 90,   subcategory = "Anti-Air",       cost = 100 },
-    { id = "Infantry",       menuName = "Infantry",       ctldName = "Infantry",       type = CTLD_CARGO.Enum.TROOPS,  redGroup = "RIFLER",             blueGroup = "RIFLEB",              size = 4, mass = 90,   subcategory = "Troops",         cost = 50 },
+    { id = "Infantry Group", menuName = "Infantry Group", ctldName = "Infantry Group", type = CTLD_CARGO.Enum.TROOPS,  redGroup = "RIFLER",             blueGroup = "RIFLEB",              size = 4, mass = 90,   subcategory = "Troops",         cost = 50 },
     { id = "Scout",          menuName = "M-113",          ctldName = "M-113",          type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED SCOUT",          blueGroup = "BLUE SCOUT",          size = 1, mass = 1000, subcategory = "Scout",          cost = 100 },
     { id = "JTAC",           menuName = "JTAC",           ctldName = "JTAC",           type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED JTAC",           blueGroup = "BLUE JTAC",           size = 1, mass = 1000, subcategory = "Scout",          cost = 150 },
     { id = "T55",            menuName = "T-55",           ctldName = "T-55",           type = CTLD_CARGO.Enum.VEHICLE, redGroup = "RED T55",            blueGroup = "BLUE T55",            size = 1, mass = 1000, subcategory = "MBT",            cost = 150 },
