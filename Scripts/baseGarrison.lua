@@ -2,8 +2,8 @@
 ========================================================================================
 baseGarrison.lua
 ========================================================================================
-Automatically spawns a template AI garrison group at a major airbase when it is
-captured by RED or BLUE. FARPs and non-airbase zones are ignored.
+Automatically spawns a template AI garrison group at an airbase when it is
+captured by RED or BLUE. Only zones explicitly marked with garrison=true fire.
 
 The garrison spawns at a random position within the zone's own radius, so it is
 always inside the capture boundary — guaranteeing it must be killed before the
@@ -35,7 +35,7 @@ baseGarrison.version      = "1.0.0"
 baseGarrison.spawnRadius  = 300        -- metres; clamped to zone.radius at spawn time
 baseGarrison.redTemplate  = "GARRISON_RED"
 baseGarrison.blueTemplate = "GARRISON_BLUE"
-baseGarrison.verbose      = false
+baseGarrison.verbose      = true
 
 -- Returns the DCS native Airbase object for this zone only if it is a major
 -- airdrome (not a FARP or carrier). Returns nil for all other zone types.
@@ -55,12 +55,6 @@ local function getMajorAirbase(zone)
     local ab = Airbase.getByName(name)
     if not ab then
         dbg("zone '" .. zone.name .. "' controlsAirport='" .. name .. "' not found in DCS — skipped")
-        return nil
-    end
-    local cat = ab:getCategory()
-    -- Airbase.Category.AIRDROME == 0; HELIPAD (FARP) == 1; SHIP == 2
-    if cat ~= Airbase.Category.AIRDROME then
-        dbg("zone '" .. zone.name .. "' airbase='" .. name .. "' category=" .. tostring(cat) .. " (not AIRDROME) — skipped")
         return nil
     end
     return ab
