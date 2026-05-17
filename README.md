@@ -34,7 +34,7 @@ See [AGENTS.md](AGENTS.md) for detailed development guidance.
 
 ## Architecture
 
-The mission is built on **11 core Lua modules**:
+The mission is built on **12 core Lua modules**:
 
 | Module | Role |
 |--------|------|
@@ -48,6 +48,7 @@ The mission is built on **11 core Lua modules**:
 | persistence | Mission state serialization |
 | unitPersistence | Unit position/state restoration |
 | CTLD & Menus | Helicopter cargo transport system |
+| baseGarrison | Auto-deploys AI garrison on zone capture |
 | Moose | Framework integration (March 2026) |
 
 ## Key Features
@@ -70,6 +71,12 @@ The mission is built on **11 core Lua modules**:
 - Ground unit position restoration
 - Bank balance recovery across server restarts
 
+### Base Garrisons
+- Selected zones automatically spawn an AI garrison group when captured
+- Garrison spawns at a random position inside the zone boundary
+- Units must be eliminated before the zone can be recaptured
+- Configured per-zone via `garrison = true` zone property
+
 ### Logistics
 - Moose CTLD helicopter cargo system
 - Loadable troops and vehicles (infantry, armor, SAMs, FARP support)
@@ -84,6 +91,7 @@ All gameplay settings are configured via **trigger zones** in the mission editor
 - `bankConfig` — Coalition starting funds
 - `incomeConfig` — Income rates and messaging
 - `CommanderConfig` — Pathfinding behavior
+- `baseGarrisonConfig` — Garrison spawn radius and template group names
 - Custom zones for module-specific settings
 
 See [AGENTS.md](AGENTS.md) for detailed configuration patterns.
@@ -117,4 +125,4 @@ For mission editing assistance, refer to:
 
 ---
 
-*Version: LODP DML 1.0 • Last updated: May 15, 2026*
+*Version: LODP DML 1.0 • Last updated: May 17, 2026*
