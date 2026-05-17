@@ -16,7 +16,10 @@ DEPENDENCIES (must be loaded before this script):
 MISSION EDITOR SETUP:
   1. Create a Late Activated group named "GARRISON_RED"  → the RED garrison template
   2. Create a Late Activated group named "GARRISON_BLUE" → the BLUE garrison template
-  3. Place a trigger zone named "baseGarrisonConfig" (optional) with any of these
+  3. On each owned zone that should receive a garrison, add zone property:
+       garrison = true
+     Zones without this property are ignored regardless of airbase type.
+  4. Place a trigger zone named "baseGarrisonConfig" (optional) with any of these
      zone properties to override defaults:
        spawnRadius  (number)  – metres from airbase centre, clamped to zone radius (default 300)
        redTemplate  (string)  – exact name of the RED Late Activated group  (default "GARRISON_RED")
@@ -60,6 +63,8 @@ end
 function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
     -- Only act on definitive RED or BLUE captures, not neutral/contested transitions
     if newOwner ~= 1 and newOwner ~= 2 then return end
+    -- Zone must be explicitly opted in via zone property "garrison = true"
+    if not zone:getBoolFromZoneProperty("garrison", false) then return end
 
     local ab = getMajorAirbase(zone)
     if not ab then return end  -- not a major airbase zone, skip silently
