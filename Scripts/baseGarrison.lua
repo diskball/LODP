@@ -60,17 +60,6 @@ local function getMajorAirbase(zone)
     return ab
 end
 
--- Returns a MOOSE Vec2 at a uniformly random point within `radius` metres of
--- the DCS Vec3 `center`. Maps DCS (x, z) → MOOSE Vec2 (x, y).
-local function randomVec2InRadius(center, radius)
-    local angle = math.random() * 2 * math.pi
-    local dist  = math.sqrt(math.random()) * radius  -- sqrt gives uniform disc distribution
-    return {
-        x = center.x + dist * math.cos(angle),
-        y = center.z + dist * math.sin(angle),
-    }
-end
-
 function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
     dbg("capture event — zone='" .. zone.name .. "' newOwner=" .. tostring(newOwner) .. " lastOwner=" .. tostring(lastOwner))
     -- Only act on definitive RED or BLUE captures, not neutral/contested transitions
@@ -85,13 +74,18 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
     if not ab then return end
 
     local template   = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
-    -- Clamp to zone radius so garrison always lands inside the capture boundary
+    -- Clamp to zone radius so each unit stays inside the capture boundary
     local safeRadius = math.min(baseGarrison.spawnRadius, zone.radius)
+    local abPos      = ab:getPoint()
+    local centerVec2 = { x = abPos.x, y = abPos.z }
 
     local status, err = pcall(function()
         -- Unique alias prevents MOOSE from colliding with earlier spawns of the same template
         local alias = template .. "_" .. zone.name .. "_" .. tostring(math.floor(timer.getTime()))
-        SPAWN:NewWithAlias(template, alias):SpawnFromVec2(randomVec2InRadius(ab:getPoint(), safeRadius))
+        -- InitRandomizePosition scatters each unit individually within safeRadius of the airbase centre
+        SPAWN:NewWithAlias(template, alias)
+            :InitRandomizePosition(true, safeRadius, 0)
+            :SpawnFromVec2(centerVec2)
     end)
 
     if not status then
