@@ -45,35 +45,40 @@ local function dbg(msg)
 end
 
 function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
-    dbg("capture event — zone='" .. zone.name .. "' newOwner=" .. tostring(newOwner) .. " lastOwner=" .. tostring(lastOwner))
-    -- Only act on definitive RED or BLUE captures, not neutral/contested transitions
-    if newOwner ~= 1 and newOwner ~= 2 then return end
-    -- Zone must be explicitly opted in via zone property "garrison = true"
-    if not zone:getBoolFromZoneProperty("garrison", false) then
-        dbg("zone '" .. zone.name .. "' has no 'garrison' property — skipped")
-        return
-    end
+    local ok, err = pcall(function()
+        dbg("capture event — zone='" .. zone.name .. "' newOwner=" .. tostring(newOwner) .. " lastOwner=" .. tostring(lastOwner))
+        -- Only act on definitive RED or BLUE captures, not neutral/contested transitions
+        if newOwner ~= 1 and newOwner ~= 2 then return end
+        -- Zone must be explicitly opted in via zone property "garrison = true"
+        if not zone:getBoolFromZoneProperty("garrison", false) then
+            dbg("zone '" .. zone.name .. "' has no 'garrison' property — skipped")
+            return
+        end
 
-    local template = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
-    local radius   = math.min(baseGarrison.spawnRadius, zone.radius)
+        local template = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
+        local radius   = math.min(baseGarrison.spawnRadius, zone.radius)
 
-    -- Pick a uniformly random point inside the zone (sqrt gives uniform disc, not centre-weighted)
-    local angle      = math.random() * 2 * math.pi
-    local dist       = math.sqrt(math.random()) * radius
-    local spawnVec2  = {
-        x = zone.point.x + dist * math.cos(angle),
-        y = zone.point.z + dist * math.sin(angle),
-    }
+        -- Pick a uniformly random point inside the zone (sqrt gives uniform disc, not centre-weighted)
+        local angle     = math.random() * 2 * math.pi
+        local dist      = math.sqrt(math.random()) * radius
+        local spawnVec2 = {
+            x = zone.point.x + dist * math.cos(angle),
+            y = zone.point.z + dist * math.sin(angle),
+        }
 
-    local status, err = pcall(function()
-        local alias = template .. "_" .. zone.name .. "_" .. tostring(math.floor(timer.getTime()))
-        SPAWN:NewWithAlias(template, alias):SpawnFromVec2(spawnVec2)
+        local spawnOk, spawnErr = pcall(function()
+            local alias = template .. "_" .. zone.name .. "_" .. tostring(math.floor(timer.getTime()))
+            SPAWN:NewWithAlias(template, alias):SpawnFromVec2(spawnVec2)
+        end)
+
+        if not spawnOk then
+            dbg("spawn FAILED at '" .. zone.name .. "' template='" .. template .. "': " .. tostring(spawnErr))
+        else
+            dbg("garrison spawned — side=" .. newOwner .. " zone='" .. zone.name .. "' template='" .. template .. "' radius=" .. radius)
+        end
     end)
-
-    if not status then
-        dbg("spawn FAILED at '" .. zone.name .. "' template='" .. template .. "': " .. tostring(err))
-    else
-        dbg("garrison spawned — side=" .. newOwner .. " zone='" .. zone.name .. "' template='" .. template .. "' radius=" .. safeRadius)
+    if not ok then
+        env.info("baseGarrison: unhandled error in onZoneCaptured: " .. tostring(err))
     end
 end
 
