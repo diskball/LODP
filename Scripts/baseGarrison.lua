@@ -41,11 +41,21 @@ baseGarrison.verbose      = false
 -- airdrome (not a FARP or carrier). Returns nil for all other zone types.
 local function getMajorAirbase(zone)
     local name = zone.controlsAirport
-    if not name or name == "none" then return nil end
+    if not name or name == "none" then
+        env.info("baseGarrison: zone '" .. zone.name .. "' has no controlsAirport — skipped")
+        return nil
+    end
     local ab = Airbase.getByName(name)
-    if not ab then return nil end
+    if not ab then
+        env.info("baseGarrison: zone '" .. zone.name .. "' controlsAirport='" .. name .. "' not found in DCS — skipped")
+        return nil
+    end
+    local cat = ab:getCategory()
     -- Airbase.Category.AIRDROME == 0; HELIPAD (FARP) == 1; SHIP == 2
-    if ab:getCategory() ~= Airbase.Category.AIRDROME then return nil end
+    if cat ~= Airbase.Category.AIRDROME then
+        env.info("baseGarrison: zone '" .. zone.name .. "' airbase='" .. name .. "' category=" .. tostring(cat) .. " (not AIRDROME) — skipped")
+        return nil
+    end
     return ab
 end
 
@@ -61,13 +71,17 @@ local function randomVec2InRadius(center, radius)
 end
 
 function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
+    env.info("baseGarrison: capture event — zone='" .. zone.name .. "' newOwner=" .. tostring(newOwner) .. " lastOwner=" .. tostring(lastOwner))
     -- Only act on definitive RED or BLUE captures, not neutral/contested transitions
     if newOwner ~= 1 and newOwner ~= 2 then return end
     -- Zone must be explicitly opted in via zone property "garrison = true"
-    if not zone:getBoolFromZoneProperty("garrison", false) then return end
+    if not zone:getBoolFromZoneProperty("garrison", false) then
+        env.info("baseGarrison: zone '" .. zone.name .. "' has no 'garrison' property — skipped")
+        return
+    end
 
     local ab = getMajorAirbase(zone)
-    if not ab then return end  -- not a major airbase zone, skip silently
+    if not ab then return end
 
     local template   = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
     -- Clamp to zone radius so garrison always lands inside the capture boundary
@@ -80,17 +94,17 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
     end)
 
     if not status then
-        env.info("baseGarrison: spawn failed at " .. zone.name .. ": " .. tostring(err))
+        env.info("baseGarrison: spawn FAILED at '" .. zone.name .. "' template='" .. template .. "': " .. tostring(err))
+        trigger.action.outText(
+            "baseGarrison: garrison spawn failed at " .. zone.name ..
+            " — verify Late Activated group '" .. template .. "' exists in mission.",
+            15
+        )
+    else
+        env.info("baseGarrison: garrison spawned — side=" .. newOwner .. " zone='" .. zone.name .. "' template='" .. template .. "' radius=" .. safeRadius)
         if baseGarrison.verbose then
-            trigger.action.outText(
-                "baseGarrison: garrison spawn failed at " .. zone.name ..
-                " — verify Late Activated group '" .. template .. "' exists in mission.",
-                15
-            )
+            trigger.action.outText("Garrison deployed at " .. zone.name, 8)
         end
-    elseif baseGarrison.verbose then
-        env.info("baseGarrison: garrison (side=" .. newOwner .. ") spawned at " .. zone.name)
-        trigger.action.outText("Garrison deployed at " .. zone.name, 8)
     end
 end
 
