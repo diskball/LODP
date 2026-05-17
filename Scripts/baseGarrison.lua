@@ -21,7 +21,8 @@ MISSION EDITOR SETUP:
      Zones without this property are ignored regardless of airbase type.
   4. Place a trigger zone named "baseGarrisonConfig" (optional) with any of these
      zone properties to override defaults:
-       spawnRadius  (number)  – metres from airbase centre, clamped to zone radius (default 300)
+       spawnRadius  (number)  – outer bound in metres, clamped to zone radius (default 300)
+       innerRadius  (number)  – min distance from zone centre in metres, keeps units off the runway (default 800)
        redTemplate  (string)  – exact name of the RED Late Activated group  (default "GARRISON_RED")
        blueTemplate (string)  – exact name of the BLUE Late Activated group (default "GARRISON_BLUE")
        verbose      (bool)    – show on-screen errors and spawn confirmations (default false)
@@ -32,7 +33,8 @@ LOAD ORDER: after CTLD & Menus_refactored.lua, before mist
 
 baseGarrison = {}
 baseGarrison.version      = "1.0.0"
-baseGarrison.spawnRadius  = 300        -- metres; clamped to zone.radius at spawn time
+baseGarrison.spawnRadius  = 300        -- metres; outer bound, clamped to zone.radius
+baseGarrison.innerRadius  = 800        -- metres; ~half mile, keeps units off the runway centre
 baseGarrison.redTemplate  = "GARRISON_RED"
 baseGarrison.blueTemplate = "GARRISON_BLUE"
 baseGarrison.verbose      = true
@@ -55,16 +57,20 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
             return
         end
 
-        local template = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
-        local radius   = math.min(baseGarrison.spawnRadius, zone.radius)
+        local template    = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
+        local outerRadius = math.min(baseGarrison.spawnRadius, zone.radius)
+        -- Keep units off the runway/centre — inner bound is half a mile (800 m),
+        -- clamped to half the zone radius so small zones still work
+        local innerRadius = math.min(baseGarrison.innerRadius, outerRadius * 0.5)
 
-        -- Pick a uniformly random point inside the zone (sqrt gives uniform disc, not centre-weighted)
-        local angle     = math.random() * 2 * math.pi
-        local dist      = math.sqrt(math.random()) * radius
+        -- Uniform random point in annulus between innerRadius and outerRadius
+        local angle = math.random() * 2 * math.pi
+        local dist  = math.sqrt(innerRadius^2 + math.random() * (outerRadius^2 - innerRadius^2))
         local spawnVec2 = {
             x = zone.point.x + dist * math.cos(angle),
             y = zone.point.z + dist * math.sin(angle),
         }
+        dbg("spawn point: dist=" .. math.floor(dist) .. "m angle=" .. math.floor(math.deg(angle)) .. "deg")
 
         local spawnOk, spawnErr = pcall(function()
             local alias = template .. "_" .. zone.name .. "_" .. tostring(math.floor(timer.getTime()))
@@ -86,6 +92,7 @@ function baseGarrison.start()
     local cfg = cfxZones.getZoneByName("baseGarrisonConfig")
     if cfg then
         baseGarrison.spawnRadius  = cfg:getNumberFromZoneProperty("spawnRadius",  baseGarrison.spawnRadius)
+        baseGarrison.innerRadius  = cfg:getNumberFromZoneProperty("innerRadius",  baseGarrison.innerRadius)
         baseGarrison.redTemplate  = cfg:getStringFromZoneProperty("redTemplate",  baseGarrison.redTemplate)
         baseGarrison.blueTemplate = cfg:getStringFromZoneProperty("blueTemplate", baseGarrison.blueTemplate)
         baseGarrison.verbose      = cfg:getBoolFromZoneProperty("verbose",        false)
