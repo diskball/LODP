@@ -39,21 +39,28 @@ baseGarrison.verbose      = false
 
 -- Returns the DCS native Airbase object for this zone only if it is a major
 -- airdrome (not a FARP or carrier). Returns nil for all other zone types.
+local function dbg(msg)
+    env.info("baseGarrison: " .. msg)
+    if baseGarrison.verbose then
+        trigger.action.outText("[baseGarrison] " .. msg, 10)
+    end
+end
+
 local function getMajorAirbase(zone)
     local name = zone.controlsAirport
     if not name or name == "none" then
-        env.info("baseGarrison: zone '" .. zone.name .. "' has no controlsAirport — skipped")
+        dbg("zone '" .. zone.name .. "' has no controlsAirport — skipped")
         return nil
     end
     local ab = Airbase.getByName(name)
     if not ab then
-        env.info("baseGarrison: zone '" .. zone.name .. "' controlsAirport='" .. name .. "' not found in DCS — skipped")
+        dbg("zone '" .. zone.name .. "' controlsAirport='" .. name .. "' not found in DCS — skipped")
         return nil
     end
     local cat = ab:getCategory()
     -- Airbase.Category.AIRDROME == 0; HELIPAD (FARP) == 1; SHIP == 2
     if cat ~= Airbase.Category.AIRDROME then
-        env.info("baseGarrison: zone '" .. zone.name .. "' airbase='" .. name .. "' category=" .. tostring(cat) .. " (not AIRDROME) — skipped")
+        dbg("zone '" .. zone.name .. "' airbase='" .. name .. "' category=" .. tostring(cat) .. " (not AIRDROME) — skipped")
         return nil
     end
     return ab
@@ -71,12 +78,12 @@ local function randomVec2InRadius(center, radius)
 end
 
 function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
-    env.info("baseGarrison: capture event — zone='" .. zone.name .. "' newOwner=" .. tostring(newOwner) .. " lastOwner=" .. tostring(lastOwner))
+    dbg("capture event — zone='" .. zone.name .. "' newOwner=" .. tostring(newOwner) .. " lastOwner=" .. tostring(lastOwner))
     -- Only act on definitive RED or BLUE captures, not neutral/contested transitions
     if newOwner ~= 1 and newOwner ~= 2 then return end
     -- Zone must be explicitly opted in via zone property "garrison = true"
     if not zone:getBoolFromZoneProperty("garrison", false) then
-        env.info("baseGarrison: zone '" .. zone.name .. "' has no 'garrison' property — skipped")
+        dbg("zone '" .. zone.name .. "' has no 'garrison' property — skipped")
         return
     end
 
@@ -94,17 +101,9 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
     end)
 
     if not status then
-        env.info("baseGarrison: spawn FAILED at '" .. zone.name .. "' template='" .. template .. "': " .. tostring(err))
-        trigger.action.outText(
-            "baseGarrison: garrison spawn failed at " .. zone.name ..
-            " — verify Late Activated group '" .. template .. "' exists in mission.",
-            15
-        )
+        dbg("spawn FAILED at '" .. zone.name .. "' template='" .. template .. "': " .. tostring(err))
     else
-        env.info("baseGarrison: garrison spawned — side=" .. newOwner .. " zone='" .. zone.name .. "' template='" .. template .. "' radius=" .. safeRadius)
-        if baseGarrison.verbose then
-            trigger.action.outText("Garrison deployed at " .. zone.name, 8)
-        end
+        dbg("garrison spawned — side=" .. newOwner .. " zone='" .. zone.name .. "' template='" .. template .. "' radius=" .. safeRadius)
     end
 end
 
