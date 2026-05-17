@@ -74,15 +74,14 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
     if not ab then return end
 
     local template   = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
-    -- Clamp to zone radius so each unit stays inside the capture boundary
+    -- Scatter within the zone itself: use zone center and clamp radius so units stay inside
     local safeRadius = math.min(baseGarrison.spawnRadius, zone.radius)
-    local abPos      = ab:getPoint()
-    local centerVec2 = { x = abPos.x, y = abPos.z }
+    local centerVec2 = { x = zone.point.x, y = zone.point.z }
 
     local status, err = pcall(function()
         -- Unique alias prevents MOOSE from colliding with earlier spawns of the same template
         local alias = template .. "_" .. zone.name .. "_" .. tostring(math.floor(timer.getTime()))
-        -- InitRandomizePosition scatters each unit individually within safeRadius of the airbase centre
+        -- InitRandomizePosition scatters each unit individually within safeRadius of the zone centre
         SPAWN:NewWithAlias(template, alias)
             :InitRandomizePosition(true, safeRadius, 0)
             :SpawnFromVec2(centerVec2)
