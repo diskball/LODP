@@ -2,8 +2,8 @@
 ========================================================================================
 baseGarrison.lua
 ========================================================================================
-Automatically spawns a template AI garrison group at an airbase when it is
-captured by RED or BLUE. Only zones explicitly marked with garrison=true fire.
+Automatically spawns a template AI garrison group when a zone is captured
+by RED or BLUE. Only zones marked with garrison=true zone property fire.
 
 The garrison spawns at a random position within the zone's own radius, so it is
 always inside the capture boundary — guaranteeing it must be killed before the
@@ -37,27 +37,11 @@ baseGarrison.redTemplate  = "GARRISON_RED"
 baseGarrison.blueTemplate = "GARRISON_BLUE"
 baseGarrison.verbose      = true
 
--- Returns the DCS native Airbase object for this zone only if it is a major
--- airdrome (not a FARP or carrier). Returns nil for all other zone types.
 local function dbg(msg)
     env.info("baseGarrison: " .. msg)
     if baseGarrison.verbose then
         trigger.action.outText("[baseGarrison] " .. msg, 10)
     end
-end
-
-local function getMajorAirbase(zone)
-    local name = zone.controlsAirport
-    if not name or name == "none" then
-        dbg("zone '" .. zone.name .. "' has no controlsAirport — skipped")
-        return nil
-    end
-    local ab = Airbase.getByName(name)
-    if not ab then
-        dbg("zone '" .. zone.name .. "' controlsAirport='" .. name .. "' not found in DCS — skipped")
-        return nil
-    end
-    return ab
 end
 
 function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
@@ -69,9 +53,6 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
         dbg("zone '" .. zone.name .. "' has no 'garrison' property — skipped")
         return
     end
-
-    local ab = getMajorAirbase(zone)
-    if not ab then return end
 
     local template = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
     local radius   = math.min(baseGarrison.spawnRadius, zone.radius)
