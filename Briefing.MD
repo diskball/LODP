@@ -30,55 +30,55 @@ Capturing **Mineralnye Vody** or **Gudauta** grants the capturing coalition a Fo
 
 ### Airbases with Logistics (Loadzone available)
 
-| Airbase | Starting Owner |
-| :--- | :--- |
-| Batumi | 🔴 RED |
-| Mozdok | 🔴 RED |
-| Maykop | 🔵 BLUE |
-| Senaki | ⚪ NEUTRAL |
-| Sukhumi | ⚪ NEUTRAL |
-| Sochi | ⚪ NEUTRAL |
-| Nalchik | ⚪ NEUTRAL |
+| Airbase | Starting Owner | Garrison |
+| :--- | :--- | :--- |
+| Batumi | 🔴 RED | |
+| Mozdok | 🔴 RED | |
+| Maykop | 🔵 BLUE | |
+| Senaki | ⚪ NEUTRAL | |
+| Sukhumi | ⚪ NEUTRAL | ⚔️ |
+| Sochi | ⚪ NEUTRAL | ⚔️ |
+| Nalchik | ⚪ NEUTRAL | |
 
 ### Airbases without Logistics (Capturable, no Loadzone)
 
-| Airbase | Starting Owner |
-| :--- | :--- |
-| Beslan | 🔴 RED |
-| Kutaisi | 🔴 RED |
-| Krasnodar-Centre | 🔵 BLUE |
-| Kobuleti | ⚪ NEUTRAL |
-| Gudauta | ⚪ NEUTRAL |
-| Mineralnye Vody | ⚪ NEUTRAL |
-| Krasnodar | ⚪ NEUTRAL |
-| Gelendzhik | ⚪ NEUTRAL |
+| Airbase | Starting Owner | Garrison |
+| :--- | :--- | :--- |
+| Beslan | 🔴 RED | |
+| Kutaisi | 🔴 RED | |
+| Krasnodar-Centre | 🔵 BLUE | |
+| Kobuleti | ⚪ NEUTRAL | |
+| Gudauta | ⚪ NEUTRAL | ⚔️ |
+| Mineralnye Vody | ⚪ NEUTRAL | ⚔️ |
+| Krasnodar | ⚪ NEUTRAL | |
+| Gelendzhik | ⚪ NEUTRAL | |
 
 ### FARPs (Forward Arming and Refueling Points)
 
-| FARP | Starting Owner | Loadzone |
-| :--- | :--- | :--- |
-| GH02 | 🔴 RED | Yes |
-| GH30 | 🔴 RED | Yes |
-| FH66 | 🔴 RED | Yes |
-| KM56 | 🔴 RED | Yes |
-| EJ08 | 🔵 BLUE | Yes |
-| EJ44 | 🔵 BLUE | Yes |
-| EJ58 | 🔵 BLUE | Yes |
-| FK72 | 🔵 BLUE | Yes |
-| FH08 | 🔵 BLUE | Yes |
-| KQ73 | 🔵 BLUE | Yes |
-| GJ35 | ⚪ NEUTRAL | Yes |
-| FJ21 | ⚪ NEUTRAL | No |
+| FARP | Starting Owner | Loadzone | Garrison |
+| :--- | :--- | :--- | :--- |
+| GH02 | 🔴 RED | Yes | |
+| GH30 | 🔴 RED | Yes | |
+| FH66 | 🔴 RED | Yes | |
+| KM56 | 🔴 RED | Yes | |
+| EJ08 | 🔵 BLUE | Yes | |
+| EJ44 | 🔵 BLUE | Yes | |
+| EJ58 | 🔵 BLUE | Yes | |
+| FK72 | 🔵 BLUE | Yes | |
+| FH08 | 🔵 BLUE | Yes | |
+| KQ73 | 🔵 BLUE | Yes | |
+| GJ35 | ⚪ NEUTRAL | Yes | ⚔️ |
+| FJ21 | ⚪ NEUTRAL | No | |
 
 ### Factories
 
-| Factory | Starting Owner |
-| :--- | :--- |
-| Red Factory 1 | 🔴 RED |
-| Blue Factory 1 | 🔵 BLUE |
-| Blue Factory 2 | ⚪ NEUTRAL |
-| Red Factory 2 | ⚪ NEUTRAL |
-| Neutral Factory | ⚪ NEUTRAL |
+| Factory | Starting Owner | Garrison |
+| :--- | :--- | :--- |
+| Red Factory 1 | 🔴 RED | |
+| Blue Factory 1 | 🔵 BLUE | |
+| Blue Factory 2 | ⚪ NEUTRAL | |
+| Red Factory 2 | ⚪ NEUTRAL | |
+| Neutral Factory | ⚪ NEUTRAL | ⚔️ |
 
 Each coalition begins with **1 factory** generating income. Three additional factories are neutral and available for capture.
 
@@ -206,6 +206,18 @@ Losing player-controlled aircraft incurs a financial penalty for your coalition.
     -   A warning message will be broadcast to all players, indicating which side has achieved total domination and the remaining time to respond.
     -   **To prevent defeat:** The opposing coalition must capture at least one zone before the countdown expires.
     -   **Victory:** If the dominating coalition maintains control of all zones until the countdown completes, they achieve total battlefield domination and win the mission.
+---
+
+## Base Garrisons
+
+Zones marked with ⚔️ in the tables above will automatically spawn an AI garrison unit group when captured. The garrison:
+
+- Spawns at a **random location inside the zone** each time ownership changes
+- **Must be destroyed** before the zone can be recaptured — they count as defending units and will contest the zone
+- Applies to both coalitions — whoever captures the zone gets the garrison
+
+The following zones have garrisons: **Sukhumi, Sochi, Gudauta, Mineralnye Vody, FARP GJ35, Neutral Factory**.
+
 ---
 
 ## Rules for Capturing Zones

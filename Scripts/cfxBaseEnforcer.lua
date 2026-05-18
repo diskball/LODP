@@ -44,7 +44,7 @@
 cfxBaseEnforcer = {}
 cfxBaseEnforcer.version        = "1.0.0"
 cfxBaseEnforcer.blockNeutral   = true
-cfxBaseEnforcer.blockContested = true
+cfxBaseEnforcer.blockContested = false
 cfxBaseEnforcer.searchRadius   = 3000   -- metres
 cfxBaseEnforcer.verbose        = true
 cfxBaseEnforcer.warnMessage    = true
@@ -57,6 +57,7 @@ cfxBaseEnforcer.warnSeconds    = 15
 cfxBaseEnforcer.neutralWhitelist = {
     ["Mi-24P"]    = true,   -- cargo heli (CTLD)
     ["UH-1H"]     = true,   -- cargo heli (CTLD)
+    ["UH-60L"]    = true,   -- cargo heli (CTLD)
     ["Mi-8MTV2"]  = true,   -- cargo heli (CTLD)
     ["CH-47Fbl1"] = true,   -- cargo heli (CTLD)
     ["C-130J-30"] = true,   -- cargo fixed-wing
