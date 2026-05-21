@@ -162,6 +162,7 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     ctldInstance.buildtime = 30
     ctldInstance.basetype = "container_cargo"
     ctldInstance.enableslingload = false
+    ctldInstance.enableFixedWing = true
     ctldInstance.pilotmustopendoors = false
     ctldInstance.enableChinookGCLoading = false
     ctldInstance.movecratesbeforebuild = false
@@ -205,6 +206,14 @@ local function configureCTLD(coalitionSide, cargoPrefix)
             truck.length,
             truck.mass)
     end
+
+    -- enableFixedWing=true causes startup to filter PilotGroups by self.prefixes (which are
+    -- cargo static prefixes, not pilot names). Override with a proper set that covers both
+    -- helicopters and the C-130 (only types in FixedWingTypes get menus regardless).
+    local _coalitionTxt = (coalitionSide == coalition.side.RED) and "red" or "blue"
+    ctldInstance:SetOwnSetPilotGroups(
+        SET_GROUP:New():FilterCoalitions(_coalitionTxt):FilterCategories({"helicopter", "plane"}):FilterStart()
+    )
 
     ctldInstance:__Start(5)
 
