@@ -96,7 +96,7 @@ Players can generate and transport units using helicopters or trucks via the CTL
 ### Deployable Troops
 | Unit Type | Name | Role | Cost | Size |
 | :--- | :--- | :--- | :--- | :--- |
-| **Infantry** | Infantry | Assaulters/Occupiers | §50 | 4 |
+| **Infantry Group** | Infantry Group | Assaulters/Occupiers | §50 | 4 |
 | **MANPADS** | Anti-Air | Light Air Defense | §100 | 1 |
 
 ### Deployable Vehicles
@@ -104,7 +104,6 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | :--- | :--- | :--- | :--- | :--- |
 | **FARP Logistics** | FARP Logistics | FARP Logistics | §50 | 1 |
 | **Ammo Truck** | Ammo Truck | FARP Resupply | §25 | 1 |
-| **Gaz-66** | Gaz-66 Truck | Transport | §100 | 1 |
 | **M-113** | Scout | Recon/Light Armor | §100 | 1 |
 | **JTAC** | JTAC | Lasing & Targeting | §150 | 1 |
 | **T-55** | T-55 | Main Battle Tank | §150 | 1 |
@@ -115,8 +114,8 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | **SA-8** | SA-8 | SHORAD Anti-Air | §400 | 1 |
 | **Leopard** | Leopard | Main Battle Tank | §400 | 1 |
 | **SA-15M1** | SA-15M1 | Mobile SAM | §1550 | 2 |
-| **SA-15M2** | SA-15M2 | Mobile SAM | §3000 | 3 |
-| **SA-10** | SA-10 | Heavy Long-Range SAM | §10000 | 4 |
+| **SA-15M2** | SA-15M2 | Mobile SAM | §4000 | 3 |
+| **SA-10** | SA-10 | Heavy Long-Range SAM | §8000 | 4 |
 
 ### How CTLD Works — Loading, Deploying & Building
 
@@ -156,9 +155,9 @@ Transport capabilities depend on the airframe:
 - **Mi-24P:** 6 Troops or 1 Cargo Crate (Slingload/Internal)
 - **Mi-8MTV2:** 12 Troops or 1 Cargo Crate (Slingload/Internal)
 - **CH-47Fbl1:** 31 Troops or 2 Cargo Crates (Slingload/Internal)
+- **C-130J-30:** 36 Troops or 7 Cargo Crates (Internal) — must land to load/unload
 - **Gaz-66 (Truck):** 6 Troops or 2 Cargo Crates
 - *Note: AH-64D and OH-58D (Kiowa) are combat-only and cannot carry troops or CTLD crates.*
-- *Note: The Gaz-66 truck is temporarily out of order due to known issues and is currently unavailable.*
 -  After capturing a FARP it is necessary to deploy and build a **FARP Logistics** crate so that players are able to refuel and re-arm
 
 ---
