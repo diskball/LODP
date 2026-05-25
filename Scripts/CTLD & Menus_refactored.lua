@@ -169,10 +169,12 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     ctldInstance.nobuildinloadzones = true
     ctldInstance.ChinookTroopCircleRadius = 5
     ctldInstance.onestepmenu = true
-    ctldInstance.enableLoadSave = true
-    ctldInstance.saveinterval = 1800
-    ctldInstance.filename = (coalitionSide == coalition.side.RED) and "missionsave_red.csv" or "missionsave_blue.csv"
-    ctldInstance.filepath = lfs.writedir() .. "Missions\\LODP_DML_1_0_CTLD_Saves\\"
+    ctldInstance.enableLoadSave = (lfs ~= nil)
+    if lfs then
+        ctldInstance.saveinterval = 1800
+        ctldInstance.filename = (coalitionSide == coalition.side.RED) and "missionsave_red_noviews.csv" or "missionsave_blue_noviews.csv"
+        ctldInstance.filepath = lfs.writedir() .. "Missions\\LODP_DML_1_0_CTLD_Saves\\"
+    end
 
     -- ==================
     -- CA TRUCK SUPPORT
