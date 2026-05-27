@@ -372,8 +372,12 @@ function cfxOwnedZones.addOwnedZone(aZone)
 		if aZone.title == "*" then aZone.title = aZone.name end 
 	end
 	aZone.method = aZone:getStringFromZoneProperty("method", "inc")
-	
-	cfxOwnedZones.zones[aZone] = aZone 
+
+	-- Initialise from starting ownership so walk-out/walk-in on a pre-owned zone
+	-- doesn't trigger the capture bonus on the very first re-entry.
+	aZone.lastDefinitiveOwner = (aZone.owner == 1 or aZone.owner == 2) and aZone.owner or nil
+
+	cfxOwnedZones.zones[aZone] = aZone
 	cfxOwnedZones.drawZoneInMap(aZone)
 	if aZone.verbose or cfxOwnedZones.verbose then  
 		trigger.action.outText("+++owdZ: detected zone <" .. aZone.name .. ">", 30)
@@ -471,15 +475,24 @@ function cfxOwnedZones.zoneConquered(aZone, theSide, formerOwner) -- 0 = neutral
 	cfxOwnedZones.bangSide(formerOwner, -1, aZone) -- loser 
 	
 	-- CUSTOM: Bank Bonus for Capturing
+	-- Only pay when genuinely taken from the enemy, or captured for the first time
+	-- (lastDefinitiveOwner == nil).  Skipped when a side re-enters its own evacuated zone.
 	if bank and bank.addFunds and (theSide == 1 or theSide == 2) then
-		local bonusAmt = 100
-		local successBank = bank.addFunds(theSide, bonusAmt)
-		if successBank then
-			local balanceSuccess, newBalance = bank.getBalance(theSide)
-			local balanceStr = balanceSuccess and tostring(newBalance) or "unknown"
-			local msg = "💰 Zone Secured! Your coalition received a bonus of §" .. bonusAmt .. " (Balance: §" .. balanceStr .. ")"
-			trigger.action.outTextForCoalition(theSide, msg, 15)
+		if aZone.lastDefinitiveOwner ~= theSide then
+			local bonusAmt = 100
+			local successBank = bank.addFunds(theSide, bonusAmt)
+			if successBank then
+				local balanceSuccess, newBalance = bank.getBalance(theSide)
+				local balanceStr = balanceSuccess and tostring(newBalance) or "unknown"
+				local msg = "Zone Secured! Your coalition received a bonus of S" .. bonusAmt .. " (Balance: S" .. balanceStr .. ")"
+				trigger.action.outTextForCoalition(theSide, msg, 15)
+			end
 		end
+	end
+	-- Update only on definitive captures; leave unchanged on neutral/contested transitions
+	-- so the history survives a temporary walk-out.
+	if theSide == 1 or theSide == 2 then
+		aZone.lastDefinitiveOwner = theSide
 	end
 
 	-- update map
@@ -969,7 +982,8 @@ function cfxOwnedZones.saveData()
 			zoneData.conquered = theZone:getFlagValue(theZone.conqueredFlag)
 		end 
 
-		zoneData.owner = theZone.owner 
+		zoneData.owner = theZone.owner
+		zoneData.lastDefinitiveOwner = theZone.lastDefinitiveOwner
 		allZoneData[theZone.name] = zoneData
 	end
 	
@@ -1008,8 +1022,11 @@ function cfxOwnedZones.loadData()
 		-- access zone 
 		local theZone = cfxOwnedZones.getOwnedZoneByName(zName)
 		if theZone then 
-			theZone.owner = zData.owner 
-			if zData.conquered and theZone.conqueredFlag then 
+			theZone.owner = zData.owner
+			-- Restore; fall back to inferring from saved owner so older save files work.
+			theZone.lastDefinitiveOwner = zData.lastDefinitiveOwner
+				or ((theZone.owner == 1 or theZone.owner == 2) and theZone.owner or nil)
+			if zData.conquered and theZone.conqueredFlag then
 				theZone:setFlagValue(theZone.conqueredFlag, zData.conquered)
 			end
 			-- update mark in map 

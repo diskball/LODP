@@ -24,10 +24,10 @@ Income ticks every **60 minutes**. Starting bank: **§10,000** per coalition.
 | Asset | Cost | Crates | Time to save at §200/hr net | Time at §400/hr net |
 |-------|------|--------|-----------------------------|---------------------|
 | SA-15M1 | §1,550 | 2 | ~8 hrs | ~4 hrs |
-| SA-15M2 | §3,000 | 3 | ~15 hrs | ~7.5 hrs |
-| SA-10 | §10,000 | 4 | never | never |
+| SA-15M2 | §4,000 | 3 | ~20 hrs | ~10 hrs |
+| SA-10 | §8,000 | 4 | never | never |
 
-These numbers assume you're already broke after garrisoning. **The only realistic path to SA-10 is preserving most of your starting §10,000 while income covers ongoing costs.** That requires a specific spending discipline described in each plan below.
+These numbers assume you're already broke after garrisoning. **The only realistic path to SA-10 is preserving at least §8,000 of your starting bank while income covers ongoing costs.** That requires a specific spending discipline described in each plan below.
 
 ---
 
@@ -36,10 +36,11 @@ These numbers assume you're already broke after garrisoning. **The only realisti
 | Platform | Troops | Crates | Critical note |
 |----------|--------|--------|---------------|
 | UH-1H / Mi-24P | 6 | 1 | Good for single-zone ops and FARP logistics runs |
+| UH-60L | 6 | 2 | Same troop cap as UH-1H but 2 crates — free mod required |
 | Mi-8MTV2 | 12 | 1 | Primary assault transport |
-| CH-47Fbl1 | 31 | 2 | Mass capture ops; 1 sortie = SA-15M2 delivery |
+| CH-47Fbl1 | 31 | 2 | Mass capture ops; 1 sortie = SA-15M1 delivery (2 crates) |
 | **C-130J-30** | **36** | **7** | **Strategic airlift: delivers SA-10 (4 crates) in 1 sortie** |
-| Gaz-66 truck | 6 | 2 | Ground logistics on safe roads |
+| Gaz-66 truck | 6 | 2 | CA-slot ground logistics on safe roads |
 
 The C-130 is the only platform that can deliver an entire SA-10 system in a single sortie (4 crates). Planning a C-130 mission to the SA-10 site while still saving budget is how SA-10 actually gets deployed in a session.
 
@@ -79,7 +80,7 @@ Full strong-presence stack per key node: **§930**. Budget roughly §5,000–6,0
 **SAM layering progression** (build in this order per node):
 
 ```
-Shilka (§180) → SA-8/SA-13 (§400) → SA-15M1 (§1,550) → SA-15M2 (§3,000) → SA-10 (§10,000)
+Shilka (§180) → SA-8/SA-13 (§400) → SA-15M1 (§1,550) → SA-15M2 (§4,000) → SA-10 (§8,000)
 ```
 
 Shilka alone denies helicopters. SA-8/SA-13 forces jets to medium altitude. SA-15M1 makes medium altitude dangerous. SA-15M2 is a genuine threat to any aircraft in the zone. SA-10 denies an entire map sector.
@@ -169,10 +170,10 @@ Bank stays near §9,000. SA-10 is within one savings window.
 
 **Goal:** Deploy SA-15M2 at the central node, push toward Nalchik and Mozdok, begin saving hard for SA-10.
 
-**SA-15M2 deployment (§3,000, 3 crates):**
+**SA-15M2 deployment (§4,000, 3 crates):**
 - Best placement: **Maykop** (central base, covers the Nalchik approach corridor).
 - Deliver via 1× C-130 sortie (7 crate capacity — can carry SA-15M2's 3 crates and 4 extra).
-- Or 2× Mi-8 sorties (1 crate each, 2 trips).
+- Or 3× Mi-8 sorties (1 crate each) or 2× CH-47 sorties (2 crates then 1 crate).
 - Combined with EWR (§550): SA-15M2 + EWR at Maykop creates a mid-map A2/AD bubble that makes Red's push toward the coast very costly.
 
 **EWR placement (§550):**
@@ -187,14 +188,14 @@ Bank stays near §9,000. SA-10 is within one savings window.
 **Phase 3 spending target:**
 | Item | Qty | Cost |
 |------|-----|------|
-| SA-15M2 | 1 | §3,000 |
+| SA-15M2 | 1 | §4,000 |
 | EWR | 1 | §550 |
 | Leopard | 2 | §800 |
 | Infantry for Nalchik | 2 groups | §100 |
 | Shilka for Nalchik | 1 | §180 |
-| **Total Phase 3 spend** | | **§4,630** |
+| **Total Phase 3 spend** | | **§5,630** |
 | Hour 3 income (§500/hr) | | +§500 |
-| **Bank after Phase 3** | | **~§4,850** |
+| **Bank after Phase 3** | | **~§3,850** |
 
 Bank drops significantly. From here, spend nothing non-essential. Accumulate for SA-10.
 
@@ -210,29 +211,33 @@ Bank drops significantly. From here, spend nothing non-essential. Accumulate for
 
 | Hour | Bank |
 |------|------|
-| End of Hour 3 | ~§4,850 |
-| End of Hour 4 | ~§5,350 |
-| End of Hour 5 | ~§5,850 |
+| End of Hour 3 | ~§3,850 |
+| End of Hour 4 | ~§4,050 |
+| End of Hour 5 | ~§4,250 |
+| End of Hour 6 | ~§4,450 |
+
+At §200/hr net, SA-10 (§8,000) is out of reach on income alone — every capture bonus matters.
 
 If you secured all 5 factories (§750/hr) the picture improves:
 
 | Hour | Bank (§750/hr, §200/hr upkeep = §550/hr net) |
 |------|------|
-| End of Hour 3 | ~§5,400 |
-| End of Hour 4 | ~§5,950 |
-| End of Hour 5 | ~§6,500 |
-| End of Hour 6 | ~§7,050 |
-| End of Hour 7 | ~§7,600 |
-| End of Hour 8 | ~§8,150 |
-| **End of Hour 9** | **~§8,700 — within one big capture bonus push of SA-10** |
+| End of Hour 3 | ~§3,850 |
+| End of Hour 4 | ~§4,400 |
+| End of Hour 5 | ~§4,950 |
+| End of Hour 6 | ~§5,500 |
+| End of Hour 7 | ~§6,050 |
+| End of Hour 8 | ~§6,600 |
+| End of Hour 9 | ~§7,150 |
+| **End of Hour 10** | **~§7,700 — within one capture bonus push of SA-10 (§8,000)** |
 
 Capture bonuses from continued zone flips (enemy territory) accelerate this further. Each contested enemy zone recaptured adds §100.
 
-**SA-10 deployment (§10,000, 4 crates):**
+**SA-10 deployment (§8,000, 4 crates):**
 - **Delivery: 1× C-130 sortie** (7 crate capacity handles the full 4-crate SA-10 load with 3 crates to spare — combine with an SA-15M1 delivery in the same flight).
 - Best placement: **Krymsk** for strategic western coverage, or **Maykop** for central coverage that covers the entire frontline.
 - Pair with existing EWR. SA-10 without EWR is significantly degraded.
-- Surround SA-10 with 2× Shilka + 1× SA-8 as close-in protection. A §10,000 investment destroyed by 4 infantry is the most painful outcome in the game.
+- Surround SA-10 with 2× Shilka + 1× SA-8 as close-in protection. An §8,000 investment destroyed by 4 infantry is the most painful outcome in the game.
 
 ---
 
@@ -314,7 +319,7 @@ Red finishes Phase 1 richer than it started — identical economic position to B
 
 **Goal:** SA-15M2 at Nalchik, begin push toward Senaki, maintain saving discipline for SA-10.
 
-**SA-15M2 (§3,000, 3 crates):**
+**SA-15M2 (§4,000, 3 crates):**
 - Placement: **Nalchik** or **Mineralnye Vody** (central coverage).
 - Deliver via 1× C-130 sortie from Beslan or Mineralnye Vody (once it has a loadzone).
 - EWR (§550) alongside SA-15M2 to extend detection range. Together they form a credible medium-range A2/AD bubble covering the central map.
@@ -327,13 +332,13 @@ Red finishes Phase 1 richer than it started — identical economic position to B
 **Phase 3 spending target:**
 | Item | Qty | Cost |
 |------|-----|------|
-| SA-15M2 | 1 | §3,000 |
+| SA-15M2 | 1 | §4,000 |
 | EWR | 1 | §550 |
 | Leopard | 2 | §800 |
 | Infantry + Shilka | — | §280 |
-| **Total Phase 3 spend** | | **§4,630** |
+| **Total Phase 3 spend** | | **§5,630** |
 | Hour 3 income (§500/hr) | | +§500 |
-| **Bank after Phase 3** | | **~§4,550** |
+| **Bank after Phase 3** | | **~§3,550** |
 
 ---
 
@@ -343,27 +348,30 @@ Red finishes Phase 1 richer than it started — identical economic position to B
 
 Red is now on an identical economic track to Blue. The same saving discipline applies: spend only on Ammo trucks (§25) and replacement infantry. With §500/hr income and ~§150/hr minimal upkeep, net gain is §350/hr.
 
-| Hour | Bank (§350/hr net, start §4,550) |
+| Hour | Bank (§350/hr net, start §3,550) |
 |------|----------------------------------|
-| End of Hour 4 | ~§4,900 |
-| End of Hour 5 | ~§5,250 |
-| End of Hour 6 | ~§5,600 |
-| End of Hour 7 | ~§5,950 |
+| End of Hour 4 | ~§3,900 |
+| End of Hour 5 | ~§4,250 |
+| End of Hour 6 | ~§4,600 |
+| End of Hour 7 | ~§4,950 |
+
+At §350/hr net, SA-10 (§8,000) requires holding all 5 factories for more income headroom.
 
 With all 5 factories (§750/hr, §200/hr upkeep = §550/hr net):
 
 | Hour | Bank |
 |------|------|
-| End of Hour 4 | ~§5,100 |
-| End of Hour 5 | ~§5,650 |
-| End of Hour 6 | ~§6,200 |
-| End of Hour 7 | ~§6,750 |
-| End of Hour 8 | ~§7,300 |
-| **End of Hour 9** | **~§7,850 — within striking range of SA-10** |
+| End of Hour 4 | ~§4,100 |
+| End of Hour 5 | ~§4,650 |
+| End of Hour 6 | ~§5,200 |
+| End of Hour 7 | ~§5,750 |
+| End of Hour 8 | ~§6,300 |
+| End of Hour 9 | ~§6,850 |
+| **End of Hour 10** | **~§7,400 — within striking range of SA-10 (§8,000) via capture bonuses** |
 
 **Red's fast-track**: Raid and flip Blue Factory 1 at Maykop (§100/hr). That one capture pushes Red to §600/hr and adds another §250 net per hour advantage over Blue. A helicopter insertion into Maykop is worth more than capturing two neutral FARPs combined.
 
-**SA-10 deployment:**
+**SA-10 deployment (§8,000, 4 crates):**
 - **Delivery: 1× C-130 from Mineralnye Vody or Beslan** (4 crates, single sortie).
 - Best placement: **Mineralnye Vody** (covers the full Nalchik–Sukhumi corridor) or **Mozdok** (northern coverage).
 - Protect with 2× Shilka + 1× SA-8 + EWR. A lone SA-10 dies to a coordinated infantry raid.
@@ -383,7 +391,7 @@ With all 5 factories (§750/hr, §200/hr upkeep = §550/hr net):
 **Protecting your SA-10:**
 - Never deploy SA-10 alone. Minimum protection: 2× Shilka + 1× SA-8 + 1× EWR at the same zone.
 - Position it at a zone you already hold strongly, not at a freshly captured forward base.
-- A §10,000 SA-10 killed by 4 infantry (§200 to field) is a §10,200 economic disaster.
+- An §8,000 SA-10 killed by 4 infantry (§200 to field) is an §8,200 economic disaster.
 
 **If enemy has SA-10 and you don't:**
 - SA-10 covers the map at high altitude. SEAD the associated EWR to degrade it.

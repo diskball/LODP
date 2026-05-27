@@ -36,6 +36,15 @@ baseGarrison.spawnRadius  = 300        -- metres; clamped to zone.radius at spaw
 baseGarrison.redTemplate  = "GARRISON_RED"
 baseGarrison.blueTemplate = "GARRISON_BLUE"
 baseGarrison.verbose      = true
+baseGarrison.activeGroups = {}  -- [zone.name] = { alias=string, side=number }
+
+local function isGroupAlive(grp)
+    -- grp is the MOOSE GROUP object returned by SpawnFromVec2.
+    -- MOOSE appends " #001" etc. to the alias, so Group.getByName(alias) never
+    -- finds the real group — use the object directly instead.
+    if not grp then return false end
+    return grp:IsAlive() == true
+end
 
 local function dbg(msg)
     env.info("baseGarrison: " .. msg)
@@ -55,6 +64,13 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
             return
         end
 
+        -- Skip if a garrison for this side is already alive (e.g. it walked out and back in)
+        local existing = baseGarrison.activeGroups[zone.name]
+        if existing and existing.side == newOwner and isGroupAlive(existing.group) then
+            dbg("garrison already alive at '" .. zone.name .. "' — skipping duplicate spawn")
+            return
+        end
+
         local template = newOwner == 1 and baseGarrison.redTemplate or baseGarrison.blueTemplate
         local radius   = math.min(baseGarrison.spawnRadius, zone.radius)
 
@@ -67,15 +83,17 @@ function baseGarrison.onZoneCaptured(zone, newOwner, lastOwner)
         }
         dbg("spawn point: dist=" .. math.floor(dist) .. "m angle=" .. math.floor(math.deg(angle)) .. "deg")
 
+        local alias = template .. "_" .. zone.name .. "_" .. tostring(math.floor(timer.getTime()))
+        local spawnedGroup
         local spawnOk, spawnErr = pcall(function()
-            local alias = template .. "_" .. zone.name .. "_" .. tostring(math.floor(timer.getTime()))
-            SPAWN:NewWithAlias(template, alias):SpawnFromVec2(spawnVec2)
+            spawnedGroup = SPAWN:NewWithAlias(template, alias):SpawnFromVec2(spawnVec2)
         end)
 
         if not spawnOk then
             dbg("spawn FAILED at '" .. zone.name .. "' template='" .. template .. "': " .. tostring(spawnErr))
         else
-            dbg("garrison spawned — side=" .. newOwner .. " zone='" .. zone.name .. "' template='" .. template .. "' radius=" .. radius)
+            baseGarrison.activeGroups[zone.name] = { group = spawnedGroup, side = newOwner }
+            dbg("garrison spawned — side=" .. newOwner .. " zone='" .. zone.name .. "' template='" .. template .. "' alias='" .. alias .. "' radius=" .. radius)
         end
     end)
     if not ok then
