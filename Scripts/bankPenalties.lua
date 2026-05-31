@@ -114,8 +114,8 @@ function bankPenalties.categorizeAircraft(unitDesc, unitTypeName)
 		elseif bankPenalties.coldWarBomberPlanes[unitTypeName] then
 			return "coldWarBomberPlane", "Cold War/Bomber"
 		else
-			-- Default to modern if not categorized
-			return "modernMultirolePlane", "Modern/Multi-role (uncategorized)"
+			-- Default to cold war tier if not categorized
+			return "coldWarBomberPlane", "Cold War/Bomber (uncategorized)"
 		end
 	else
 		return "unknown", "Unknown"

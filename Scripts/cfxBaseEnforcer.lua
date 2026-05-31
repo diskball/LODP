@@ -46,7 +46,7 @@ cfxBaseEnforcer.version        = "1.0.0"
 cfxBaseEnforcer.blockNeutral   = true
 cfxBaseEnforcer.blockContested = false
 cfxBaseEnforcer.searchRadius   = 3000   -- metres
-cfxBaseEnforcer.verbose        = true
+cfxBaseEnforcer.verbose        = false
 cfxBaseEnforcer.warnMessage    = true
 cfxBaseEnforcer.warnSeconds    = 15
 

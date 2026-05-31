@@ -35,7 +35,7 @@ baseGarrison.version      = "1.0.0"
 baseGarrison.spawnRadius  = 300        -- metres; clamped to zone.radius at spawn time
 baseGarrison.redTemplate  = "GARRISON_RED"
 baseGarrison.blueTemplate = "GARRISON_BLUE"
-baseGarrison.verbose      = true
+baseGarrison.verbose      = false
 baseGarrison.activeGroups = {}  -- [zone.name] = { alias=string, side=number }
 
 local function isGroupAlive(grp)

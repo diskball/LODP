@@ -12,8 +12,13 @@ AVAILABLE COMMANDS:
 1. Explode
    Command: explode
    Effect: Creates a large explosion at the location of the mark. Useful for testing.
-   
-2. Spawn a Group
+
+2. Add Money
+   Command: -MONEY-<amount>-<coalition>
+   Example: -MONEY-10000-BLUE  or  -MONEY-10000-RED
+   Effect: Adds the specified amount to the coalition's bank account.
+
+3. Spawn a Group
    Command: spawn-<GroupName>
    Example: spawn-RED TANK
    Effect: Spawns a clone of the Late Activated group named <GroupName> at the mark's location.
@@ -46,7 +51,27 @@ function MapLabelHandler:onEvent(event)
             return
         end
 
-        -- 2. SPAWN COMMAND
+        -- 2. MONEY COMMAND: -MONEY-<amount>-<coalition>
+        local moneyAmt, moneyCoal = textLower:match("^%s*%-money%-(%d+)%-(%a+)%s*$")
+        if moneyAmt and moneyCoal then
+            local amt = tonumber(moneyAmt)
+            local coa = string.lower(moneyCoal)
+            if (coa == "red" or coa == "blue") and amt and amt > 0 then
+                local ok = bank.addFunds(coa, amt)
+                trigger.action.removeMark(event.idx)
+                if ok then
+                    local _, newBal = bank.getBalance(coa)
+                    MESSAGE:New(string.upper(coa) .. " received §" .. amt .. " (Balance: §" .. tostring(newBal) .. ")", 15):ToAll()
+                else
+                    MESSAGE:New("MONEY command failed: no account for '" .. coa .. "'", 10):ToAll()
+                end
+            else
+                MESSAGE:New("MONEY syntax: -MONEY-<amount>-RED or -MONEY-<amount>-BLUE", 10):ToAll()
+            end
+            return
+        end
+
+        -- 3. SPAWN COMMAND
         -- Match exactly a command word, a hyphen, and the rest (the argument)
         local cmd, arg = text:match("^%s*(%a+)%-(.+)%s*$")
         

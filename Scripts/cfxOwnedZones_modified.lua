@@ -1,6 +1,6 @@
 cfxOwnedZones = {}
 cfxOwnedZones.version = "2.5.3"
-cfxOwnedZones.verbose = true 
+cfxOwnedZones.verbose = false 
 cfxOwnedZones.announcer = true 
 cfxOwnedZones.name = "cfxOwnedZones" 
 --[[-- VERSION HISTORY
