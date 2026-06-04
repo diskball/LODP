@@ -85,7 +85,27 @@ Each coalition begins with **1 factory** generating income. Three additional fac
 ---
 
 ## Weapon Restrictions
-Advanced weapons and FOX-3 missiles are only available at your coalition's **Main Base** (Krymsk for BLUE, Tbilisi-Lochini for RED). Capturing Mineralnye Vody or Gudauta unlocks a Forward Main Base with additional advanced slots and warehouse stock for the capturing coalition.
+
+### General Stock
+All airport warehouses are capped at **250 units per weapon type**. Weapons will deplete through use and are not automatically restocked during the mission.
+
+### Precision-Guided Munitions (PGMs)
+GBU-38, GBU-31 variants (GBU-31, GBU-31/V-2B, GBU-31/V-3B, GBU-31/V-4B), and AGM-88 HARM are **restricted to two airports only**:
+
+| Airport | Coalition | PGM Stock (per variant) |
+| :--- | :--- | :--- |
+| **Maykop-Khanskaya** | 🔵 BLUE | 20 |
+| **Kutaisi** | 🔴 RED | 20 |
+
+All other airports have **zero** GBU and AGM-88 stock. Plan your sorties accordingly — pilots requiring PGMs or SEAD capability must stage from or return to their coalition's PGM base.
+
+> **Exception:** Sukhumi-Babushara retains **4× AGM-88** from pre-mission stock (persistent from a prior save).
+
+### FOX-3 Missiles (AIM-120C / R-77)
+FOX-3 missiles remain available at your coalition's **Main Base** (Krymsk for BLUE, Tbilisi-Lochini for RED) and at forward bases captured during the mission (Mineralnye Vody, Gudauta).
+
+### AWACS
+Both **AWACS-BLUE** and **AWACS-RED** are managed directly by the mission and will be active at mission start. They are **not** spawned or controlled through the logistics/persistence system — do not attempt to interact with them via CTLD or the F10 menu.
 
 ---
 
@@ -166,7 +186,8 @@ Transport capabilities depend on the airframe:
 Each side starts with a bank balance of **§10,000**. Purchasing units via CTLD draws from your coalition's budget. Secure objectives and hold territory to maintain a steady income flow and afford heavier assets like the SA-10 and Leopard MBTs.
 
 **Income Generation:**
-- Each team starts with **1 captured Factory** that generate income every hour.
+- Income is paid out every **30 minutes**.
+- Each team starts with **1 captured Factory** that generates income every 30 minutes.
 - There are **3 additional neutral Factories** scattered across the map available for capture, providing extra income to the team that holds them.
 
 **Bonuses:**

@@ -15,104 +15,99 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+# README 
+Simple Warehouse Saving by Pikey Aug 2023 version 1.0 (thebgpikester@hotmail.com)
+Thanks to Speed and Grimes for IntegratedbasicSerialize() function 
+Thanks to Eagle Dynamics for keeping the dream alive.
+
+This software is licensed under the Lesser GNU GPL 2007 
+Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+
+https://www.gnu.org/licenses/lgpl-3.0.txt
+This script is supplied with the full LICENSE at https://github.com/thebgpikester/SWS
+
+## PREREQS
+Requires lfs and io desanitized from missionscripting.lua.
+No 3rd party SSE like Mist or Moose required.
+
+## WHAT IT DOES
+Gets the contents of all DCS Airbase warehouses in the mission and saves them to file. Reloads from the save every mission. (no prompts)
+
+## USAGE
+Load this script at mission start as a DO SCRIPT.
+By default, DCS sets unlimited warehouses. Set some warehouses to have limited contents by clicking on them in the Mission Editor and unchecking 'Unlimited' next to any of aircraft, fuel and weapons. Set a fixed limit amount. Optionally, setup supply chains as per pg 104 DCS user manual EN 2020.pdf in your main DCS installation\Doc folder.
+
+## CONFIGURABLE ITEMS
+SWS.filepath = lfs.writedir().."SimpleWarehouse.lua"
+You can configure a custom directory for the save file here if needs be.
+
+SWS.updateDelaySeconds = 60
+You can change the timer interval for the saving of warehouses here. 
+
+SWS.filepath = lfs.writedir().."SimpleWarehouse.lua"
+You can configure a custom directory for the save file here if needs be.
 --]]
 
-SWS = {}
+SWS={} --don't touch
+SWS.filepath = lfs.writedir().."Missions\\SimpleWarehouse.lua" --the file location is the root of your DCS instance Saved Games\DCS\ folder
+SWS.updateDelaySeconds = 60 --edit this, in testing there was no discernible impact.
 
--- ============================================================
---  FILE PATH
--- ============================================================
-SWS.filepath = lfs.writedir() .. "SimpleWarehouse.lua"
-
--- ============================================================
---  TIMER INTERVAL (seconds)
--- ============================================================
-SWS.updateDelaySeconds = 1800
-
--- ============================================================
---  FILTER CONFIGURATION
---  true  = save and reload this category
---  false = ignore this category completely
--- ============================================================
-SWS.filter = {
-  liquids  = true,
-  aircraft = true,
-  weapon   = true,
-}
-
--- ============================================================
---  BASE SELECTION
---  all = true  : process every airbase/FARP/ship (ignore list)
---  all = false : only process names in the include list
---  Use exact names as they appear in the diagnostic log
--- ============================================================
-SWS.bases = {
-  all = true,   -- set to false and fill include list to filter
-
-  include = {
-    -- "Kutaisi",
-    -- "Batumi",
-    -- "FARP ALPHA",
-    -- "LHA Tarawa",
-  },
-}
-
--- ============================================================
---  COMMON FUNCTIONS
--- ============================================================
-function SWS.IntegratedbasicSerialize(s)
-  if s == nil then
-    return "\"\""
-  else
-    if ((type(s) == 'number') or (type(s) == 'boolean') or (type(s) == 'function') or (type(s) == 'table') or (type(s) == 'userdata')) then
-      return tostring(s)
-    elseif type(s) == 'string' then
-      return string.format('%q', s)
-    end
-  end
-end
-
-function SWS.IntegratedserializeWithCycles(name, value, saved)
-  local basicSerialize = function(o)
-    if type(o) == "number" then
-      return tostring(o)
-    elseif type(o) == "boolean" then
-      return tostring(o)
+--COMMON FUNCTIONS
+ function SWS.IntegratedbasicSerialize(s)
+    if s == nil then
+      return "\"\""
     else
-      return SWS.IntegratedbasicSerialize(o)
-    end
-  end
-
-  local t_str = {}
-  saved = saved or {}
-  if ((type(value) == 'string') or (type(value) == 'number') or (type(value) == 'table') or (type(value) == 'boolean')) then
-    table.insert(t_str, name .. " = ")
-    if type(value) == "number" or type(value) == "string" or type(value) == "boolean" then
-      table.insert(t_str, basicSerialize(value) .. "\n")
-    else
-      if saved[value] then
-        table.insert(t_str, saved[value] .. "\n")
-      else
-        saved[value] = name
-        table.insert(t_str, "{}\n")
-        for k, v in pairs(value) do
-          local fieldname = string.format("%s[%s]", name, basicSerialize(k))
-          table.insert(t_str, SWS.IntegratedserializeWithCycles(fieldname, v, saved))
-        end
+      if ((type(s) == 'number') or (type(s) == 'boolean') or (type(s) == 'function') or (type(s) == 'table') or (type(s) == 'userdata') ) then
+        return tostring(s)
+      elseif type(s) == 'string' then
+        return string.format('%q', s)
       end
     end
-    return table.concat(t_str)
-  else
-    return ""
   end
-end
+  
+-- imported slmod.serializeWithCycles (thanks to Speed and Grimes)
+  function SWS.IntegratedserializeWithCycles(name, value, saved)
+    local basicSerialize = function (o)
+      if type(o) == "number" then
+        return tostring(o)
+      elseif type(o) == "boolean" then
+        return tostring(o)
+      else -- assume it is a string
+        return SWS.IntegratedbasicSerialize(o)
+      end
+    end
 
-function SWS.file_exists(name)
-  if lfs.attributes(name) then
-    return true
-  else
-    return false
+    local t_str = {}
+    saved = saved or {}       -- initial value
+    if ((type(value) == 'string') or (type(value) == 'number') or (type(value) == 'table') or (type(value) == 'boolean')) then
+      table.insert(t_str, name .. " = ")
+      if type(value) == "number" or type(value) == "string" or type(value) == "boolean" then
+        table.insert(t_str, basicSerialize(value) ..  "\n")
+      else
+
+        if saved[value] then    -- value already saved?
+          table.insert(t_str, saved[value] .. "\n")
+        else
+          saved[value] = name   -- save name for next time
+          table.insert(t_str, "{}\n")
+          for k,v in pairs(value) do      -- save its fields
+            local fieldname = string.format("%s[%s]", name, basicSerialize(k))
+            table.insert(t_str, SWS.IntegratedserializeWithCycles(fieldname, v, saved))
+          end
+        end
+      end
+      return table.concat(t_str)
+    else
+      return ""
+    end
   end
+
+function SWS.file_exists(name) 
+    if lfs.attributes(name) then
+    return true
+    else
+    return false end 
 end
 
 function SWS.writemission(data, file)
@@ -121,147 +116,69 @@ function SWS.writemission(data, file)
   SWS.File:close()
 end
 
--- ============================================================
---  HELPER: should we process this airbase/FARP/ship?
--- ============================================================
-function SWS.isIncluded(airbase)
-  if SWS.bases.all then return true end
-  local name = airbase:getName()
-  for _, includedName in ipairs(SWS.bases.include) do
-    if name == includedName then return true end
-  end
-  return false
-end
-
--- ============================================================
---  DIAGNOSTIC: log all airbase/FARP/ship names to dcs.log
--- ============================================================
-function SWS.runDiagnostic()
-  local all = world.getAirbases()
-  env.info("=== SWS DIAGNOSTIC: Found " .. #all .. " airbases/FARPs/ships ===")
-  for i = 1, #all do
-    local ab   = all[i]
-    local name = ab:getName()
-    local cat  = ab:getDesc().category
-    local catName = "Unknown"
-    if     cat == 0 then catName = "AIRDROME"
-    elseif cat == 1 then catName = "FARP/HELIPAD"
-    elseif cat == 2 then catName = "SHIP"
-    end
-    env.info(string.format("  [%-12s]  \"%s\"", catName, name))
-  end
-  env.info("=== SWS DIAGNOSTIC END ===")
-end
-
--- ============================================================
---  SAVE
--- ============================================================
 local Airbases = world.getAirbases()
+
 SWS.airbaseContents = {}
 
-function saveWarehouseContents()
-  local saved, skipped = 0, 0
-  for i = 1, #Airbases do
-    if SWS.isIncluded(Airbases[i]) then
-      local w   = Airbases[i]:getWarehouse()
-      local Inv = w:getInventory()
-      local filtered = {}
+function saveWarehouseContents() 
+  
+ for i=1, #(Airbases) do
+    local w=Airbases[i]:getWarehouse()
+    local Inv = w:getInventory()
+    SWS.airbaseContents[Airbases[i]:getName()]=Inv
+ end
 
-      if SWS.filter.liquids  then filtered.liquids  = Inv.liquids  end
-      if SWS.filter.aircraft then filtered.aircraft = Inv.aircraft end
-      if SWS.filter.weapon   then filtered.weapon   = Inv.weapon   end
-
-      SWS.airbaseContents[Airbases[i]:getName()] = filtered
-      saved = saved + 1
-    else
-      skipped = skipped + 1
-    end
-  end
-  env.info(string.format("SWS: saveWarehouseContents() — saved: %d, skipped: %d", saved, skipped))
-  return timer.getTime() + SWS.updateDelaySeconds
+return timer.getTime() + SWS.updateDelaySeconds
 end
 
--- ============================================================
---  SERIALIZE
--- ============================================================
 function serializeWarehouseContents()
-  SWS.newMissionStr = SWS.IntegratedserializeWithCycles("SWS.SimpleWarehouse", SWS.airbaseContents)
-  env.info("SWS: serializeWarehouseContents() — done")
-  return timer.getTime() + SWS.updateDelaySeconds
+   SWS.newMissionStr = SWS.IntegratedserializeWithCycles("SWS.SimpleWarehouse",SWS.airbaseContents)
+   return timer.getTime() + SWS.updateDelaySeconds
 end
 
--- ============================================================
---  WRITE
--- ============================================================
 function writeWarehouseContents()
   SWS.writemission(SWS.newMissionStr, SWS.filepath)
-  env.info("SWS: writeWarehouseContents() — written to " .. SWS.filepath)
   return timer.getTime() + SWS.updateDelaySeconds
 end
 
--- ============================================================
---  LOAD
--- ============================================================
 function loadWarehouseContents()
-  dofile(SWS.filepath)
-  local Airbases = world.getAirbases()
-  local loaded, skipped, missing = 0, 0, 0
+ dofile(SWS.filepath)
+ 
+ local Airbases = world.getAirbases()
+ 
+ for _, airbase in ipairs(Airbases) do
 
-  for _, airbase in ipairs(Airbases) do
-    if SWS.isIncluded(airbase) then
-      local w    = airbase:getWarehouse()
-      local name = airbase:getName()
-      local data = SWS.SimpleWarehouse[name]
-
-      if not data then
-        env.info("SWS: loadWarehouseContents() — no saved data for \"" .. name .. "\", skipping")
-        missing = missing + 1
-        goto continue
-      end
-
-      if data.liquids then
-        for liquidType, amount in pairs(data.liquids) do
-          w:setLiquidAmount(liquidType, amount)
-        end
-      end
-
-      if data.weapon then
-        for weaponName, amount in pairs(data.weapon) do
-          w:setItem(weaponName, amount)
-        end
-      end
-
-      if data.aircraft then
-        for aircraftName, count in pairs(data.aircraft) do
-          w:setItem(aircraftName, count)
-        end
-      end
-
-      loaded = loaded + 1
-    else
-      skipped = skipped + 1
+    local w=airbase:getWarehouse()
+   
+    local liquids = SWS.SimpleWarehouse[airbase:getName()]["liquids"]
+    for liquidType, amountLiquid in pairs (liquids) do
+      w:setLiquidAmount(liquidType, amountLiquid)
     end
-    ::continue::
-  end
-
-  env.info(string.format("SWS: loadWarehouseContents() — loaded: %d, skipped: %d, missing: %d", loaded, skipped, missing))
+    
+    local weapons = SWS.SimpleWarehouse[airbase:getName()]["weapon"]
+    for weaponName, amount in pairs(weapons) do
+      w:setItem(weaponName, amount)
+    end
+        
+    local aircraft = SWS.SimpleWarehouse[airbase:getName()]["aircraft"]
+    for aircraftName, aircraftCount in pairs(aircraft) do
+      w:setItem(aircraftName, aircraftCount)
+    end 
+ end
 end
 
--- ============================================================
---  START
--- ============================================================
-SWS.runDiagnostic()
+--START SCRIPT
 
 if SWS.file_exists(SWS.filepath) then
-  env.info("SWS: Save file found — loading warehouse contents ...")
+  env.info("Loading Pikey's Simple Warehouse Saving - Save file exists, loading ...")
   loadWarehouseContents()
 else
-  env.info("SWS: No save file found — writing initial warehouse contents ...")
+  env.info("Loading Pikey's Simple Warehouse Saving - save file does not exist, writing ...")
   saveWarehouseContents()
   serializeWarehouseContents()
   writeWarehouseContents()
-end
+end 
 
-timer.scheduleFunction(saveWarehouseContents,      {}, timer.getTime() + 1)
+timer.scheduleFunction(saveWarehouseContents, {}, timer.getTime() + 1)
 timer.scheduleFunction(serializeWarehouseContents, {}, timer.getTime() + 2)
-timer.scheduleFunction(writeWarehouseContents,     {}, timer.getTime() + 3)
+timer.scheduleFunction(writeWarehouseContents, {}, timer.getTime() + 3)

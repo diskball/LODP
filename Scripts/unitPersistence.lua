@@ -1,7 +1,12 @@
 unitPersistence = {}
 unitPersistence.version = '2.0.1'
-unitPersistence.verbose = false 
+unitPersistence.verbose = false
 unitPersistence.updateTime = 60 -- seconds. Once every minute check statics
+-- Groups managed entirely by the mission file; never tracked or respawned
+unitPersistence.excludedGroups = {
+	["AWACS-BLUE"] = true,
+	["AWACS-RED"]  = true,
+}
 unitPersistence.requiredLibs = {
 	"dcsCommon",
 	"cfxZones",  
@@ -329,35 +334,37 @@ function unitPersistence.loadMission()
 				mismatchWarning = true 
 			elseif groupData.isDead then
 				theGroup:destroy()
-			elseif groupData.isPlayer then 
+			elseif groupData.isPlayer then
 				-- skip it
-			else 
+			elseif unitPersistence.excludedGroups[groupName] then
+				-- skip it: managed by mission file
+			else
 				local newGroup = dcsCommon.clone(groupData)
 				local newUnits = {}
-				for idx, theUnitData in pairs(groupData.units) do 
-					-- filter all dead groups 
-					if theUnitData.isDead then 
-						-- skip it					
-					else 
+				for idx, theUnitData in pairs(groupData.units) do
+					-- filter all dead groups
+					if theUnitData.isDead then
+						-- skip it
+					else
 						-- add it to new group
 						table.insert(newUnits, theUnitData)
 					end
 				end
-				-- replace old unit setup with (delayed) new 
+				-- replace old unit setup with (delayed) new
 				newGroup.units = newUnits
-				local cty = groupData.cty 
-				local cat = groupData.cat 
-				
-				-- spawn new one, replaces old one 
+				local cty = groupData.cty
+				local cat = groupData.cat
+
+				-- spawn new one, replaces old one
 				theGroup:destroy()
 				local args = {}
-				args.cty = cty 
-				args.cat = cat 
+				args.cty = cty
+				args.cat = cat
 				args.newGroup = newGroup
-				-- since DCS can't replace a group directly (none will appear), we introduce a brief interval for things to settle 
+				-- since DCS can't replace a group directly (none will appear), we introduce a brief interval for things to settle
 				timer.scheduleFunction(unitPersistence.delayedSpawn, args, timer.getTime()+0.5)
- 
-			end 
+
+			end
 		end
 		unitPersistence.fixedWing = theData.fixedWing
 	else 
@@ -551,9 +558,11 @@ function unitPersistence.start()
 		gd.cat = cfxMX.catText2ID("plane") -- 0 
 		gd.cty = cfxMX.countryByName[gname]
 		local gGroup = Group.getByName(gname)
-		if gd.isPlayer then 
-			-- skip 
-		elseif not gGroup then 
+		if gd.isPlayer then
+			-- skip
+		elseif unitPersistence.excludedGroups[gname] then
+			-- skip: managed by mission file
+		elseif not gGroup then
 			trigger.action.outText("+++warning: fixed-wing group <" .. gname .. "> does not exist in-game!?", 30)
 		else
 			unitPersistence.fixedWing[gname] = gd

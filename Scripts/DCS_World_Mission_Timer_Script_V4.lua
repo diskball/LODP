@@ -22,7 +22,7 @@ local fonFlagName = "FON"
 
 local welcomeMessageDuration = 30   -- FIX: was undefined in original
 
-local missionDuration            = 2.5 * 3600
+local missionDuration            = 4 * 3600
 local missionStartMessage        = "=== Mission Started ===\nDuration: %s\nUse F10 menu to check remaining time"
 local missionStartMessageDuration = 45
 
