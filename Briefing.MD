@@ -122,19 +122,23 @@ Players can generate and transport units using helicopters or trucks via the CTL
 ### Deployable Vehicles
 | Unit Type | Name | Role | Cost | Crates |
 | :--- | :--- | :--- | :--- | :--- |
-| **FARP Logistics** | FARP Logistics | FARP Logistics | §50 | 1 |
 | **Ammo Truck** | Ammo Truck | FARP Resupply | §25 | 1 |
+| **FARP Logistics** | FARP Logistics | FARP Logistics | §50 | 1 |
 | **M-113** | Scout | Recon/Light Armor | §100 | 1 |
 | **JTAC** | JTAC | Lasing & Targeting | §150 | 1 |
 | **T-55** | T-55 | Main Battle Tank | §150 | 1 |
+| **SBORKA** | SBORKA | Short-Range Early Warning Radar | §150 | 1 |
 | **Shilka** | Shilka | SPAAG Anti-Air | §180 | 1 |
 | **Chaparral** | Chaparral | SHORAD Anti-Air | §200 | 1 |
-| **EWR** | EWR | Early Warning Radar | §550 | 1 |
 | **SA-13** | SA-13 | SHORAD Anti-Air | §400 | 1 |
 | **SA-8** | SA-8 | SHORAD Anti-Air | §400 | 1 |
 | **Leopard** | Leopard | Main Battle Tank | §400 | 1 |
+| **EWR** | EWR | Early Warning Radar | §550 | 1 |
+| **SA-6** | SA-6 | Medium-Range SAM | §800 | 2 |
 | **SA-15M1** | SA-15M1 | Mobile SAM | §1550 | 2 |
+| **C-RAM** | C-RAM | Counter-Rocket/Mortar/Artillery Defense | §2000 | 2 |
 | **SA-15M2** | SA-15M2 | Mobile SAM | §4000 | 3 |
+| **SA-11** | SA-11 | Medium-to-High Altitude SAM | §4500 | 3 |
 | **SA-10** | SA-10 | Heavy Long-Range SAM | §8000 | 4 |
 
 ### How CTLD Works — Loading, Deploying & Building
