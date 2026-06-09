@@ -130,6 +130,7 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | **SBORKA** | SBORKA | Short-Range Early Warning Radar | §150 | 1 |
 | **Shilka** | Shilka | SPAAG Anti-Air | §180 | 1 |
 | **Chaparral** | Chaparral | SHORAD Anti-Air | §200 | 1 |
+| **SA-19** | SA-19 | SHORAD Anti-Air | §350 | 1 |
 | **SA-13** | SA-13 | SHORAD Anti-Air | §400 | 1 |
 | **SA-8** | SA-8 | SHORAD Anti-Air | §400 | 1 |
 | **Leopard** | Leopard | Main Battle Tank | §400 | 1 |
@@ -137,6 +138,7 @@ Players can generate and transport units using helicopters or trucks via the CTL
 | **SA-6** | SA-6 | Medium-Range SAM | §800 | 2 |
 | **SA-15M1** | SA-15M1 | Mobile SAM | §1550 | 2 |
 | **C-RAM** | C-RAM | Counter-Rocket/Mortar/Artillery Defense | §2000 | 2 |
+| **HAWK** | HAWK | Medium-to-High Altitude SAM | §3500 | 3 |
 | **SA-15M2** | SA-15M2 | Mobile SAM | §4000 | 3 |
 | **SA-11** | SA-11 | Medium-to-High Altitude SAM | §4500 | 3 |
 | **SA-10** | SA-10 | Heavy Long-Range SAM | §8000 | 4 |
