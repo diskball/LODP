@@ -440,7 +440,8 @@ function cfxPlayerScore.updateScoreForPlayerImmediate(playerName, score, reason,
             end
         else
             cfxPlayerScore.coalitionScore[pFaction] = cfxPlayerScore.coalitionScore[pFaction] + score
-            if bank and bank.addFunds then
+            -- only add to bank for positive scores; bankPenalties handles bank deductions for losses
+            if bank and bank.addFunds and score > 0 then
                 local amount = cfxPlayerScore.score2finance * score
                 if cfxPlayerScore.bankOnLanding then
                     thePlayerScore.sortieBankAccu = thePlayerScore.sortieBankAccu + amount
