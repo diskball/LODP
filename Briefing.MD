@@ -199,8 +199,85 @@ Each side starts with a bank balance of **§10,000**. Purchasing units via CTLD 
 **Bonuses:**
 - **Zone Capture Bonus:** When a zone changes ownership, the capturing team receives **§100**.
 
+### Player Kill Score & Landing Bonus
+
+Destroying enemy units earns you personal score points **and** funds your coalition's bank — but only if you land safely. Score is held pending until you touch down at a friendly airbase or FARP. If you are shot down or crash before landing, all pending score and bank funds are lost.
+
+**How it works:**
+1. Destroy enemy units — score accumulates silently during the sortie.
+2. Land at any friendly airbase or FARP marked as a safe zone.
+3. Wait **10 seconds** on the ground without moving.
+4. Score is awarded to your personal total and **§2 per point** is deposited into your coalition's bank.
+
+> Check your current score at any time via **F10 Menu → Support and Upgrades → Show My Score**.
+
+#### Score Values
+
+**Aircraft & vehicles (base values — overridden by specific unit entries below):**
+
+| Category | Points per kill |
+| :--- | :--- |
+| Fixed-wing aircraft | 100 |
+| Helicopter | 50 |
+| Ground vehicle | 25 |
+| Ship | 25 |
+| Landing bonus (any safe landing) | 10 |
+
+**CTLD-deployed units (scored per individual unit destroyed):**
+
+| Unit | Points | Notes |
+| :--- | :--- | :--- |
+| Rifleman | 3 | Per soldier |
+| MANPADS soldier | 8 | Per soldier |
+| Ammo Truck | 5 | |
+| FARP Logistics | 8 | |
+| M-113 Scout | 15 | |
+| JTAC | 20 | |
+| SBORKA (EWR) | 20 | |
+| T-55 | 30 | |
+| Shilka | 25 | |
+| Chaparral | 30 | |
+| SA-13 | 35 | |
+| SA-8 | 40 | |
+| SA-19 (Tunguska) | 40 | |
+| EWR (55G6) | 40 | |
+| Leopard-2 | 50 | |
+| SA-15 M1 (Tor) | 60 | |
+| C-RAM | 80 | |
+| SA-6 | 25 per component | ~4 components = ~100 pts full system |
+| SA-15 M2 | 60 per component | |
+| HAWK | 30 per component | ~5 components = ~150 pts full system |
+| SA-11 | 40 per component | ~5 components = ~200 pts full system |
+| SA-10 | 60 per component | ~5 components = ~300 pts full system |
+
+> Multi-component SAM systems (SA-6, HAWK, SA-11, SA-10) spawn several vehicles per group. Each vehicle destroyed scores individually — taking out the whole system rewards you for each component.
+
+#### Example Sortie
+
+A pilot destroys **2× F-16s** and **1× T-55** then lands safely at a friendly base:
+
+| Kill | Points |
+| :--- | :--- |
+| F-16 #1 | 100 |
+| F-16 #2 | 100 |
+| T-55 | 30 |
+| Landing bonus | 10 |
+| **Total** | **240 pts** |
+
+On landing: **+240** to personal score, **+§480** to the coalition bank (2× multiplier).
+
+If the pilot had been shot down before landing: **0 points, §0 to the bank**.
+
+#### Modifiers
+
+| Situation | Effect |
+| :--- | :--- |
+| Killing a player-controlled unit | ×1 (same as AI) |
+| Aircraft loss / crash / eject | **−50 pts** to personal score immediately |
+| Fratricide (killing a friendly) | Score multiplied by **−5** (e.g. friendly T-55 = −125 pts), deducted from **personal score only** — coalition bank is not affected |
+
 ### Bank Penalties
-Losing player-controlled aircraft incurs a financial penalty for your coalition. These penalties are automatically deducted from your coalition's bank balance50
+Losing player-controlled aircraft incurs a financial penalty for your coalition. These penalties are automatically deducted from your coalition's bank balance.
 **Aircraft Loss Penalties by Category:**
 
 | Aircraft Category | Penalty | Examples |

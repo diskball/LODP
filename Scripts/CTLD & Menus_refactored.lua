@@ -273,12 +273,26 @@ local function buyUnit(coalitionSide, sideName, ctldInstance, unitConfig)
     end
 end
 
+local function showMyScore(coalitionSide)
+    if not cfxPlayerScore then return end
+    local players = coalition.getPlayers(coalitionSide)
+    for _, unit in pairs(players) do
+        local pName = unit:getPlayerName()
+        if pName then
+            local text = cfxPlayerScore.scoreTextForPlayerNamed(pName)
+            trigger.action.outTextForUnit(unit:getID(), text, 20)
+        end
+    end
+end
+
 local function buildMenus(coalitionSide, sideName, ctldInstance)
     local mainMenu = MENU_COALITION:New(coalitionSide, "Support and Upgrades")
 
     local bankMenu = MENU_COALITION:New(coalitionSide, "Check Budget", mainMenu)
     MENU_COALITION_COMMAND:New(coalitionSide, "Show Available Budget", bankMenu, displayBankBalance, coalitionSide,
         sideName)
+
+    MENU_COALITION_COMMAND:New(coalitionSide, "Show My Score", mainMenu, showMyScore, coalitionSide)
 
     local suppliesMenu = MENU_COALITION:New(coalitionSide, "Buy CTLD Crates", mainMenu)
 
