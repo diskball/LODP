@@ -1,5 +1,5 @@
 bankPenalties = {}
-bankPenalties.version = "1.2.0"
+bankPenalties.version = "1.3.0"
 bankPenalties.requiredLibs = {
 	"dcsCommon",
 	"cfxZones",
@@ -287,146 +287,26 @@ function bankPenalties.eventHandler:onEvent(event)
 		end
 	end
 
-	-- Process events that could lead to a penalty
-	if id == world.event.S_EVENT_PLAYER_LEAVE_UNIT or 
+	-- Clean up tracking on any loss/leave event.
+	-- No coalition bank penalty: aircraft loss affects player score only (via armamentCost).
+	if id == world.event.S_EVENT_PLAYER_LEAVE_UNIT or
 	   id == world.event.S_EVENT_EJECTION or
-	   id == world.event.S_EVENT_CRASH or 
-	   id == world.event.S_EVENT_DEAD or 
+	   id == world.event.S_EVENT_CRASH or
+	   id == world.event.S_EVENT_DEAD or
 	   id == world.event.S_EVENT_PILOT_DEAD then
-		
+
 		local unit = event.initiator
-		
-		-- Safely get the name of the unit, even if it's destroyed
 		local success, uName = pcall(unit.getName, unit)
-		if not success or not uName then 
-			if bankPenalties.verbose then
-				trigger.action.outText("bankPenalties: could not get unit name for event " .. id, 10)
-			end
-			return 
-		end
-		
-		-- Normalize unit name to lowercase to match registration
+		if not success or not uName then return end
+
 		local normalizedUName = string.lower(uName)
-		
-		-- If this unit wasn't being flown by a player (or was already penalized), ignore it
-		if not bankPenalties.activePlayers[normalizedUName] then 
+		if bankPenalties.activePlayers[normalizedUName] then
 			if bankPenalties.verbose then
-				trigger.action.outText("bankPenalties: unit " .. normalizedUName .. " not in tracking (event " .. id .. ")", 10)
+				local pd = bankPenalties.activePlayers[normalizedUName]
+				trigger.action.outText("bankPenalties: unregistered " .. (pd.playerName or uName)
+					.. " (event " .. id .. ") — no bank penalty", 10)
 			end
-			return 
-		end
-		
-		local playerData = bankPenalties.activePlayers[normalizedUName]
-		local applyPenalty = false
-		local reason = ""
-		
-		if id == world.event.S_EVENT_PLAYER_LEAVE_UNIT then
-			-- For leaving the unit, we only penalize if they are not safely on the ground
-			local inAir = false
-			local isSafe = true
-			
-			if Object.isExist(unit) then
-				if type(unit.inAir) == "function" and unit:inAir() then
-					inAir = true
-					isSafe = false
-				else
-					-- Check altitude / speed
-					local sPt, point = pcall(unit.getPoint, unit)
-					local sVel, vel = pcall(unit.getVelocity, unit)
-					
-					if sPt and point then
-						local surfaceHeight = land.getHeight({x = point.x, y = point.z})
-						if (point.y - surfaceHeight) > 5 then
-							inAir = true
-							isSafe = false
-						end
-					end
-					
-					-- If they are moving faster than 5 m/s (~10 knots) on the ground, not safe
-					if isSafe and sVel and vel then
-						local speed = math.sqrt(vel.x^2 + vel.y^2 + vel.z^2)
-						if speed > 5 then
-							isSafe = false
-						end
-					end
-				end
-			else
-				-- If the object doesn't exist, it's not safe to assume they were on the ground
-				isSafe = false
-			end
-			
-			if not isSafe then
-				applyPenalty = true
-				reason = "disconnected mid-air or while moving"
-			else
-				-- Safe disconnect on the ground, just unregister without penalty
-				if bankPenalties.verbose then
-					trigger.action.outText("bankPenalties: " .. playerData.playerName .. " (" .. normalizedUName .. ") disconnected safely on ground, unregistering", 10)
-				end
-				bankPenalties.activePlayers[normalizedUName] = nil
-				return
-			end
-		elseif id == world.event.S_EVENT_EJECTION then
-			applyPenalty = true
-			reason = "ejected"
-			if bankPenalties.verbose then
-				trigger.action.outText("bankPenalties: " .. playerData.playerName .. " (" .. normalizedUName .. ") EJECTED", 10)
-			end
-		elseif id == world.event.S_EVENT_CRASH then
-			applyPenalty = true
-			reason = "crashed"
-			if bankPenalties.verbose then
-				trigger.action.outText("bankPenalties: " .. playerData.playerName .. " (" .. normalizedUName .. ") CRASHED", 10)
-			end
-		elseif id == world.event.S_EVENT_DEAD then
-			applyPenalty = true
-			reason = "was destroyed"
-			if bankPenalties.verbose then
-				trigger.action.outText("bankPenalties: " .. playerData.playerName .. " (" .. normalizedUName .. ") DEAD", 10)
-			end
-		elseif id == world.event.S_EVENT_PILOT_DEAD then
-			applyPenalty = true
-			reason = "was killed in action"
-			if bankPenalties.verbose then
-				trigger.action.outText("bankPenalties: " .. playerData.playerName .. " (" .. normalizedUName .. ") PILOT_DEAD", 10)
-			end
-		end
-		
-		if applyPenalty then
-			-- IMMEDIATELY unregister to prevent double-charging (e.g., Ejection -> Crash cascade)
 			bankPenalties.activePlayers[normalizedUName] = nil
-			
-			local penaltyAmt = bankPenalties.getPenaltyAmount(playerData.category)
-			
-			-- Withdraw funds using the public bank API
-			local successBank = bank.withdawFunds(playerData.coaName, penaltyAmt)
-			
-			if successBank then
-				-- Get updated balance
-				local balanceSuccess, newBalance = bank.getBalance(playerData.coaName)
-				local balanceStr = balanceSuccess and tostring(newBalance) or "unknown"
-				
-				local msg = "⚠️ Penalty! " .. playerData.playerName .. " [" .. playerData.displayName .. "] " .. reason .. ". " .. string.upper(playerData.coaName) .. " lost §" .. penaltyAmt .. " (Balance: §" .. balanceStr .. ")"
-				
-				local coaId = (playerData.coaName == "red") and 1 or 2
-				
-				-- ALWAYS send penalty message to coalition (regardless of verbose setting)
-				trigger.action.outTextForCoalition(coaId, msg, 15)
-				
-				-- Additional debug logging when verbose enabled
-				if bankPenalties.verbose then
-					trigger.action.outText("[DEBUG] bankPenalties: penalized " .. playerData.playerName .. " (" .. playerData.coaName .. ") §" .. penaltyAmt .. " for " .. reason .. " | New balance: §" .. balanceStr, 10)
-				end
-			else
-				-- Bank withdrawal failed - still notify coalition
-				local coaId = (playerData.coaName == "red") and 1 or 2
-				local errMsg = "❌ Penalty system error: insufficient funds or account error"
-				trigger.action.outTextForCoalition(coaId, errMsg, 15)
-				
-				if bankPenalties.verbose then
-					trigger.action.outText("[DEBUG] bankPenalties: FAILED to withdraw §" .. penaltyAmt .. " from " .. playerData.coaName, 10)
-				end
-			end
 		end
 	end
 end
@@ -443,12 +323,9 @@ function bankPenalties.start()
 	bankPenalties.readConfigZone()
 	world.addEventHandler(bankPenalties.eventHandler)
 
-	local verboseMsg = bankPenalties.verbose and " (VERBOSE MODE)" or ""
-	local penaltyInfo = "Modern/Multi: §" .. bankPenalties.modernMultirolePlanePenalty .. 
-		" | CW/Bomber: §" .. bankPenalties.coldWarBomberPlanePenalty ..
-		" | Attack Heli: §" .. bankPenalties.attackHeliPenalty ..
-		" | Transport Heli: §" .. bankPenalties.transportHeliPenalty
-	trigger.action.outText("bankPenalties v" .. bankPenalties.version .. " started." .. verboseMsg .. " | Penalties: " .. penaltyInfo, 30)
+	local verboseMsg = bankPenalties.verbose and " (VERBOSE)" or ""
+	trigger.action.outText("bankPenalties v" .. bankPenalties.version .. " loaded"
+		.. verboseMsg .. " | Safe-landing bank bonus active | Aircraft loss: player score only (no bank penalty)", 15)
 	return true 
 end
 
