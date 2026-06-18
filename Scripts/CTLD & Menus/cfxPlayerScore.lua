@@ -56,11 +56,12 @@ cfxPlayerScore.typeScore = {} -- ALL UPPERCASE
 cfxPlayerScore.wildTypes = {} -- ALL UPPERCASE
 cfxPlayerScore.lastPlayerLanding = {} -- timestamp, by player name  
 cfxPlayerScore.delayBetweenLandings = 10 -- seconds to count as separate landings, also set during take-off to prevent janky t/o to count. 
-cfxPlayerScore.aircraft = 50 
-cfxPlayerScore.helo = 40 
+cfxPlayerScore.startingScore = 2000 -- new players begin with this many points
+cfxPlayerScore.aircraft = 50
+cfxPlayerScore.helo = 40
 cfxPlayerScore.ground = 10
-cfxPlayerScore.ship = 80 
-cfxPlayerScore.train = 5 
+cfxPlayerScore.ship = 80
+cfxPlayerScore.train = 5
 cfxPlayerScore.landing = 0 -- if > 0 it scores as feat
 
 cfxPlayerScore.unit2player = {} -- lookup and reverse look-up 
@@ -378,7 +379,7 @@ end
 function cfxPlayerScore.createNewPlayerScore(playerName)
     local thePlayerScore = {}
     thePlayerScore.name = playerName
-    thePlayerScore.score = 0 -- score
+    thePlayerScore.score = cfxPlayerScore.startingScore -- score
     thePlayerScore.scoreaccu = 0 -- for deferred 
     thePlayerScore.killTypes = {} -- the type strings killed, dict <typename> <numkilla>
     thePlayerScore.killQueue = {} -- when using deferred
@@ -641,13 +642,26 @@ function cfxPlayerScore.awardScoreTo(killSide, theScore, killerName, pk)
     end
     if not cfxPlayerScore.reportScore then return end 
     if cfxPlayerScore.announcer then
-        if (theScore > 0) and cfxPlayerScore.isDeferred(killerName) then 
+        if (theScore > 0) and cfxPlayerScore.isDeferred(killerName) then
             thePlayerRecord = cfxPlayerScore.getPlayerScore(killerName) -- re-read after write
-            trigger.action.outTextForCoalition(killSide, "Killscore:  " .. theScore .. ", now " .. thePlayerRecord.scoreaccu .. " waiting for " .. killerName .. ", awarded after landing", 30)
-        else -- negative score or not deferred 
-            trigger.action.outTextForCoalition(killSide, "Killscore:  " .. theScore .. " for a total of " .. playerScore .. " for " .. killerName, 30)
-            
-            if cfxPlayerScore.reportCoalition then trigger.action.outTextForCoalition(killSide, "\nCoalition Total:  " .. cfxPlayerScore.coalitionScore[killSide], 30) end 
+            trigger.action.outTextForCoalition(killSide,
+                "Killscore: +" .. theScore .. " (pending landing) — " .. killerName ..
+                " | Queued: " .. thePlayerRecord.scoreaccu, 30)
+        else -- negative score or not deferred
+            local bankCredit = cfxPlayerScore.score2finance * theScore
+            local msg = "Killscore: +" .. theScore .. " score"
+            if bank and bankCredit > 0 then
+                msg = msg .. "  |  Coalition bank: +§" .. bankCredit
+            end
+            msg = msg .. "  |  " .. killerName .. " total score: " .. playerScore
+            if cfxPlayerScore.reportCoalition and bank then
+                local coaKey = killSide == 1 and "red" or "blue"
+                local ok, bal = bank.getBalance(coaKey)
+                if ok then
+                    msg = msg .. "  |  Bank balance: §" .. bal
+                end
+            end
+            trigger.action.outTextForCoalition(killSide, msg, 30)
         end
     end 
 end
@@ -1295,9 +1309,10 @@ end
 -- Config handling 
 --
 function cfxPlayerScore.readConfigZone(theZone)
-    cfxPlayerScore.verbose = theZone.verbose 
-    -- default scores 
-    cfxPlayerScore.aircraft = theZone:getNumberFromZoneProperty("aircraft", 50) 
+    cfxPlayerScore.verbose = theZone.verbose
+    cfxPlayerScore.startingScore = theZone:getNumberFromZoneProperty("startingScore", 200)
+    -- default scores
+    cfxPlayerScore.aircraft = theZone:getNumberFromZoneProperty("aircraft", 50)
     cfxPlayerScore.helo = theZone:getNumberFromZoneProperty("helo", 40)  
     cfxPlayerScore.ground = theZone:getNumberFromZoneProperty("ground", 10) 
     cfxPlayerScore.ship = theZone:getNumberFromZoneProperty("ship", 80)   

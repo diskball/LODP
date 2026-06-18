@@ -1,86 +1,116 @@
-# Mission Briefing: Lock-On Greece Dynamic Playground
+# Mission Briefing: LODP — Dynamic Caucasus Playground
 
 ## Overview
-**Lock-On Greece Dynamic Playground** is a persistent, dynamic PvP multiplayer mission. 
-Two coalitions (**RED** vs **BLUE**) compete for total map control.
-The ultimate objective is to capture all airbases and Forward Arming and Refueling Points (FARPs) across the theatre.
- 
+**LODP Dynamic Caucasus Playground** is a persistent, dynamic PvP multiplayer mission.
+Two coalitions (**RED** vs **BLUE**) compete for control of the Caucasus theatre.
+
+The ultimate objective is to capture all enemy **Main Operating Bases (MOBs)**. FOBs and FARPs support your logistics and economy but are not required for victory.
+
 **Theatre:** Caucasus
 
 ---
 
 ## Objectives
-- **Primary Goal:** Capture and hold all Airbases, FARPs, and Factories on the map — **32 capturable zones** in total (15 airbases, 12 FARPs, 5 factories)
-- **Logistics & Economy:** Utilize the CTLD system to purchase, transport, and deploy troops and vehicles. Control over logistics is essential to pushing the frontline and maintaining defenses.
-- **Victory Condition:** Achieving total control of all Airbases, FARPs, and Factories will initiate a **5-minute victory countdown**. If your coalition maintains control of all zones until the countdown expires, you win the mission.
+- **Primary Goal:** Capture all 6 MOBs on the map — 3 held by each coalition at mission start.
+- **Logistics & Economy:** Utilize the CTLD system to purchase, transport, and deploy troops and vehicles. Control over FOBs and FARPs sustains your frontline push.
+- **Victory Condition:** When one coalition holds **all 6 MOBs**, a **5-minute victory countdown** begins. Recapture at least one MOB before the countdown expires to cancel it.
+
 ---
 
 ## Locations
 
-There are **32 capturable zones** in total: 15 airbases, 12 FARPs, and 5 factories. Two permanent main bases (Krymsk and Tbilisi-Lochini) are not capturable and always belong to their coalition.
+There are **35 capturable zones** in total: 2 Main Bases, 6 MOBs, 4 FOBs, 20 FARPs, and 5 Factories.
 
-### Main Bases (Permanent — Not Capturable)
+### Main Bases (Permanent Home Bases)
 
 | Airbase | Coalition | Notes |
 | :--- | :--- | :--- |
-| **Tbilisi-Lochini** | RED | Red Main Base — FOX-3 & advanced weapons available |
-| **Krymsk** | BLUE | Blue Main Base — FOX-3 & advanced weapons available |
+| **Anapa-Vityazevo** | 🔴 RED | Red Main Base — FOX-3 & advanced weapons available |
+| **Tbilisi-Lochini** | 🔵 BLUE | Blue Main Base — FOX-3 & advanced weapons available |
 
-Capturing **Mineralnye Vody** or **Gudauta** grants the capturing coalition a Forward Main Base with advanced weaponry and aircraft slots in the warehouse.
+---
 
-### Airbases with Logistics (Loadzone available)
+### 🔴 RED Coalition
 
-| Airbase | Starting Owner | Garrison |
+#### Main Operating Bases (MOBs) — Required for Victory
+| Airbase | Starting Owner | Loadzone |
 | :--- | :--- | :--- |
-| Batumi | 🔴 RED | |
-| Mozdok | 🔴 RED | |
-| Maykop | 🔵 BLUE | |
-| Senaki | ⚪ NEUTRAL | |
-| Sukhumi | ⚪ NEUTRAL | ⚔️ |
-| Sochi | ⚪ NEUTRAL | ⚔️ |
-| Nalchik | ⚪ NEUTRAL | |
+| Senaki-Kolkhi | 🔴 RED | Loadzone Senaki |
+| Sukhumi-Babushara | 🔴 RED | Loadzone Sukhumi |
+| Sochi-Adler | 🔴 RED | Loadzone Sochi |
 
-### Airbases without Logistics (Capturable, no Loadzone)
-
-| Airbase | Starting Owner | Garrison |
+#### Forward Operating Bases (FOBs)
+| Airbase | Starting Owner | Loadzone |
 | :--- | :--- | :--- |
-| Beslan | 🔴 RED | |
-| Kutaisi | 🔴 RED | |
-| Krasnodar-Centre | 🔵 BLUE | |
-| Kobuleti | ⚪ NEUTRAL | |
-| Gudauta | ⚪ NEUTRAL | ⚔️ |
-| Mineralnye Vody | ⚪ NEUTRAL | ⚔️ |
-| Krasnodar | ⚪ NEUTRAL | |
-| Gelendzhik | ⚪ NEUTRAL | |
+| Batumi | 🔴 RED | Loadzone Batumi |
+| Gudauta | 🔴 RED | Loadzone Gudauta |
 
-### FARPs (Forward Arming and Refueling Points)
+#### FARPs
+| FARP | Starting Owner | Loadzone |
+| :--- | :--- | :--- |
+| FARP KM56 | 🔴 RED | Loadzone KM56 |
+| FARP GH30 | 🔴 RED | Loadzone GH30 |
+| FARP GH02 | 🔴 RED | Loadzone GH02 |
+| FARP FJ21 | 🔴 RED | — |
+| FARP FH66 | 🔴 RED | Loadzone FH66 |
+| FARP EJ44 | 🔴 RED | Loadzone EJ44 |
+| FARP FH08 | 🔴 RED | Loadzone FH08 |
+| FARP EJ58 | 🔴 RED | Loadzone EJ58 |
+| FARP FH86 | 🔴 RED | Loadzone FARP_FH86 |
 
-| FARP | Starting Owner | Loadzone | Garrison |
-| :--- | :--- | :--- | :--- |
-| GH02 | 🔴 RED | Yes | |
-| GH30 | 🔴 RED | Yes | |
-| FH66 | 🔴 RED | Yes | |
-| KM56 | 🔴 RED | Yes | |
-| EJ08 | 🔵 BLUE | Yes | |
-| EJ44 | 🔵 BLUE | Yes | |
-| EJ58 | 🔵 BLUE | Yes | |
-| FK72 | 🔵 BLUE | Yes | |
-| FH08 | 🔵 BLUE | Yes | |
-| KQ73 | 🔵 BLUE | Yes | |
-| GJ35 | ⚪ NEUTRAL | Yes | ⚔️ |
-| FJ21 | ⚪ NEUTRAL | No | |
+---
+
+### 🔵 BLUE Coalition
+
+#### Main Operating Bases (MOBs) — Required for Victory
+| Airbase | Starting Owner | Loadzone |
+| :--- | :--- | :--- |
+| Mozdok | 🔵 BLUE | Loadzone Mozdok |
+| Mineralnye Vody | 🔵 BLUE | Loadzone Mineralnye Vody |
+| Maykop | 🔵 BLUE | Loadzone Maykop |
+
+#### Forward Operating Bases (FOBs)
+| Airbase | Starting Owner | Loadzone |
+| :--- | :--- | :--- |
+| Beslan | 🔵 BLUE | Loadzone Beslan |
+| Nalchik | 🔵 BLUE | Loadzone Nalchik |
+
+#### FARPs
+| FARP | Starting Owner | Loadzone |
+| :--- | :--- | :--- |
+| FARP KQ73 | 🔵 BLUE | Loadzone KQ73 |
+| FARP FK72 | 🔵 BLUE | Loadzone FK72 |
+| FARP KP98 | 🔵 BLUE | Loadzone KP98 |
+| FARP EK61 | 🔵 BLUE | Loadzone EK61 |
+| FARP FK24 | 🔵 BLUE | Loadzone FK24 |
+| FARP LP87 | 🔵 BLUE | Loadzone LP87 |
+| FARP LP52 | 🔵 BLUE | Loadzone LP52 |
+| FARP LP15 | 🔵 BLUE | Loadzone LP15 |
+| FARP KQ61 | 🔵 BLUE | Loadzone KQ61 |
+
+---
+
+### ⚪ Neutral Zones
+
+| Zone | Type |
+| :--- | :--- |
+| FARP GJ35 | FARP |
+| FARP GJ21 | FARP |
+| Neutral Factory | Factory |
+
+---
 
 ### Factories
 
-| Factory | Starting Owner | Garrison |
-| :--- | :--- | :--- |
-| Red Factory 1 | 🔴 RED | |
-| Blue Factory 1 | 🔵 BLUE | |
-| Blue Factory 2 | ⚪ NEUTRAL | |
-| Red Factory 2 | ⚪ NEUTRAL | |
-| Neutral Factory | ⚪ NEUTRAL | ⚔️ |
+| Factory | Starting Owner |
+| :--- | :--- |
+| Red Factory 1 | 🔴 RED |
+| Red Factory 2 | 🔴 RED |
+| Blue Factory 1 | 🔵 BLUE |
+| Blue Factory 2 | 🔵 BLUE |
+| Neutral Factory | ⚪ NEUTRAL |
 
-Each coalition begins with **1 factory** generating income. Three additional factories are neutral and available for capture.
+Each coalition begins with **2 factories** generating income. The neutral factory is available for capture.
 
 ---
 
@@ -89,20 +119,10 @@ Each coalition begins with **1 factory** generating income. Three additional fac
 ### General Stock
 All airport warehouses are capped at **250 units per weapon type**. Weapons will deplete through use and are not automatically restocked during the mission.
 
-### Precision-Guided Munitions (PGMs)
-GBU-38, GBU-31 variants (GBU-31, GBU-31/V-2B, GBU-31/V-3B, GBU-31/V-4B), and AGM-88 HARM are **restricted to two airports only**:
-
-| Airport | Coalition | PGM Stock (per variant) |
-| :--- | :--- | :--- |
-| **Maykop-Khanskaya** | 🔵 BLUE | 20 |
-| **Kutaisi** | 🔴 RED | 20 |
-
-All other airports have **zero** GBU and AGM-88 stock. Plan your sorties accordingly — pilots requiring PGMs or SEAD capability must stage from or return to their coalition's PGM base.
-
-> **Exception:** Sukhumi-Babushara retains **4× AGM-88** from pre-mission stock (persistent from a prior save).
-
 ### FOX-3 Missiles (AIM-120C / R-77)
-FOX-3 missiles remain available at your coalition's **Main Base** (Krymsk for BLUE, Tbilisi-Lochini for RED) and at forward bases captured during the mission (Mineralnye Vody, Gudauta).
+FOX-3 missiles are available at your coalition's **Main Base** only:
+- 🔴 RED — **Anapa-Vityazevo**
+- 🔵 BLUE — **Tbilisi-Lochini**
 
 ### AWACS
 Both **AWACS-BLUE** and **AWACS-RED** are managed directly by the mission and will be active at mission start. They are **not** spawned or controlled through the logistics/persistence system — do not attempt to interact with them via CTLD or the F10 menu.
@@ -176,44 +196,51 @@ CA-slot truck players can also transport troops and crates using the same F10 me
 
 ### Logistics Airframes & Transport Details
 Transport capabilities depend on the airframe:
-- **UH-1H:** 6 Troops or 1 Cargo Crate (Slingload/Internal)
-- **UH-60L** *(free mod required)*: 6 Troops or 2 Cargo Crates (Slingload/Internal)
-- **Mi-24P:** 6 Troops or 1 Cargo Crate (Slingload/Internal)
-- **Mi-8MTV2:** 12 Troops or 1 Cargo Crate (Slingload/Internal)
-- **CH-47Fbl1:** 31 Troops or 2 Cargo Crates (Slingload/Internal)
+- **UH-1H:** 6 Troops or 1 Cargo Crate (Internal)
+- **UH-60L** *(free mod required)*: 6 Troops or 2 Cargo Crates (Internal)
+- **Mi-24P:** 6 Troops or 1 Cargo Crate (Internal)
+- **Mi-8MTV2:** 12 Troops or 1 Cargo Crate (Internal)
+- **CH-47Fbl1:** 31 Troops or 2 Cargo Crates (Internal)
 - **C-130J-30:** 36 Troops or 7 Cargo Crates (Internal) — must land to load/unload
 - **Gaz-66 (Truck):** 6 Troops or 2 Cargo Crates
 - *Note: AH-64D and OH-58D (Kiowa) are combat-only and cannot carry troops or CTLD crates.*
--  After capturing a FARP it is necessary to deploy and build a **FARP Logistics** crate so that players are able to refuel and re-arm
+- After capturing a FARP it is necessary to deploy and build a **FARP Logistics** crate so that players are able to refuel and re-arm
 
 ---
 
 ## Coalition Budgets & Economy
+
 Each side starts with a bank balance of **§10,000**. Purchasing units via CTLD draws from your coalition's budget. Secure objectives and hold territory to maintain a steady income flow and afford heavier assets like the SA-10 and Leopard MBTs.
 
 **Income Generation:**
 - Income is paid out every **30 minutes**.
-- Each team starts with **1 captured Factory** that generates income every 30 minutes.
-- There are **3 additional neutral Factories** scattered across the map available for capture, providing extra income to the team that holds them.
+- Each team starts with **2 captured Factories** generating income.
+- There is **1 neutral Factory** available for capture, providing extra income to the team that holds it.
 
 **Bonuses:**
 - **Zone Capture Bonus:** When a zone changes ownership, the capturing team receives **§100**.
 
-### Player Kill Score & Landing Bonus
+---
 
-Destroying enemy units earns you personal score points **and** funds your coalition's bank — but only if you land safely. Score is held pending until you touch down at a friendly airbase or FARP. If you are shot down or crash before landing, all pending score and bank funds are lost.
+### Player Score System
 
-**How it works:**
-1. Destroy enemy units — score accumulates silently during the sortie.
-2. Land at any friendly airbase or FARP marked as a safe zone.
+Every player starts with **200 personal score points**. Score is your individual currency — it pays for sorties and weapons. It is separate from the coalition bank (§ funds) used for CTLD purchases.
+
+> Check your score at any time: **F10 Menu → Support and Upgrades → Show My Score**
+
+#### Earning Score — Kill Rewards
+
+Destroying enemy units earns personal score **and** contributes to the coalition bank. Score from air kills is **deferred** — it is held pending until you land safely. Ground unit kills (Combined Arms) score immediately.
+
+**Flow:**
+1. Destroy enemy units in the air → score accumulates silently during the sortie.
+2. Land at any **friendly** airbase or FARP marked as a safe zone.
 3. Wait **10 seconds** on the ground without moving.
-4. Score is awarded to your personal total and **§2 per point** is deposited into your coalition's bank.
+4. Score posts to your total and **§2 per point** is deposited into the coalition bank.
 
-> Check your current score at any time via **F10 Menu → Support and Upgrades → Show My Score**.
+If shot down or crashed before landing: **pending score and bank contribution are lost.**
 
-#### Score Values
-
-**Aircraft & vehicles (base values — overridden by specific unit entries below):**
+**Aircraft & vehicle kill values (base — overridden by specific entries below):**
 
 | Category | Points per kill |
 | :--- | :--- |
@@ -244,82 +271,139 @@ Destroying enemy units earns you personal score points **and** funds your coalit
 | Leopard-2 | 50 | |
 | SA-15 M1 (Tor) | 60 | |
 | C-RAM | 80 | |
-| SA-6 | 25 per component | ~4 components = ~100 pts full system |
+| SA-6 | 25 per component | ~4 components ≈ 100 pts full system |
 | SA-15 M2 | 60 per component | |
-| HAWK | 30 per component | ~5 components = ~150 pts full system |
-| SA-11 | 40 per component | ~5 components = ~200 pts full system |
-| SA-10 | 60 per component | ~5 components = ~300 pts full system |
+| HAWK | 30 per component | ~5 components ≈ 150 pts full system |
+| SA-11 | 40 per component | ~5 components ≈ 200 pts full system |
+| SA-10 | 60 per component | ~5 components ≈ 300 pts full system |
 
-> Multi-component SAM systems (SA-6, HAWK, SA-11, SA-10) spawn several vehicles per group. Each vehicle destroyed scores individually — taking out the whole system rewards you for each component.
+> Multi-component SAM systems spawn several vehicles per group. Each vehicle destroyed scores individually.
 
-#### Example Sortie
-
-A pilot destroys **2× F-16s** and **1× T-55** then lands safely at a friendly base:
-
-| Kill | Points |
-| :--- | :--- |
-| F-16 #1 | 100 |
-| F-16 #2 | 100 |
-| T-55 | 30 |
-| Landing bonus | 10 |
-| **Total** | **240 pts** |
-
-On landing: **+240** to personal score, **+§480** to the coalition bank (2× multiplier).
-
-If the pilot had been shot down before landing: **0 points, §0 to the bank**.
-
-#### Modifiers
+**Score Modifiers:**
 
 | Situation | Effect |
 | :--- | :--- |
 | Killing a player-controlled unit | ×1 (same as AI) |
-| Aircraft loss / crash / eject | **−50 pts** to personal score immediately |
-| Fratricide (killing a friendly) | Score multiplied by **−5** (e.g. friendly T-55 = −125 pts), deducted from **personal score only** — coalition bank is not affected |
+| Aircraft loss / crash / eject | **−50 pts** personal score immediately |
+| Fratricide (killing a friendly) | Score ×**−5** (e.g. friendly T-55 = −125 pts), personal score only — coalition bank unaffected |
 
-### Bank Penalties
-Losing player-controlled aircraft incurs a financial penalty for your coalition. These penalties are automatically deducted from your coalition's bank balance.
-**Aircraft Loss Penalties by Category:**
-
-| Aircraft Category | Penalty | Examples |
-| :--- | :--- | :--- |
-| **Modern Multi-role (Fox3)** | §150 | F-16C_50, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
-| **Cold War/Older Fighters** | §75 | Su-25 series, Su-27/30, F-4 Phantom, F-5 Tiger, Mirage F1 variants, M-2000C |
-| **Attack Helicopters** | §75 | AH-64D, Ka-50 (all variants), Mi-28N, Mi-24P, OH-58D |
-| **Heavy Cargo** | §75 | CH-47Fbl1, C-130J-30 |
-| **Transport Helicopters** | §25 | UH-1H, UH-60L, Mi-8MT |
-
-**Safe Landing Bonus:**
-- Fixed-wing aircraft (jets/props) landing safely at a friendly airbase will earn their coalition **§10**. (Helicopters are excluded from this bonus).
-
-**When Penalties Apply:**
-- Crashing your aircraft.
-- Ejecting from your aircraft.
-- Your aircraft being destroyed.
-- Disconnecting from your aircraft while airborne or not safely on the ground (e.g., moving on a taxiway).
-- Your pilot being killed in action.
-
-**Notifications:** When a penalty is applied, a message will be broadcast to your coalition, detailing the aircraft type, penalty amount, and your coalition's updated bank balance.
-
-**Insufficient Funds:** If your coalition's bank balance is insufficient to cover a penalty, an error message will be broadcast to your coalition but no funds will be deducted.
-
-### Zone Control & Victory Conditions
-- **Zone Status Display:** The current status of all zones (RED, BLUE, CONTESTED, NEUTRAL) is displayed in-game after any ownership change, showing: `ZONE CONTROL: RED [count] | BLUE [count] | CONTESTED [count] | NEUTRAL [count] (of [total])`.
-- **Contested Zones:** If units from both RED and BLUE coalitions are present in a zone, it becomes **CONTESTED** (yellow on the map) and cannot be captured until one side clears out the other.
-- **Total Domination Countdown:** When one coalition captures *all* Airbases, FARPs, and Factories on the map, a **5-minute (300 seconds) victory countdown** will begin.
-    -   A warning message will be broadcast to all players, indicating which side has achieved total domination and the remaining time to respond.
-    -   **To prevent defeat:** The opposing coalition must capture at least one zone before the countdown expires.
-    -   **Victory:** If the dominating coalition maintains control of all zones until the countdown completes, they achieve total battlefield domination and win the mission.
 ---
 
-## Base Garrisons
+### Sortie Costs
 
-Zones marked with ⚔️ in the tables above will automatically spawn an AI garrison unit group when captured. The garrison:
+Flying costs personal score. Every takeoff is charged for your **aircraft** and your **weapons**. These costs are deducted immediately on takeoff — you must have enough score to fly.
 
-- Spawns at a **random location inside the zone** each time ownership changes
-- **Must be destroyed** before the zone can be recaptured — they count as defending units and will contest the zone
-- Applies to both coalitions — whoever captures the zone gets the garrison
+Use **F10 → Armament → Check Loadout Cost** at any time to preview your full sortie cost before wheels-up.
 
-The following zones have garrisons: **Sukhumi, Sochi, Gudauta, Mineralnye Vody, FARP GJ35, Neutral Factory**.
+If your score is insufficient when you take off, you receive a **90-second warning**. Land and reduce your loadout to cancel the countdown. If you remain airborne and cannot pay after 90 seconds, you will be moved to spectators.
+
+#### Aircraft Fee (Personal Score — Refunded on Safe Landing)
+
+Charged when taking off from any **Forward Base** (FOB, MOB, FARP). The fee is **refunded** when you land the aircraft safely. If you crash, eject, or are destroyed, the fee is **not** refunded — the aircraft was lost.
+
+**Main Base takeoffs are free** (Anapa-Vityazevo for RED, Tbilisi-Lochini for BLUE).
+
+| Aircraft Category | Fee | Examples |
+| :--- | :--- | :--- |
+| **Modern Multi-role (Fox3)** | 100 pts | F-16C, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
+| **Cold War / Older Fighters** | 75 pts | Su-25 series, Su-27/30, M-2000C, F-4, F-5, Mirage F1 |
+| **Attack Helicopters** | 50 pts | AH-64D, Ka-50, Mi-28N, Mi-24P, OH-58D, CH-47, C-130 |
+| **Transport Helicopters** | 25 pts | UH-1H, UH-60L, Mi-8 |
+
+#### Weapon Costs (Personal Score — Permanent, Not Refunded)
+
+Every weapon loaded when you take off is charged to your score. Returning with unused weapons does **not** earn a refund — you committed to the loadout.
+
+**US / NATO Guided Missiles:**
+
+| Weapon | Cost per round | Weapon | Cost per round |
+| :--- | :--- | :--- | :--- |
+| AGM-114K Hellfire II | 50 pts | AGM-114L Longbow | 60 pts |
+| AGM-114M Hellfire BF | 50 pts | AGM-114R Hellfire R | 55 pts |
+| AGM-65D/E/F Maverick | 40 pts | AGM-65G/H Maverick | 45 pts |
+| AGM-65K Maverick | 50 pts | AGM-88 HARM | 60 pts |
+| AIM-9L Sidewinder | 25 pts | AIM-9M Sidewinder | 30 pts |
+| AIM-9X Sidewinder | 40 pts | AIM-7M/MH Sparrow | 35 pts |
+| AIM-120B AMRAAM | 50 pts | AIM-120C AMRAAM | 55 pts |
+
+**US / NATO Bombs & Rockets:**
+
+| Weapon | Cost per round | Weapon | Cost per round |
+| :--- | :--- | :--- | :--- |
+| GBU-12 Paveway II | 25 pts | GBU-10 Paveway II | 35 pts |
+| GBU-16 Paveway II | 30 pts | GBU-24 Paveway III | 35 pts |
+| GBU-38 JDAM | 20 pts | GBU-31 JDAM | 30 pts |
+| Mk-82 (all variants) | 5 pts | Mk-83 | 8 pts |
+| Mk-84 | 12 pts | BLU-107 | 10 pts |
+| Hydra 70 (all types) | 2 pts | FFAR Mk5 HEAT | 2 pts |
+
+**Russian / REDFOR Guided Missiles:**
+
+| Weapon | Cost per round | Weapon | Cost per round |
+| :--- | :--- | :--- | :--- |
+| R-60M Aphid | 20 pts | R-73 Archer | 30 pts |
+| R-27R/T Alamo | 35 pts | R-27ET Alamo | 40 pts |
+| R-27ER Alamo | 45 pts | R-77 Adder | 50 pts |
+| R-77-1 Adder | 55 pts | Kh-25ML | 30 pts |
+| Kh-25MP/MPU | 35 pts | Kh-25MR | 30 pts |
+| Kh-29L/T Kedge | 40 pts | Kh-58U/E Kilter | 55 pts |
+
+**Russian / REDFOR Bombs & Rockets:**
+
+| Weapon | Cost per round | Weapon | Cost per round |
+| :--- | :--- | :--- | :--- |
+| FAB-100 | 3 pts | FAB-250 | 6 pts |
+| FAB-500 / BETAB-500 | 10 pts | S-8 rockets | 2 pts |
+| S-13OF | 4 pts | S-24B | 8 pts |
+| S-25OFM | 12 pts | S-25L | 15 pts |
+
+> **Guns and unrecognised weapons are free.** If a weapon you carry is not in the table above, it will be listed in the F10 loadout check display with its DCS name — this can be reported to add it to the cost table in a future update.
+
+#### Example Sortie — AH-64D from Maykop (Forward Base)
+
+| Item | Cost |
+| :--- | :--- |
+| Aircraft fee (Attack Heli, forward base) | −50 pts |
+| 8× AGM-114K Hellfire II (8 × 50) | −400 pts |
+| 16× Hydra 70 rockets (16 × 2) | −32 pts |
+| **Total on takeoff** | **−482 pts** |
+| Land safely → aircraft fee refunded | **+50 pts** |
+| **Net weapons cost** | **−432 pts** |
+
+Same pilot taking off from **Tbilisi-Lochini (Main Base):** aircraft fee = **0** — weapons cost only.
+
+---
+
+### Bank Penalties (Coalition Funds)
+
+Losing a player-controlled aircraft costs your **coalition** funds from the shared bank — separate from personal score. These are deducted automatically when an aircraft is destroyed, crashes, ejects, or the pilot is killed.
+
+**Aircraft Loss Penalties:**
+
+| Aircraft Category | Coalition Penalty | Examples |
+| :--- | :--- | :--- |
+| **Modern Multi-role (Fox3)** | §150 | F-16C, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
+| **Cold War / Older Fighters** | §200 | Su-25 series, Su-27/30, M-2000C, F-4, F-5, Mirage F1 |
+| **Attack Helicopters / Heavy Cargo** | §100 | AH-64D, Ka-50, Mi-28N, Mi-24P, OH-58D, CH-47, C-130 |
+| **Transport Helicopters** | §50 | UH-1H, UH-60L, Mi-8 |
+
+**Safe Landing Bonus:** Fixed-wing aircraft landing safely at a friendly base earn their coalition **§10**. Helicopters are excluded.
+
+**Penalty triggers:**
+- Aircraft destroyed in combat
+- Crash or pilot death
+- Ejection
+- Disconnecting while airborne or moving
+
+A coalition-wide message is broadcast for every penalty showing the aircraft type, amount deducted, and updated bank balance.
+
+### Zone Control & Victory Conditions
+- **Zone Status Display:** The current status of all zones (RED, BLUE, CONTESTED, NEUTRAL) is displayed in-game after any ownership change.
+- **Contested Zones:** If units from both RED and BLUE coalitions are present in a zone, it becomes **CONTESTED** (yellow on the map) and cannot be captured until one side clears out the other.
+- **MOB Victory Countdown:** When one coalition captures **all 6 MOBs** on the map, a **5-minute (300 second) victory countdown** begins.
+    - A warning message is broadcast to all players indicating which side controls all MOBs and the time remaining.
+    - **To prevent defeat:** The opposing coalition must recapture at least one MOB before the countdown expires.
+    - **Victory:** If the dominating coalition holds all 6 MOBs until the countdown completes, they win the mission.
 
 ---
 

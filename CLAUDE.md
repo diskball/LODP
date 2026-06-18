@@ -28,8 +28,8 @@ Initialization order matters — modules load sequentially at mission start:
 ```
 dcsCommon → cfxZones → cfxMX → bank → cfxOwnedZones → income
 → persistence → unitPersistence → commander → CTLD & Menus (refactored)
-→ cfxBaseEnforcer → bankPenalties → loadzoneMarks → spawn-GC
-→ mist → EWRS → AutoRestart
+→ cfxBaseEnforcer → bankPenalties → armamentCost → mobDefences
+→ loadzoneMarks → spawn-GC → mist → EWRS → AutoRestart
 ```
 
 | Module | Role |
@@ -44,8 +44,10 @@ dcsCommon → cfxZones → cfxMX → bank → cfxOwnedZones → income
 | `persistence.lua` | Module registry, save/load callbacks, version checking |
 | `unitPersistence.lua` | Restores ground/air/ship unit state across server restarts |
 | `CTLD & Menus_refactored.lua` | Moose CTLD helicopter cargo system (troops, vehicles) |
-| `cfxBaseEnforcer.lua` | Kicks players who spawn/land at enemy-controlled airbases |
+| `cfxBaseEnforcer.lua` | Kicks players who spawn/land at enemy-controlled airbases; charges spawn fee |
 | `bankPenalties.lua` | Deducts coalition funds on aircraft loss, tiered by type |
+| `armamentCost.lua` | Charges player score per weapon on takeoff; kicks if unaffordable after 90 s |
+| `mobDefences.lua` | Spawns coalition defence groups at MOB zones on start and on capture |
 | `loadzoneMarks.lua` | Places F10 map marks for all `Loadzone *` CTLD zones |
 | `spawn-GC.lua` | F10 map mark commands: `explode` and `spawn-<GroupName>` |
 | `mist_4_5_128.lua` | MIST framework (required by EWRS) |

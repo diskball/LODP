@@ -1,5 +1,5 @@
 cfxOwnedZones = {}
-cfxOwnedZones.version = "2.5.3"
+cfxOwnedZones.version = "2.5.4"
 cfxOwnedZones.verbose = false 
 cfxOwnedZones.announcer = true 
 cfxOwnedZones.name = "cfxOwnedZones" 
@@ -67,6 +67,10 @@ cfxOwnedZones.name = "cfxOwnedZones"
       - If unit count drops below numKeep, zone becomes neutral
       - Added hasGUI option to config zone
       - Added F10 radio menu command to see zone status report
+2.5.4 - numKeep == 0 now means "hold forever": an owned (RED/BLUE) zone with no
+        units present is kept by its current owner instead of going neutral.
+        Previously the no-units case always flipped a zone to neutral, ignoring
+        numKeep. Zones with numKeep >= 1 are unchanged.
 
 --]]--
 cfxOwnedZones.requiredLibs = {
@@ -143,18 +147,18 @@ end
 
 function cfxOwnedZones.checkBlueVictory()
 	-- Called after victory countdown expires
-	if cfxOwnedZones.sideOwnsAll(2) then
-		-- BLUE still owns all zones - VICTORY!
+	if cfxOwnedZones.sideOwnsMOBs(2) then
+		-- BLUE still holds all MOBs - VICTORY!
 		local victoryMsg = "========================================\n"
 		victoryMsg = victoryMsg .. "                                        \n"
 		victoryMsg = victoryMsg .. "     *** BLUEFORCE VICTORY! ***         \n"
 		victoryMsg = victoryMsg .. "                                        \n"
 		victoryMsg = victoryMsg .. "========================================\n\n"
-		victoryMsg = victoryMsg .. "TOTAL BATTLEFIELD DOMINATION ACHIEVED!\n\n"
-		victoryMsg = victoryMsg .. "All zones remain under BLUEFORCE control.\n"
+		victoryMsg = victoryMsg .. "ALL MAIN OPERATING BASES SECURED!\n\n"
+		victoryMsg = victoryMsg .. "All MOBs remain under BLUEFORCE control.\n"
 		victoryMsg = victoryMsg .. "REDFORCE has been defeated!\n\n"
 		victoryMsg = victoryMsg .. "*** MISSION ACCOMPLISHED! ***"
-		
+
 		trigger.action.outText(victoryMsg, 60)
 		trigger.action.outSound(cfxOwnedZones.victorySound)
 	end
@@ -163,18 +167,18 @@ end
 
 function cfxOwnedZones.checkRedVictory()
 	-- Called after victory countdown expires
-	if cfxOwnedZones.sideOwnsAll(1) then
-		-- RED still owns all zones - VICTORY!
+	if cfxOwnedZones.sideOwnsMOBs(1) then
+		-- RED still holds all MOBs - VICTORY!
 		local victoryMsg = "========================================\n"
 		victoryMsg = victoryMsg .. "                                        \n"
 		victoryMsg = victoryMsg .. "     *** REDFORCE VICTORY! ***          \n"
 		victoryMsg = victoryMsg .. "                                        \n"
 		victoryMsg = victoryMsg .. "========================================\n\n"
-		victoryMsg = victoryMsg .. "TOTAL BATTLEFIELD DOMINATION ACHIEVED!\n\n"
-		victoryMsg = victoryMsg .. "All zones remain under REDFORCE control.\n"
+		victoryMsg = victoryMsg .. "ALL MAIN OPERATING BASES SECURED!\n\n"
+		victoryMsg = victoryMsg .. "All MOBs remain under REDFORCE control.\n"
 		victoryMsg = victoryMsg .. "BLUEFORCE has been defeated!\n\n"
 		victoryMsg = victoryMsg .. "*** MISSION ACCOMPLISHED! ***"
-		
+
 		trigger.action.outText(victoryMsg, 60)
 		trigger.action.outSound(cfxOwnedZones.victorySound)
 	end
@@ -372,6 +376,7 @@ function cfxOwnedZones.addOwnedZone(aZone)
 		if aZone.title == "*" then aZone.title = aZone.name end 
 	end
 	aZone.method = aZone:getStringFromZoneProperty("method", "inc")
+	aZone.zoneType = string.upper(aZone:getStringFromZoneProperty("zoneType", ""))
 
 	-- Initialise from starting ownership so walk-out/walk-in on a pre-owned zone
 	-- doesn't trigger the capture bonus on the very first re-entry.
@@ -697,9 +702,15 @@ function cfxOwnedZones.update()
 		elseif theZone.masterOwner then 
 			-- inherit from my master 
 			newOwner = theZone:getCoalition() -- theZone.masterOwner.owner
-		elseif theZone.numRed < 1 and theZone.numBlue < 1 then 
-			-- NO UNITS HERE - zone becomes neutral
-			newOwner = 0
+		elseif theZone.numRed < 1 and theZone.numBlue < 1 then
+			-- NO UNITS HERE
+			if (lastOwner == 1 or lastOwner == 2) and theZone.numKeep <= 0 then
+				-- numKeep == 0: an owned zone is held even with no units present
+				newOwner = lastOwner
+			else
+				-- zone becomes neutral
+				newOwner = 0
+			end
 		elseif theZone.numRed > 0 and theZone.numBlue > 0 then
 			-- BOTH COALITIONS PRESENT - zone is contested (yellow)
 			newOwner = 3
@@ -768,30 +779,33 @@ function cfxOwnedZones.update()
 		cfxZones.setFlagValue(cfxOwnedZones.totalOwnedZones, totalZoneNum, cfxOwnedZones)
 	end
 
-	-- Check if BLUE owns all zones and announce
+	-- Check if BLUE owns all MOBs and announce
 	if not cfxOwnedZones.hasAllBlue then
-		if cfxOwnedZones.sideOwnsAll(2) then -- BLUE owns all zones
-			cfxOwnedZones.hasAllBlue = true 
+		if cfxOwnedZones.sideOwnsMOBs(2) then -- BLUE controls all MOBs
+			cfxOwnedZones.hasAllBlue = true
 			-- ANNOUNCE TO ALL PLAYERS with countdown warning
 			local minutes = math.floor(cfxOwnedZones.victoryCountdown / 60)
 			local seconds = cfxOwnedZones.victoryCountdown % 60
 			local timeStr = minutes .. ":" .. string.format("%02d", seconds)
-			
+			local mobTotal = 0
+			for _ in pairs(cfxOwnedZones.mobZones or {}) do mobTotal = mobTotal + 1 end
+			local mobLabel = mobTotal > 0 and "ALL " .. mobTotal .. " MOBs" or "ALL ZONES"
+
 			local warningMsg = "========================================\n"
 			warningMsg = warningMsg .. "   BLUEFORCE TOTAL DOMINATION!\n"
 			warningMsg = warningMsg .. "========================================\n\n"
-			warningMsg = warningMsg .. "ALL ZONES HAVE BEEN CAPTURED!\n\n"
+			warningMsg = warningMsg .. mobLabel .. " HAVE BEEN CAPTURED!\n\n"
 			warningMsg = warningMsg .. "REDFORCE - YOU HAVE " .. timeStr .. " TO RESPOND!\n\n"
-			warningMsg = warningMsg .. "Capture a zone or eliminate enemy forces\n"
+			warningMsg = warningMsg .. "Recapture a MOB or eliminate enemy forces\n"
 			warningMsg = warningMsg .. "to prevent total defeat!\n\n"
 			warningMsg = warningMsg .. "*** FAILURE TO ACT WILL RESULT IN DEFEAT! ***"
-			
+
 			trigger.action.outText(warningMsg, 30)
 			trigger.action.outSound(cfxOwnedZones.allCapturedSound)
-			
+
 			-- Start victory countdown timer
 			cfxOwnedZones.blueVictoryTimer = timer.scheduleFunction(cfxOwnedZones.checkBlueVictory, {}, timer.getTime() + cfxOwnedZones.victoryCountdown)
-			
+
 			-- Also trigger flag if configured
 			if cfxOwnedZones.allBlue then
 				cfxZones.pollFlag(cfxOwnedZones.allBlue, cfxOwnedZones.method, cfxOwnedZones)
@@ -799,53 +813,56 @@ function cfxOwnedZones.update()
 		end
 	end
 
-	-- Check if RED owns all zones and announce
+	-- Check if RED owns all MOBs and announce
 	if not cfxOwnedZones.hasAllRed then
-		if cfxOwnedZones.sideOwnsAll(1) then -- RED owns all zones
-			cfxOwnedZones.hasAllRed = true 
+		if cfxOwnedZones.sideOwnsMOBs(1) then -- RED controls all MOBs
+			cfxOwnedZones.hasAllRed = true
 			-- ANNOUNCE TO ALL PLAYERS with countdown warning
 			local minutes = math.floor(cfxOwnedZones.victoryCountdown / 60)
 			local seconds = cfxOwnedZones.victoryCountdown % 60
 			local timeStr = minutes .. ":" .. string.format("%02d", seconds)
-			
+			local mobTotal = 0
+			for _ in pairs(cfxOwnedZones.mobZones or {}) do mobTotal = mobTotal + 1 end
+			local mobLabel = mobTotal > 0 and "ALL " .. mobTotal .. " MOBs" or "ALL ZONES"
+
 			local warningMsg = "========================================\n"
 			warningMsg = warningMsg .. "   REDFORCE TOTAL DOMINATION!\n"
 			warningMsg = warningMsg .. "========================================\n\n"
-			warningMsg = warningMsg .. "ALL ZONES HAVE BEEN CAPTURED!\n\n"
+			warningMsg = warningMsg .. mobLabel .. " HAVE BEEN CAPTURED!\n\n"
 			warningMsg = warningMsg .. "BLUEFORCE - YOU HAVE " .. timeStr .. " TO RESPOND!\n\n"
-			warningMsg = warningMsg .. "Capture a zone or eliminate enemy forces\n"
+			warningMsg = warningMsg .. "Recapture a MOB or eliminate enemy forces\n"
 			warningMsg = warningMsg .. "to prevent total defeat!\n\n"
 			warningMsg = warningMsg .. "*** FAILURE TO ACT WILL RESULT IN DEFEAT! ***"
-			
+
 			trigger.action.outText(warningMsg, 30)
 			trigger.action.outSound(cfxOwnedZones.allCapturedSound)
-			
+
 			-- Start victory countdown timer
 			cfxOwnedZones.redVictoryTimer = timer.scheduleFunction(cfxOwnedZones.checkRedVictory, {}, timer.getTime() + cfxOwnedZones.victoryCountdown)
-			
+
 			-- Also trigger flag if configured
 			if cfxOwnedZones.allRed then
 				cfxZones.pollFlag(cfxOwnedZones.allRed, cfxOwnedZones.method, cfxOwnedZones)
 			end
 		end
 	end
-	
-	-- Reset hasAllBlue/hasAllRed if a side loses a zone (so message can trigger again)
+
+	-- Reset hasAllBlue/hasAllRed if a side loses a MOB (so message can trigger again)
 	-- Also cancel victory timers
-	if cfxOwnedZones.hasAllBlue and not cfxOwnedZones.sideOwnsAll(2) then
+	if cfxOwnedZones.hasAllBlue and not cfxOwnedZones.sideOwnsMOBs(2) then
 		cfxOwnedZones.hasAllBlue = false
 		if cfxOwnedZones.blueVictoryTimer then
 			timer.removeFunction(cfxOwnedZones.blueVictoryTimer)
 			cfxOwnedZones.blueVictoryTimer = nil
-			trigger.action.outText("*** REDFORCE has broken through! BLUEFORCE victory countdown CANCELLED! ***", 20)
+			trigger.action.outText("*** REDFORCE has retaken a MOB! BLUEFORCE victory countdown CANCELLED! ***", 20)
 		end
 	end
-	if cfxOwnedZones.hasAllRed and not cfxOwnedZones.sideOwnsAll(1) then
+	if cfxOwnedZones.hasAllRed and not cfxOwnedZones.sideOwnsMOBs(1) then
 		cfxOwnedZones.hasAllRed = false
 		if cfxOwnedZones.redVictoryTimer then
 			timer.removeFunction(cfxOwnedZones.redVictoryTimer)
 			cfxOwnedZones.redVictoryTimer = nil
-			trigger.action.outText("*** BLUEFORCE has broken through! REDFORCE victory countdown CANCELLED! ***", 20)
+			trigger.action.outText("*** BLUEFORCE has retaken a MOB! REDFORCE victory countdown CANCELLED! ***", 20)
 		end
 	end
 	
@@ -860,6 +877,27 @@ function cfxOwnedZones.sideOwnsAll(theSide, useAllManaged)
 		end
 	end
 	return true
+end
+
+-- Victory check: only MOB zones must be captured.
+-- Falls back to sideOwnsAll if no MOBs are configured (backwards-compatible).
+function cfxOwnedZones.sideOwnsMOBs(theSide)
+	local mobs = cfxOwnedZones.mobZones
+	if not mobs or next(mobs) == nil then
+		return cfxOwnedZones.sideOwnsAll(theSide)
+	end
+	for _, aZone in pairs(mobs) do
+		if aZone.owner ~= theSide then return false end
+	end
+	return true
+end
+
+function cfxOwnedZones.countMOBsOwnedBy(theSide)
+	local count = 0
+	for _, aZone in pairs(cfxOwnedZones.mobZones or {}) do
+		if aZone.owner == theSide then count = count + 1 end
+	end
+	return count
 end
 
 -- getting closest owned zones etc
@@ -1176,7 +1214,22 @@ function cfxOwnedZones.init()
 	for _ in pairs(cfxOwnedZones.zones) do zoneCount = zoneCount + 1 end
 	trigger.action.outText("+++owdZ: Added " .. zoneCount .. " zones to cfxOwnedZones", 30)
 	
-	-- gather ALL managed owner zones 
+	-- build MOB victory zones table (zoneType = "MOB" only)
+	cfxOwnedZones.mobZones = {}
+	for _, aZone in pairs(cfxOwnedZones.zones) do
+		if aZone.zoneType == "MOB" then
+			cfxOwnedZones.mobZones[aZone] = aZone
+		end
+	end
+	local mobCount = 0
+	for _ in pairs(cfxOwnedZones.mobZones) do mobCount = mobCount + 1 end
+	if mobCount > 0 then
+		trigger.action.outText("+++owdZ: Found " .. mobCount .. " MOB zones — victory requires all MOBs captured", 30)
+	else
+		trigger.action.outText("+++owdZ: No MOB zones configured — victory requires ALL zones (fallback)", 30)
+	end
+
+	-- gather ALL managed owner zones
 	trigger.action.outText("+++owdZ: Gathering all managed owner zones...", 30)
 	cfxOwnedZones.gatherAllManagedOwnedZones()
 	local managedCount = 0

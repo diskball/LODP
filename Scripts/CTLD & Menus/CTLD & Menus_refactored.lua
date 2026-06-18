@@ -178,8 +178,9 @@ local function configureCTLD(coalitionSide, cargoPrefix)
     ctldInstance.enableLoadSave = (lfs ~= nil)
     if lfs then
         ctldInstance.saveinterval = 1800
-        ctldInstance.filename = (coalitionSide == coalition.side.RED) and "missionsave_red_noviews.csv" or "missionsave_blue_noviews.csv"
-        ctldInstance.filepath = lfs.writedir() .. "Missions\\LODP_DML_1_0_CTLD_Saves\\"
+        local missionName = dcsCommon.getMissionName()
+        ctldInstance.filename = (coalitionSide == coalition.side.RED) and (missionName .. "_ctld_red.csv") or (missionName .. "_ctld_blue.csv")
+        ctldInstance.filepath = lfs.writedir() .. "Missions\\" .. missionName .. "_CTLD_Saves\\"
     end
 
     -- ==================

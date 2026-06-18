@@ -42,13 +42,28 @@
 --]]
 
 cfxBaseEnforcer = {}
-cfxBaseEnforcer.version        = "1.0.0"
+cfxBaseEnforcer.version        = "1.1.0"
 cfxBaseEnforcer.blockNeutral   = true
 cfxBaseEnforcer.blockContested = false
 cfxBaseEnforcer.searchRadius   = 3000   -- metres
 cfxBaseEnforcer.verbose        = false
 cfxBaseEnforcer.warnMessage    = true
 cfxBaseEnforcer.warnSeconds    = 15
+
+-- ── SPAWN FEE (player score) ────────────────────────────────────────────────
+-- Aircraft cost is now charged at TAKEOFF by armamentCost.lua (v1.1.0+), which
+-- avoids charging players who slot into an aircraft but don't immediately fly.
+-- Keep this false unless armamentCost is removed from the mission.
+cfxBaseEnforcer.enableSpawnCharge = false
+cfxBaseEnforcer.mainBaseType      = "MAIN BASE" -- zoneType (uppercased) exempt from fees
+cfxBaseEnforcer.spawnKickDelay    = 20          -- seconds before kicking a player who can't pay
+cfxBaseEnforcer.spawnFeeFallback  = 75          -- used when bankPenalties categorisation is unavailable
+cfxBaseEnforcer.spawnFees = {
+    modernMultirolePlane = 100,
+    coldWarBomberPlane   = 75,
+    attackHeli           = 50,
+    transportHeli        = 25,
+}
 
 -- Unit types ALLOWED to land at NEUTRAL bases (cargo-capable only).
 -- Must stay in sync with CHOPPER_CONFIG entries where troops=true or crates=true
@@ -158,6 +173,153 @@ local function kickToSpectators(playerID, unitName, reason)
     end
 end
 
+--- Resolve the net player ID from a player name. Returns number or nil
+--- (nil in single-player or when the net API is unavailable).
+local function resolvePlayerID(playerName)
+    if net and net.get_player_list then
+        for _, id in ipairs(net.get_player_list()) do
+            if net.get_name(id) == playerName then
+                return id
+            end
+        end
+    end
+    return nil
+end
+
+-- ──────────────────────────────────────────────────────────────────────────────
+-- SPAWN FEE (charged against individual player score)
+-- ──────────────────────────────────────────────────────────────────────────────
+
+--- Determine the spawn fee for a unit, by aircraft tier.
+--- Reuses bankPenalties' categorisation so tiers stay in sync. Falls back to a
+--- flat fee if bankPenalties is not loaded or the type can't be categorised.
+--- Returns (fee, categoryLabel).
+local function getSpawnFee(unit)
+    local okDesc, desc = pcall(unit.getDesc, unit)
+    if okDesc and desc and bankPenalties and bankPenalties.categorizeAircraft then
+        local category = bankPenalties.categorizeAircraft(desc, desc.typeName or "unknown")
+        local fee = cfxBaseEnforcer.spawnFees[category]
+        if fee then return fee, category end
+    end
+    return cfxBaseEnforcer.spawnFeeFallback, "uncategorised"
+end
+
+--- Scheduled re-check: kicks a player to spectators if they still can't afford
+--- the spawn fee after the grace period. Cancels silently if the player left
+--- the slot, and pays the fee if they earned enough score in the meantime.
+function cfxBaseEnforcer.spawnFeeKickCheck(args)
+    local playerName = args.playerName
+    local unitName   = args.unitName
+    local fee        = args.fee
+    local zoneName   = args.zoneName
+
+    local unit = Unit.getByName(unitName)
+    if not unit or not Unit.isExist(unit) then return end        -- left / reslotted / destroyed
+    local okP, curPlayer = pcall(unit.getPlayerName, unit)
+    if not okP or curPlayer ~= playerName then return end        -- slot taken by someone else / emptied
+
+    -- They may have earned enough score during the grace period.
+    if cfxPlayerScore and cfxPlayerScore.getPlayerScore then
+        local ps = cfxPlayerScore.getPlayerScore(playerName)
+        local have = ps.score or 0
+        if have >= fee then
+            ps.score = have - fee
+            cfxPlayerScore.setPlayerScore(playerName, ps)
+            local okId, uid = pcall(unit.getID, unit)
+            if okId and uid then
+                trigger.action.outTextForUnit(uid,
+                    "Spawn fee paid: -" .. fee .. " score. Remaining score: " .. ps.score, 15)
+            end
+            return
+        end
+    end
+
+    -- Still can't pay -> move to spectators.
+    local playerID = resolvePlayerID(playerName)
+    if playerID then
+        kickToSpectators(playerID, unitName,
+            "Insufficient score to operate from '" .. (zoneName or "this base") ..
+            "'. Spawn at a Main Base (free).")
+    end
+end
+
+--- Charge the spawn fee for a SPAWN at a friendly, non-Main-Base zone.
+--- Deducts from the player's individual cfxPlayerScore. If they can't afford it
+--- they are warned and a delayed kick is scheduled.
+local function applySpawnFee(unit, zone)
+    if not cfxBaseEnforcer.enableSpawnCharge then return end
+    if not (cfxPlayerScore and cfxPlayerScore.getPlayerScore) then return end -- score system absent
+
+    -- Main Base spawns are free.
+    if string.upper(zone.zoneType or "") == cfxBaseEnforcer.mainBaseType then return end
+
+    local playerName = unit:getPlayerName()
+    if not playerName or playerName == "" then return end
+    local unitName = unit:getName()
+    local okId, uid = pcall(unit.getID, unit)
+    if not okId then uid = nil end
+
+    local fee, category = getSpawnFee(unit)
+    if fee <= 0 then return end
+
+    local baseLabel = zone.name
+    if zone.zoneType and zone.zoneType ~= "" then
+        baseLabel = baseLabel .. " (" .. zone.zoneType .. ")"
+    end
+
+    local ps = cfxPlayerScore.getPlayerScore(playerName)
+    local have = ps.score or 0
+
+    if have >= fee then
+        ps.score = have - fee
+        cfxPlayerScore.setPlayerScore(playerName, ps)
+        if uid then
+            trigger.action.outTextForUnit(uid,
+                "Spawn fee for launching from " .. baseLabel .. ": -" .. fee ..
+                " score [" .. category .. "]. Remaining score: " .. ps.score, 15)
+        end
+        if cfxBaseEnforcer.verbose then
+            trigger.action.outText("+++BaseEnf: charged " .. playerName .. " " .. fee ..
+                " score for spawn at " .. zone.name, 10)
+        end
+    else
+        if uid then
+            trigger.action.outTextForUnit(uid,
+                "INSUFFICIENT SCORE to operate from " .. baseLabel .. ".\n" ..
+                "Required: " .. fee .. "   You have: " .. have .. "\n" ..
+                "You will be moved to SPECTATORS in " .. cfxBaseEnforcer.spawnKickDelay ..
+                " seconds.\nSpawn at a Main Base (free) instead.", cfxBaseEnforcer.spawnKickDelay)
+        end
+        local args = {
+            playerName = playerName,
+            unitName   = unitName,
+            fee        = fee,
+            zoneName   = zone.name,
+        }
+        timer.scheduleFunction(cfxBaseEnforcer.spawnFeeKickCheck, args,
+            timer.getTime() + cfxBaseEnforcer.spawnKickDelay)
+        if cfxBaseEnforcer.verbose then
+            trigger.action.outText("+++BaseEnf: " .. playerName .. " cannot afford spawn fee " ..
+                fee .. " (has " .. have .. "), kick scheduled in " .. cfxBaseEnforcer.spawnKickDelay .. "s", 10)
+        end
+    end
+end
+
+--- Read overrides from the optional "spawnFeeConfig" trigger zone.
+function cfxBaseEnforcer.readConfigZone()
+    local z = cfxZones.getZoneByName("spawnFeeConfig")
+    if not z then z = cfxZones.createSimpleZone("spawnFeeConfig") end
+
+    cfxBaseEnforcer.enableSpawnCharge = z:getBoolFromZoneProperty("enableSpawnCharge", true)
+    cfxBaseEnforcer.spawnKickDelay    = z:getNumberFromZoneProperty("spawnKickDelay", 20)
+    cfxBaseEnforcer.spawnFeeFallback  = z:getNumberFromZoneProperty("spawnFeeFallback", 75)
+    cfxBaseEnforcer.mainBaseType      = string.upper(z:getStringFromZoneProperty("mainBaseType", "Main Base"))
+    cfxBaseEnforcer.spawnFees.modernMultirolePlane = z:getNumberFromZoneProperty("modernMultirolePlaneFee", 100)
+    cfxBaseEnforcer.spawnFees.coldWarBomberPlane   = z:getNumberFromZoneProperty("coldWarBomberPlaneFee", 75)
+    cfxBaseEnforcer.spawnFees.attackHeli           = z:getNumberFromZoneProperty("attackHeliFee", 50)
+    cfxBaseEnforcer.spawnFees.transportHeli        = z:getNumberFromZoneProperty("transportHeliFee", 25)
+end
+
 -- ──────────────────────────────────────────────────────────────────────────────
 -- CORE CHECK
 -- ──────────────────────────────────────────────────────────────────────────────
@@ -241,19 +403,17 @@ local function checkUnit(unit, eventType)
                  ") may not use enemy-controlled bases."
     end
 
-    if not shouldKick then return end
+    if not shouldKick then
+        -- Player is allowed at this base. On SPAWN at a friendly non-Main-Base
+        -- zone, charge a spawn fee against their individual player score.
+        if eventType == "SPAWN" then
+            applySpawnFee(unit, zone)
+        end
+        return
+    end
 
     -- Resolve the net player ID from the player name.
-    -- net.get_player_list() returns a table of IDs; net.get_name(id) returns the name.
-    local playerID = nil
-    if net and net.get_player_list then
-        for _, id in ipairs(net.get_player_list()) do
-            if net.get_name(id) == playerName then
-                playerID = id
-                break
-            end
-        end
-    end
+    local playerID = resolvePlayerID(playerName)
 
     if playerID then
         -- Apply bank penalty before the kick so the unit still exists for lookup.
@@ -303,7 +463,17 @@ function baseEnforcerEventHandler:onEvent(event)
     end
 end
 
+-- Read optional spawn-fee overrides from the "spawnFeeConfig" zone.
+cfxBaseEnforcer.readConfigZone()
+
 -- Register the event handler with the DCS world engine.
 world.addEventHandler(baseEnforcerEventHandler)
 
-trigger.action.outText("cfxBaseEnforcer v" .. cfxBaseEnforcer.version .. " loaded.", 10)
+local feeInfo = cfxBaseEnforcer.enableSpawnCharge
+    and (" | Spawn fees (score): Modern " .. cfxBaseEnforcer.spawnFees.modernMultirolePlane
+        .. " / CW " .. cfxBaseEnforcer.spawnFees.coldWarBomberPlane
+        .. " / AtkHeli " .. cfxBaseEnforcer.spawnFees.attackHeli
+        .. " / TrnHeli " .. cfxBaseEnforcer.spawnFees.transportHeli
+        .. " (free at " .. cfxBaseEnforcer.mainBaseType .. ", " .. cfxBaseEnforcer.spawnKickDelay .. "s kick)")
+    or " | Spawn fees: DISABLED"
+trigger.action.outText("cfxBaseEnforcer v" .. cfxBaseEnforcer.version .. " loaded." .. feeInfo, 10)
