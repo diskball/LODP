@@ -310,92 +310,85 @@ Charged when taking off from any **Forward Base** (FOB, MOB, FARP). The fee is *
 | **Attack Helicopters** | 50 pts | AH-64D, Ka-50, Mi-28N, Mi-24P, OH-58D, CH-47, C-130 |
 | **Transport Helicopters** | 25 pts | UH-1H, UH-60L, Mi-8 |
 
-#### Weapon Costs (Personal Score — Permanent, Not Refunded)
+#### Weapon Costs (Personal Score — Charged on Takeoff, Partially Refunded on Landing)
 
-Every weapon loaded when you take off is charged to your score. Returning with unused weapons does **not** earn a refund — you committed to the loadout.
+Every weapon loaded when you take off is charged to your score. When you land safely, the cost of **weapons still on the rails** is refunded — only the rounds you actually expended are billed permanently. Taking off again charges for whatever is loaded at that time.
 
-**US / NATO Guided Missiles:**
+**US / NATO — Guided Missiles & ATGMs:**
 
-| Weapon | Cost per round | Weapon | Cost per round |
+| Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
-| AGM-114K Hellfire II | 50 pts | AGM-114L Longbow | 60 pts |
-| AGM-114M Hellfire BF | 50 pts | AGM-114R Hellfire R | 55 pts |
-| AGM-65D/E/F Maverick | 40 pts | AGM-65G/H Maverick | 45 pts |
-| AGM-65K Maverick | 50 pts | AGM-88 HARM | 60 pts |
-| AIM-9L Sidewinder | 25 pts | AIM-9M Sidewinder | 30 pts |
-| AIM-9X Sidewinder | 40 pts | AIM-7M/MH Sparrow | 35 pts |
+| AGM-114K Hellfire II | 45 pts | AGM-114L Longbow | 55 pts |
+| AGM-114M Hellfire BF | 45 pts | AGM-114R Hellfire R | 50 pts |
+| Vikhr-M (Ka-50/52) | 45 pts | 9M120 Ataka (Mi-28N) | 45 pts |
+| AGM-65D/E/F Maverick | 35 pts | AGM-65G/H Maverick | 40 pts |
+| AGM-65K Maverick | 45 pts | AGM-65L Maverick | 40 pts |
+| AGM-88 HARM | 55 pts | AGM-154A/C JSOW | 50/55 pts |
+| AIM-9L Sidewinder | 20 pts | AIM-9M Sidewinder | 30 pts |
+| AIM-9X Sidewinder | 45 pts | AIM-7M/MH Sparrow | 35 pts |
 | AIM-120B AMRAAM | 50 pts | AIM-120C AMRAAM | 55 pts |
+| AIM-54A Phoenix | 60 pts | AIM-54C Phoenix | 65 pts |
 
-**US / NATO Bombs & Rockets:**
+**US / NATO — Bombs & Rockets:**
 
-| Weapon | Cost per round | Weapon | Cost per round |
+| Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
 | GBU-12 Paveway II | 25 pts | GBU-10 Paveway II | 35 pts |
 | GBU-16 Paveway II | 30 pts | GBU-24 Paveway III | 35 pts |
 | GBU-38 JDAM | 20 pts | GBU-31 JDAM | 30 pts |
-| Mk-82 (all variants) | 5 pts | Mk-83 | 8 pts |
-| Mk-84 | 12 pts | BLU-107 | 10 pts |
-| Hydra 70 (all types) | 2 pts | FFAR Mk5 HEAT | 2 pts |
+| GBU-54 LJDAM | 35 pts | CBU-97 SFW | 20 pts |
+| Mk-82 (all variants) | 3 pts | Mk-83 | 6 pts |
+| Mk-84 | 10 pts | BLU-107 Durandal | 10 pts |
+| Hydra 70 (all types) | 1 pt | Zuni 5" | 3 pts |
 
-**Russian / REDFOR Guided Missiles:**
+**Russian / REDFOR — Guided Missiles:**
 
-| Weapon | Cost per round | Weapon | Cost per round |
+| Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
 | R-60M Aphid | 20 pts | R-73 Archer | 30 pts |
-| R-27R/T Alamo | 35 pts | R-27ET Alamo | 40 pts |
-| R-27ER Alamo | 45 pts | R-77 Adder | 50 pts |
-| R-77-1 Adder | 55 pts | Kh-25ML | 30 pts |
-| Kh-25MP/MPU | 35 pts | Kh-25MR | 30 pts |
-| Kh-29L/T Kedge | 40 pts | Kh-58U/E Kilter | 55 pts |
+| R-27R/T Alamo | 35 pts | R-27ER/ET Alamo | 40 pts |
+| R-77 Adder | 50 pts | R-77-1 Adder | 55 pts |
+| Kh-25ML (laser) | 30 pts | Kh-25MP/MPU (AR) | 35 pts |
+| Kh-29L/T Kedge | 35 pts | Kh-29TE Kedge | 40 pts |
+| Kh-31P (AR) | 55 pts | Kh-58U/E Kilter | 55 pts |
+| Kh-35 (anti-ship) | 45 pts | Kh-59M (cruise) | 60 pts |
 
-**Russian / REDFOR Bombs & Rockets:**
+**Russian / REDFOR — Bombs & Rockets:**
 
-| Weapon | Cost per round | Weapon | Cost per round |
+| Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
 | FAB-100 | 3 pts | FAB-250 | 6 pts |
-| FAB-500 / BETAB-500 | 10 pts | S-8 rockets | 2 pts |
-| S-13OF | 4 pts | S-24B | 8 pts |
-| S-25OFM | 12 pts | S-25L | 15 pts |
+| FAB-500 / BetAB-500 | 10 pts | KMGU-2 dispenser | 12 pts |
+| S-5 rockets (57mm) | 1 pt | S-8 rockets (80mm) | 2 pts |
+| S-13OF (122mm) | 4 pts | S-24B (240mm) | 8 pts |
+| S-25OFM (340mm) | 12 pts | S-25L (laser) | 15 pts |
 
-> **Guns and unrecognised weapons are free.** If a weapon you carry is not in the table above, it will be listed in the F10 loadout check display with its DCS name — this can be reported to add it to the cost table in a future update.
+> **Guns and unrecognised weapons are free.** If a weapon you carry is not in the table above, it will be listed in the F10 loadout check with its DCS name — report it to get it added.
+>
+> **US / Russian equivalent weapons are priced identically** (e.g. AIM-9M = R-73 = 30 pts, AIM-120B = R-77 = 50 pts, AGM-88 = Kh-31P = 55 pts).
 
 #### Example Sortie — AH-64D from Maykop (Forward Base)
 
 | Item | Cost |
 | :--- | :--- |
 | Aircraft fee (Attack Heli, forward base) | −50 pts |
-| 8× AGM-114K Hellfire II (8 × 50) | −400 pts |
-| 16× Hydra 70 rockets (16 × 2) | −32 pts |
-| **Total on takeoff** | **−482 pts** |
-| Land safely → aircraft fee refunded | **+50 pts** |
-| **Net weapons cost** | **−432 pts** |
+| 8× AGM-114K Hellfire II (8 × 45) | −360 pts |
+| 38× Hydra 70 rockets (38 × 1) | −38 pts |
+| **Total on takeoff** | **−448 pts** |
+| Fire 5 Hellfires, expend all rockets, land safely | |
+| Aircraft fee refunded | +50 pts |
+| 3 unused Hellfires refunded (3 × 45) | +135 pts |
+| **Net cost (5 Hellfires + 38 rockets expended)** | **−263 pts** |
 
 Same pilot taking off from **Tbilisi-Lochini (Main Base):** aircraft fee = **0** — weapons cost only.
 
 ---
 
-### Bank Penalties (Coalition Funds)
+### Coalition Bank & Aircraft Loss
 
-Losing a player-controlled aircraft costs your **coalition** funds from the shared bank — separate from personal score. These are deducted automatically when an aircraft is destroyed, crashes, ejects, or the pilot is killed.
-
-**Aircraft Loss Penalties:**
-
-| Aircraft Category | Coalition Penalty | Examples |
-| :--- | :--- | :--- |
-| **Modern Multi-role (Fox3)** | §150 | F-16C, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
-| **Cold War / Older Fighters** | §200 | Su-25 series, Su-27/30, M-2000C, F-4, F-5, Mirage F1 |
-| **Attack Helicopters / Heavy Cargo** | §100 | AH-64D, Ka-50, Mi-28N, Mi-24P, OH-58D, CH-47, C-130 |
-| **Transport Helicopters** | §50 | UH-1H, UH-60L, Mi-8 |
+Aircraft losses **do not** cost the coalition bank. The only personal consequence of losing an aircraft is that the **aircraft fee and any remaining weapon costs are not refunded** (the sortie fees committed at takeoff are forfeited). The coalition budget is unaffected.
 
 **Safe Landing Bonus:** Fixed-wing aircraft landing safely at a friendly base earn their coalition **§10**. Helicopters are excluded.
-
-**Penalty triggers:**
-- Aircraft destroyed in combat
-- Crash or pilot death
-- Ejection
-- Disconnecting while airborne or moving
-
-A coalition-wide message is broadcast for every penalty showing the aircraft type, amount deducted, and updated bank balance.
 
 ### Zone Control & Victory Conditions
 - **Zone Status Display:** The current status of all zones (RED, BLUE, CONTESTED, NEUTRAL) is displayed in-game after any ownership change.

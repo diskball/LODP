@@ -1,6 +1,6 @@
 # LODP: DCS Dynamic Playground PvP
 
-**LODP** (Logistics/Operational Dynamics Persistent) is a dynamic PvP mission for DCS World set in the **Caucasus** theatre, featuring persistent territorial warfare, coalition economics, and advanced logistics mechanics.
+**LODP** (Logistics/Operational Dynamics Persistent) is a dynamic PvP mission for DCS World set in the **Caucasus** theatre, featuring persistent territorial warfare, coalition economics, individual player scoring, and advanced logistics mechanics.
 
 ## About
 
@@ -10,113 +10,142 @@ This is a sophisticated multiplayer mission framework designed for cooperative t
 
 - **Persistent Progression** — Mission state survives server restarts
 - **Territory Control System** — RED vs BLUE coalitions compete for zone control
-- **Coalition Economics** — Dynamic income generation based on zone ownership
+- **Dual Economy** — Coalition bank (§) for logistics purchases, personal score (pts) for sortie costs
+- **Sortie Cost System** — Aircraft and weapon fees charged at takeoff; unused weapons refunded on landing
 - **Unit Persistence** — Ground, air, and ship units maintain state across sessions
 - **Advanced Logistics** — Helicopter cargo transport and supply management via Moose CTLD
 - **Automated Commander System** — Pathfinding and group automation with road/off-road routing
+- **MOB Defences** — AI garrison groups spawn at Main Operating Bases on capture
 
 ## Getting Started
 
 ### Mission File
 The compiled mission is located at:
 ```
-Miz files/LODP_DML_1_0_Full_Map.miz
+Miz files/LODP_DML_2_0_Bubble.miz
 ```
 
 ### Development
 For mission editing and scripting:
-1. Extract `LODP_DML.miz` (it's a ZIP archive)
-2. Edit Lua scripts in `l10n/DEFAULT/`
-3. Modify mission data in the `mission` file using DCS Mission Editor
-4. Repack and test in DCS World
+1. Edit canonical Lua scripts in `Scripts/`
+2. Copy changed scripts into the extracted miz at `Miz files/LODP_DML_2_0_Bubble - Copy/l10n/DEFAULT/`
+3. Repack the folder back into `LODP_DML_2_0_Bubble.miz` (ZIP format)
+4. Load the mission in DCS World to test
 
-See [AGENTS.md](AGENTS.md) for detailed development guidance.
+See [CLAUDE.md](CLAUDE.md) and [AGENTS.md](AGENTS.md) for detailed development guidance.
 
 ## Architecture
 
-The mission is built on **12 core Lua modules**:
+Scripts load in this order at mission start:
 
-| Module | Role |
-|--------|------|
-| dcsCommon | Foundational utilities & DCS API patches |
-| cfxZones | Zone management system (OOP) |
-| cfxMX | Mission data decoder |
-| cfxOwnedZones | Territory ownership & victory conditions |
-| bank | Coalition fund management |
-| income | Territory-based income generation |
-| commander | Group automation & pathfinding |
-| persistence | Mission state serialization |
-| unitPersistence | Unit position/state restoration |
-| CTLD & Menus | Helicopter cargo transport system |
-| baseGarrison | Auto-deploys AI garrison on zone capture |
-| Moose | Framework integration (March 2026) |
+```
+dcsCommon → cfxZones → cfxMX → bank → cfxOwnedZones → income
+→ persistence → unitPersistence → commander → CTLD & Menus (refactored)
+→ cfxBaseEnforcer → bankPenalties → armamentCost → mobDefences
+→ loadzoneMarks → spawn-GC → mist → EWRS → AutoRestart
+```
+
+### Module Reference
+
+| Module | Folder | Role |
+|--------|--------|------|
+| `dcsCommon.lua` | DML | Foundational utilities & DCS API patches |
+| `cfxZones.lua` | DML | OOP zone system (circular & polygon) |
+| `cfxMX.lua` | DML | Mission data decoder |
+| `cfxOwnedZones_modified.lua` | DML | Territory ownership & victory conditions |
+| `bank.lua` | DML | Coalition fund accounts |
+| `income.lua` | DML | Territory-based income generation |
+| `commander.lua` | DML | Group automation & pathfinding |
+| `persistence.lua` | DML | Save/load callbacks & version checking |
+| `unitPersistence.lua` | DML | Unit position/state restoration |
+| `cfxBaseEnforcer.lua` | DML | Kicks players who spawn/land at enemy bases |
+| `bankPenalties.lua` | DML | Safe-landing bank bonus; base-violation penalties |
+| `armamentCost.lua` | DML | Sortie fees (aircraft + weapons) charged at takeoff |
+| `mobDefences.lua` | DML | Spawns AI defence groups at MOB zones |
+| `loadzoneMarks.lua` | DML | F10 map marks for CTLD loadzones |
+| `spawn-GC.lua` | DML | F10 map mark commands (`explode`, `spawn-<Group>`) |
+| `CTLD & Menus_refactored.lua` | CTLD & Menus | Moose CTLD helicopter cargo system |
+| `cfxPlayerScore.lua` | CTLD & Menus | Per-player score economy & kill rewards |
+| `cfxScoreTable.lua` | CTLD & Menus | Score table display helpers |
+| `mist_4_5_128.lua` | MIST | MIST framework (required by EWRS) |
+| `EWRS_v11.8.6.lua` | Others | Early Warning Radar System |
+| `AutoRestart.lua` | Others | Schedules server restart at 5 hours |
+| `Moose_ (2).lua` | Moose | Third-party Moose framework (March 2026) |
 
 ## Key Features
 
 ### Territory Control
 - Circular and polygonal zones support ownership tracking
-- Contested zones when both coalitions present
-- Victory conditions with configurable timers
-- Dynamic zone visualization with smoke markers
+- Contested zones when both coalitions have units present
+- Victory conditions: hold all 6 MOBs for 5 minutes
+- Dynamic zone visualization with F10 map smoke markers
 
-### Economics System
-- Coalition bank accounts with starting balances
-- Income generation from controlled zones
-- Configurable income rates and intervals
-- Player notifications of economic events
+### Dual Economy System
+
+**Coalition Bank (§)** — shared funds for the whole team:
+- Starting balance: §10,000 per side
+- Income generated every 30 minutes from controlled zones and factories
+- Used to purchase CTLD units (troops, vehicles, SAMs)
+- §10 bonus deposited when a friendly fixed-wing lands safely at a friendly base
+
+**Player Score (pts)** — individual currency per pilot:
+- Starting score: 200 pts per player (configurable via `playerScoreConfig` zone)
+- Kill rewards accumulate during a sortie and post on safe landing
+- §2 per score point is also deposited into the coalition bank on landing
+- Spent on sortie costs (aircraft fee + weapon costs) at every takeoff
+
+### Sortie Cost System
+- **Aircraft fee**: charged at takeoff from any non-Main-Base; refunded on safe landing
+- **Weapon costs**: charged per weapon loaded; unused weapons on the rails are refunded on landing
+- **90-second warning**: if score is insufficient on takeoff, land and reduce loadout to cancel; stay airborne and you're moved to spectators
+- **F10 Menu → Armament → Check Loadout Cost**: previews your full sortie cost before takeoff
+- Main Bases (Anapa for RED, Tbilisi for BLUE) are always free to take off from
+
+### Kill Rewards
+- Air kills during a sortie are held as *pending* score until safe landing
+- Ground/ship kills from Combined Arms score immediately
+- Fratricide applies a ×−5 multiplier to the killer's personal score
+- Aircraft loss (crash/eject/death) costs −50 pts personal score; coalition bank unaffected
+
+### MOB Defences
+- AI defence groups spawn at each MOB zone on mission start
+- Groups respawn when a MOB changes ownership
 
 ### Persistence
-- Automatic save/load of mission state
+- Automatic save/load of mission state across server restarts
 - Module registration system with version checking
 - Ground unit position restoration
-- Bank balance recovery across server restarts
+- Bank balances recovered across restarts
 
-### Base Garrisons
-- Selected zones automatically spawn an AI garrison group when captured
-- Garrison spawns at a random position inside the zone boundary
-- Units must be eliminated before the zone can be recaptured
-- Configured per-zone via `garrison = true` zone property
-
-### Logistics
+### Logistics (CTLD)
 - Moose CTLD helicopter cargo system
 - Loadable troops and vehicles (infantry, armor, SAMs, FARP support)
-- Zone-based cargo operations at loadzones
-- Multiple airframe support: UH-1H, UH-60L, Mi-8MTV2, Mi-24P, CH-47Fbl1
+- Zone-based cargo operations at named Loadzones
+- Multi-airframe support: UH-1H, UH-60L, Mi-8, Mi-24P, CH-47Fbl1, C-130J-30
 - Combat-only airframes: AH-64D, OH-58D (Kiowa)
 
 ## Configuration
 
 All gameplay settings are configured via **trigger zones** in the mission editor:
 
-- `bankConfig` — Coalition starting funds
-- `incomeConfig` — Income rates and messaging
-- `CommanderConfig` — Pathfinding behavior
-- `baseGarrisonConfig` — Garrison spawn radius and template group names
-- Custom zones for module-specific settings
+| Zone Name | Module | Purpose |
+|-----------|--------|---------|
+| `bankConfig` | bank | Coalition starting funds |
+| `incomeConfig` | income | Income rates and messaging |
+| `CommanderConfig` | commander | Pathfinding behaviour |
+| `playerScoreConfig` | cfxPlayerScore | Starting score, kill reward multipliers |
+| `armamentCostConfig` | armamentCost | Aircraft fees, kick delay, weapon cost overrides |
+| `bankPenaltyConfig` | bankPenalties | Safe-landing bonus amount |
 
-See [AGENTS.md](AGENTS.md) for detailed configuration patterns.
+See [AGENTS.md](AGENTS.md) for detailed configuration patterns and zone property reference.
 
 ## Technical Details
 
 - **Framework**: Moose (March 2026 build) + custom Lua modules
-- **Language**: Lua (DCS mission scripting)
+- **Language**: Lua (DCS LuaJIT — Lua 5.1 compatible only)
 - **Map**: Caucasus
-- **Module System**: Dynamic loading with version checking
-- **Data Persistence**: File-based save/load with callbacks
-
-## Development Notes
-
-- All configuration should be zone-based (no hardcoding values)
-- Update module versions when making breaking changes
-- Module dependencies are declared via `requiredLibs`
-- Persistence callbacks must return `{ dataTable, sharedDataKey }`
-- Test persistence by loading fresh mission instances
-
-## Support
-
-For mission editing assistance, refer to:
-- [AGENTS.md](AGENTS.md) — Comprehensive AI agent guide with patterns and conventions
-- Individual module files in `l10n/DEFAULT/` for implementation details
+- **Module System**: Dynamic loading with version checking and `requiredLibs` declarations
+- **Data Persistence**: File-based save/load with registered callbacks
 
 ## Contributors
 
@@ -125,4 +154,4 @@ For mission editing assistance, refer to:
 
 ---
 
-*Version: LODP DML 1.0 • Last updated: May 17, 2026*
+*Version: LODP DML 2.0 • Last updated: June 2026*
