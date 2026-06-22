@@ -380,6 +380,102 @@ Same pilot taking off from **Tbilisi-Lochini (Main Base):** aircraft fee = **0**
 
 ---
 
+#### Example Sortie — F-16C Viper (CAP Loadout)
+
+**Loadout:** 4× AIM-120C-5 · 2× AIM-9X · gun (free)
+
+| Item | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
+| 4× AIM-120C-5 (4 × 55) | −220 pts | −220 pts |
+| 2× AIM-9X (2 × 45) | −90 pts | −90 pts |
+| **Total on takeoff** | **−310 pts** | **−410 pts** |
+
+*Land safely after firing 2× AIM-120C-5 and 1× AIM-9X:*
+
+| Refund on landing | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee returned | +0 pts | +100 pts |
+| 2× AIM-120C-5 on rails (2 × 55) | +110 pts | +110 pts |
+| 1× AIM-9X on rail (1 × 45) | +45 pts | +45 pts |
+| **Net cost (2 AMRAAMs + 1 Sidewinder expended)** | **−155 pts** | **−155 pts** |
+
+> Weapons cost the same regardless of departure base — only the aircraft fee differs.
+
+---
+
+#### Example Sortie — F-16C Viper (SEAD Loadout)
+
+**Loadout:** 2× AGM-88C HARM · 2× AIM-120B · 2× AIM-9M · gun (free)
+
+| Item | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
+| 2× AGM-88C HARM (2 × 55) | −110 pts | −110 pts |
+| 2× AIM-120B (2 × 50) | −100 pts | −100 pts |
+| 2× AIM-9M (2 × 30) | −60 pts | −60 pts |
+| **Total on takeoff** | **−270 pts** | **−370 pts** |
+
+*Land safely after expending both HARMs and one AMRAAM:*
+
+| Refund on landing | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee returned | +0 pts | +100 pts |
+| 1× AIM-120B on rail (1 × 50) | +50 pts | +50 pts |
+| 2× AIM-9M on rails (2 × 30) | +60 pts | +60 pts |
+| **Net cost (2 HARMs + 1 AMRAAM expended)** | **−160 pts** | **−160 pts** |
+
+---
+
+#### Example Sortie — F/A-18C Hornet (Strike Loadout)
+
+**Loadout:** 4× GBU-38 JDAM · 2× GBU-12 Paveway II · 2× AIM-120C-5 · 2× AIM-9X
+
+| Item | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
+| 4× GBU-38 JDAM (4 × 20) | −80 pts | −80 pts |
+| 2× GBU-12 Paveway II (2 × 25) | −50 pts | −50 pts |
+| 2× AIM-120C-5 (2 × 55) | −110 pts | −110 pts |
+| 2× AIM-9X (2 × 45) | −90 pts | −90 pts |
+| **Total on takeoff** | **−330 pts** | **−430 pts** |
+
+*Land safely after expending all bombs and one AMRAAM, missiles untouched:*
+
+| Refund on landing | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee returned | +0 pts | +100 pts |
+| 1× AIM-120C-5 on rail (1 × 55) | +55 pts | +55 pts |
+| 2× AIM-9X on rails (2 × 45) | +90 pts | +90 pts |
+| **Net cost (4 JDAMs + 2 Paveways + 1 AMRAAM expended)** | **−185 pts** | **−185 pts** |
+
+---
+
+#### Example Sortie — F/A-18C Hornet (Multi-role Loadout)
+
+**Loadout:** 2× AGM-65H Maverick · 2× GBU-16 Paveway II · 2× AIM-120B · 2× AIM-9M
+
+| Item | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
+| 2× AGM-65H Maverick (2 × 40) | −80 pts | −80 pts |
+| 2× GBU-16 Paveway II (2 × 30) | −60 pts | −60 pts |
+| 2× AIM-120B (2 × 50) | −100 pts | −100 pts |
+| 2× AIM-9M (2 × 30) | −60 pts | −60 pts |
+| **Total on takeoff** | **−300 pts** | **−400 pts** |
+
+*Land safely after expending one Maverick and both GBU-16s; rest returned:*
+
+| Refund on landing | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee returned | +0 pts | +100 pts |
+| 1× AGM-65H on rail (1 × 40) | +40 pts | +40 pts |
+| 2× AIM-120B on rails (2 × 50) | +100 pts | +100 pts |
+| 2× AIM-9M on rails (2 × 30) | +60 pts | +60 pts |
+| **Net cost (1 Maverick + 2 GBU-16s expended)** | **−100 pts** | **−100 pts** |
+
+---
+
 ### Coalition Bank & Aircraft Loss
 
 Aircraft losses **do not** cost the coalition bank. The only personal consequence of losing an aircraft is that the **aircraft fee and any remaining weapon costs are not refunded** (the sortie fees committed at takeoff are forfeited). The coalition budget is unaffected.
