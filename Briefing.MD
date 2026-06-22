@@ -51,7 +51,7 @@ There are **35 capturable zones** in total: 2 Main Bases, 6 MOBs, 4 FOBs, 20 FAR
 | FARP KM56 | 🔴 RED | Loadzone KM56 |
 | FARP GH30 | 🔴 RED | Loadzone GH30 |
 | FARP GH02 | 🔴 RED | Loadzone GH02 |
-| FARP FJ21 | 🔴 RED | — |
+| FARP FJ21 | 🔴 RED | Loadzone FJ21 |
 | FARP FH66 | 🔴 RED | Loadzone FH66 |
 | FARP EJ44 | 🔴 RED | Loadzone EJ44 |
 | FARP FH08 | 🔴 RED | Loadzone FH08 |
