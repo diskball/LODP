@@ -281,7 +281,6 @@ If shot down or crashed before landing: **pending score and bank contribution ar
 | Situation | Effect |
 | :--- | :--- |
 | Killing a player-controlled unit | ×1 (same as AI) |
-| Aircraft loss / crash / eject | **−50 pts** personal score immediately |
 | Fratricide (killing a friendly) | Score ×**−5** (e.g. friendly T-55 = −125 pts), personal score only — coalition bank unaffected |
 
 ---

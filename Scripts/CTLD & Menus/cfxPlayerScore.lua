@@ -1321,7 +1321,7 @@ function cfxPlayerScore.readConfigZone(theZone)
     cfxPlayerScore.pkMod = theZone:getNumberFromZoneProperty( "pkMod", 1) -- factor for killing a player
     cfxPlayerScore.ffMod = theZone:getNumberFromZoneProperty( "ffMod", -2) -- factor for friendly fire 
     cfxPlayerScore.nMod = theZone:getNumberFromZoneProperty("nMod", 1) -- factor for neutral kill. Should be -100, defaults to 1
-    cfxPlayerScore.planeLoss = theZone:getNumberFromZoneProperty("planeLoss", -10) -- points added when player's plane crashes
+    cfxPlayerScore.planeLoss = theZone:getNumberFromZoneProperty("planeLoss", 0) -- points added when player's plane crashes (0 = no extra penalty)
     cfxPlayerScore.announcer = theZone:getBoolFromZoneProperty("announcer", true)
     cfxPlayerScore.badSound = theZone:getStringFromZoneProperty("badSound", "Death BRASS.wav")
     cfxPlayerScore.scoreSound = theZone:getStringFromZoneProperty("scoreSound", "Quest Snare 3.wav")
