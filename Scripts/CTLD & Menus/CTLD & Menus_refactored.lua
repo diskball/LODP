@@ -100,7 +100,6 @@ local CHOPPER_CONFIG = {
 }
 
 local TRUCK_CONFIG = {
-    { type = "GAZ-66", troops = true, crates = true, maxCrates = 2, maxTroops = 6, length = 9, mass = 4200 },
 }
 
 local LOAD_ZONES = {

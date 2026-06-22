@@ -191,9 +191,6 @@ Troops work the same way but require no build step — they deploy immediately w
 | Build (unpack) a dropped crate | 2,000 m |
 | Build time | **30 seconds** |
 
-#### Trucks (Combined Arms)
-CA-slot truck players can also transport troops and crates using the same F10 menu. Trucks carry **6 Troops or 2 Cargo Crates**.
-
 ### Logistics Airframes & Transport Details
 Transport capabilities depend on the airframe:
 - **UH-1H:** 6 Troops or 1 Cargo Crate (Internal)
@@ -202,7 +199,7 @@ Transport capabilities depend on the airframe:
 - **Mi-8MTV2:** 12 Troops or 1 Cargo Crate (Internal)
 - **CH-47Fbl1:** 31 Troops or 2 Cargo Crates (Internal)
 - **C-130J-30:** 36 Troops or 7 Cargo Crates (Internal) — must land to load/unload
-- **Gaz-66 (Truck):** 6 Troops or 2 Cargo Crates
+
 - *Note: AH-64D and OH-58D (Kiowa) are combat-only and cannot carry troops or CTLD crates.*
 - After capturing a FARP it is necessary to deploy and build a **FARP Logistics** crate so that players are able to refuel and re-arm
 
