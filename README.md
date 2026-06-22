@@ -105,7 +105,7 @@ dcsCommon → cfxZones → cfxMX → bank → cfxOwnedZones → income
 - Air kills during a sortie are held as *pending* score until safe landing
 - Ground/ship kills from Combined Arms score immediately
 - Fratricide applies a ×−5 multiplier to the killer's personal score
-- Aircraft loss (crash/eject/death) costs −50 pts personal score; coalition bank unaffected
+- Aircraft loss (crash/eject/death): no extra score penalty; the forfeited aircraft and weapon fees are the consequence
 
 ### MOB Defences
 - AI defence groups spawn at each MOB zone on mission start

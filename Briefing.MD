@@ -301,8 +301,8 @@ Charged when taking off from any **Forward Base** (FOB, MOB, FARP). The fee is *
 
 | Aircraft Category | Fee | Examples |
 | :--- | :--- | :--- |
-| **Modern Multi-role (Fox3)** | 100 pts | F-16C, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
-| **Cold War / Older Fighters** | 75 pts | Su-25 series, Su-27/30, M-2000C, F-4, F-5, Mirage F1 |
+| **Modern Multi-role (Fox3)** | 400 pts | F-16C, FA-18C, MiG-29S, JF-17, J-11A, F-15C/E |
+| **Cold War / Older Fighters** | 175 pts | Su-25 series, Su-27/30, M-2000C, F-4, F-5, Mirage F1 |
 | **Attack Helicopters** | 50 pts | AH-64D, Ka-50, Mi-28N, Mi-24P, OH-58D, CH-47, C-130 |
 | **Transport Helicopters** | 25 pts | UH-1H, UH-60L, Mi-8 |
 
@@ -310,169 +310,211 @@ Charged when taking off from any **Forward Base** (FOB, MOB, FARP). The fee is *
 
 Every weapon loaded when you take off is charged to your score. When you land safely, the cost of **weapons still on the rails** is refunded — only the rounds you actually expended are billed permanently. Taking off again charges for whatever is loaded at that time.
 
-**US / NATO — Guided Missiles & ATGMs:**
+**What costs score:** Standoff precision weapons — AMRAAMs, HARMs, ATGMs, Hellfires, JDAMs, Mavericks, and advanced AAMs.
+
+**What is free:** Unguided bombs, all rockets, laser-guided bombs (GBU-12/16/10/24), unguided Russian bombs and rockets, and short-range IR AAMs up to and including AIM-9M / R-73.
+
+**ATGMs & Helicopter Missiles:**
 
 | Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
-| AGM-114K Hellfire II | 45 pts | AGM-114L Longbow | 55 pts |
-| AGM-114M Hellfire BF | 45 pts | AGM-114R Hellfire R | 50 pts |
+| AGM-114K Hellfire II | 45 pts | AGM-114L Longbow Hellfire | 55 pts |
+| AGM-114M Hellfire BF | 45 pts | AGM-114R Hellfire Romeo | 50 pts |
 | Vikhr-M (Ka-50/52) | 45 pts | 9M120 Ataka (Mi-28N) | 45 pts |
-| AGM-65D/E/F Maverick | 35 pts | AGM-65G/H Maverick | 40 pts |
-| AGM-65K Maverick | 45 pts | AGM-65L Maverick | 40 pts |
-| AGM-88 HARM | 55 pts | AGM-154A/C JSOW | 50/55 pts |
-| AIM-9L Sidewinder | 20 pts | AIM-9M Sidewinder | 30 pts |
-| AIM-9X Sidewinder | 45 pts | AIM-7M/MH Sparrow | 35 pts |
-| AIM-120B AMRAAM | 50 pts | AIM-120C AMRAAM | 55 pts |
-| AIM-54A Phoenix | 60 pts | AIM-54C Phoenix | 65 pts |
+| 9M114 Shturm (Mi-24V) | 30 pts | HOT-3 (Tiger UHT) | 35 pts |
 
-**US / NATO — Bombs & Rockets:**
+**Fixed-Wing Air-to-Ground Missiles:**
 
 | Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
-| GBU-12 Paveway II | 25 pts | GBU-10 Paveway II | 35 pts |
-| GBU-16 Paveway II | 30 pts | GBU-24 Paveway III | 35 pts |
-| GBU-38 JDAM | 20 pts | GBU-31 JDAM | 30 pts |
-| GBU-54 LJDAM | 35 pts | CBU-97 SFW | 20 pts |
-| Mk-82 (all variants) | 3 pts | Mk-83 | 6 pts |
-| Mk-84 | 10 pts | BLU-107 Durandal | 10 pts |
-| Hydra 70 (all types) | 1 pt | Zuni 5" | 3 pts |
+| AGM-88 / AGM-88C HARM | 55 pts | AGM-154C JSOW (unitary) | 55 pts |
+| AGM-154A JSOW (cluster) | 30 pts | Kh-25MPU (anti-radiation) | 35 pts |
+| Mavericks — all variants | 20 pts | Russian AGMs (Kh-25/29/31/58/59) | 20 pts |
 
-**Russian / REDFOR — Guided Missiles:**
+**Air-to-Air Missiles:**
 
 | Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
-| R-60M Aphid | 20 pts | R-73 Archer | 30 pts |
-| R-27R/T Alamo | 35 pts | R-27ER/ET Alamo | 40 pts |
-| R-77 Adder | 50 pts | R-77-1 Adder | 55 pts |
-| Kh-25ML (laser) | 30 pts | Kh-25MP/MPU (AR) | 35 pts |
-| Kh-29L/T Kedge | 35 pts | Kh-29TE Kedge | 40 pts |
-| Kh-31P (AR) | 55 pts | Kh-58U/E Kilter | 55 pts |
-| Kh-35 (anti-ship) | 45 pts | Kh-59M (cruise) | 60 pts |
+| AIM-120C / AIM-120C-5 | 55 pts | R-77 / R-77-1 / SD-10 | 55 pts |
+| AIM-120B AMRAAM | 26 pts | AIM-54A Phoenix | 30 pts |
+| AIM-9X Sidewinder | 20 pts | AIM-54C Phoenix | 30 pts |
+| AIM-7 Sparrow (all) | 10–20 pts | R-27R/T Alamo | 10 pts |
+| R-27ER / R-27ET | 20 pts | — | — |
+| AIM-9M and below | **free** | R-73 / R-60M and below | **free** |
 
-**Russian / REDFOR — Bombs & Rockets:**
+**Guided Bombs & Cluster:**
 
 | Weapon | Cost | Weapon | Cost |
 | :--- | :--- | :--- | :--- |
-| FAB-100 | 3 pts | FAB-250 | 6 pts |
-| FAB-500 / BetAB-500 | 10 pts | KMGU-2 dispenser | 12 pts |
-| S-5 rockets (57mm) | 1 pt | S-8 rockets (80mm) | 2 pts |
-| S-13OF (122mm) | 4 pts | S-24B (240mm) | 8 pts |
-| S-25OFM (340mm) | 12 pts | S-25L (laser) | 15 pts |
+| GBU-31 BLU-109 JDAM | 35 pts | GBU-31 / GBU-31 Mk84 JDAM | 30 pts |
+| GBU-54 LJDAM | 30 pts | GBU-32 JDAM (1000 lb) | 25 pts |
+| GBU-38 JDAM (500 lb) | 20 pts | CBU-105 SFW+WCMD | 25 pts |
+| CBU-97 / CBU-103 | 10 pts | KMGU-2 dispenser | 12 pts |
+| LGBs (GBU-12/16/10/24) | **free** | Unguided bombs & rockets | **free** |
 
-> **Guns and unrecognised weapons are free.** If a weapon you carry is not in the table above, it will be listed in the F10 loadout check with its DCS name — report it to get it added.
->
-> **US / Russian equivalent weapons are priced identically** (e.g. AIM-9M = R-73 = 30 pts, AIM-120B = R-77 = 50 pts, AGM-88 = Kh-31P = 55 pts).
-
-#### Example Sortie — AH-64D from Maykop (Forward Base)
-
-| Item | Cost |
-| :--- | :--- |
-| Aircraft fee (Attack Heli, forward base) | −50 pts |
-| 8× AGM-114K Hellfire II (8 × 45) | −360 pts |
-| 38× Hydra 70 rockets (38 × 1) | −38 pts |
-| **Total on takeoff** | **−448 pts** |
-| Fire 5 Hellfires, expend all rockets, land safely | |
-| Aircraft fee refunded | +50 pts |
-| 3 unused Hellfires refunded (3 × 45) | +135 pts |
-| **Net cost (5 Hellfires + 38 rockets expended)** | **−263 pts** |
-
-Same pilot taking off from **Tbilisi-Lochini (Main Base):** aircraft fee = **0** — weapons cost only.
+> **Guns and unrecognised weapons are free.** The F10 loadout check will list any unrecognised weapon with its DCS name — report it to get it priced.
 
 ---
 
-#### Example Sortie — F-16C Viper (CAP Loadout)
+#### Example — AH-64D Apache: Full Hellfire Load
+
+**Loadout:** 8× AGM-114K Hellfire II · 38× Hydra 70 (free) · gun (free)
+
+| Item | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee (Attack Heli) | 0 pts | −50 pts |
+| 8× AGM-114K (8 × 45) | −360 pts | −360 pts |
+| 38× Hydra 70 | free | free |
+| **Total on takeoff** | **−360 pts** | **−410 pts** |
+
+*Fire 5 Hellfires, land safely with 3 remaining:*
+
+| Refund on landing | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee returned | +0 pts | +50 pts |
+| 3× AGM-114K on rails (3 × 45) | +135 pts | +135 pts |
+| **Net cost (5 Hellfires expended)** | **−225 pts** | **−225 pts** |
+
+---
+
+#### Example — AH-64D Apache: Longbow Mixed Load
+
+**Loadout:** 4× AGM-114K Hellfire II · 4× AGM-114L Longbow · rockets (free)
+
+| Item | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee (Attack Heli) | 0 pts | −50 pts |
+| 4× AGM-114K (4 × 45) | −180 pts | −180 pts |
+| 4× AGM-114L (4 × 55) | −220 pts | −220 pts |
+| **Total on takeoff** | **−400 pts** | **−450 pts** |
+
+*Fire 2× AGM-114K and 2× AGM-114L, land with the other 4:*
+
+| Refund on landing | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee returned | +0 pts | +50 pts |
+| 2× AGM-114K on rails (2 × 45) | +90 pts | +90 pts |
+| 2× AGM-114L on rails (2 × 55) | +110 pts | +110 pts |
+| **Net cost (2× Hellfire II + 2× Longbow expended)** | **−200 pts** | **−200 pts** |
+
+---
+
+#### Example — F-16C Viper: CAP Loadout
 
 **Loadout:** 4× AIM-120C-5 · 2× AIM-9X · gun (free)
 
 | Item | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
+| Aircraft fee (Modern Multi-role) | 0 pts | −400 pts |
 | 4× AIM-120C-5 (4 × 55) | −220 pts | −220 pts |
-| 2× AIM-9X (2 × 45) | −90 pts | −90 pts |
-| **Total on takeoff** | **−310 pts** | **−410 pts** |
+| 2× AIM-9X (2 × 20) | −40 pts | −40 pts |
+| **Total on takeoff** | **−260 pts** | **−660 pts** |
 
-*Land safely after firing 2× AIM-120C-5 and 1× AIM-9X:*
+*Fire 2× AIM-120C-5, land with the rest:*
 
 | Refund on landing | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee returned | +0 pts | +100 pts |
+| Aircraft fee returned | +0 pts | +400 pts |
 | 2× AIM-120C-5 on rails (2 × 55) | +110 pts | +110 pts |
-| 1× AIM-9X on rail (1 × 45) | +45 pts | +45 pts |
-| **Net cost (2 AMRAAMs + 1 Sidewinder expended)** | **−155 pts** | **−155 pts** |
+| 2× AIM-9X on rails (2 × 20) | +40 pts | +40 pts |
+| **Net cost (2 AMRAAMs expended)** | **−110 pts** | **−110 pts** |
 
-> Weapons cost the same regardless of departure base — only the aircraft fee differs.
+> The aircraft fee is the dominant cost when flying from a forward base — weapons cost the same regardless of where you depart.
 
 ---
 
-#### Example Sortie — F-16C Viper (SEAD Loadout)
+#### Example — F-16C Viper: SEAD Loadout
 
-**Loadout:** 2× AGM-88C HARM · 2× AIM-120B · 2× AIM-9M · gun (free)
+**Loadout:** 2× AGM-88C HARM · 2× AIM-120B · 2× AIM-9M (free) · gun (free)
 
 | Item | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
+| Aircraft fee (Modern Multi-role) | 0 pts | −400 pts |
 | 2× AGM-88C HARM (2 × 55) | −110 pts | −110 pts |
-| 2× AIM-120B (2 × 50) | −100 pts | −100 pts |
-| 2× AIM-9M (2 × 30) | −60 pts | −60 pts |
-| **Total on takeoff** | **−270 pts** | **−370 pts** |
+| 2× AIM-120B (2 × 26) | −52 pts | −52 pts |
+| 2× AIM-9M | free | free |
+| **Total on takeoff** | **−162 pts** | **−562 pts** |
 
-*Land safely after expending both HARMs and one AMRAAM:*
+*Expend both HARMs and one AMRAAM, land with 1 AMRAAM + 2× AIM-9M:*
 
 | Refund on landing | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee returned | +0 pts | +100 pts |
-| 1× AIM-120B on rail (1 × 50) | +50 pts | +50 pts |
-| 2× AIM-9M on rails (2 × 30) | +60 pts | +60 pts |
-| **Net cost (2 HARMs + 1 AMRAAM expended)** | **−160 pts** | **−160 pts** |
+| Aircraft fee returned | +0 pts | +400 pts |
+| 1× AIM-120B on rail (1 × 26) | +26 pts | +26 pts |
+| 2× AIM-9M | free | free |
+| **Net cost (2 HARMs + 1 AMRAAM expended)** | **−136 pts** | **−136 pts** |
 
 ---
 
-#### Example Sortie — F/A-18C Hornet (Strike Loadout)
+#### Example — F-16C Viper: Maverick CAS Loadout
 
-**Loadout:** 4× GBU-38 JDAM · 2× GBU-12 Paveway II · 2× AIM-120C-5 · 2× AIM-9X
+**Loadout:** 4× AGM-65H Maverick · 2× AIM-120C-5 · 2× AIM-9M (free) · gun (free)
 
 | Item | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
-| 4× GBU-38 JDAM (4 × 20) | −80 pts | −80 pts |
-| 2× GBU-12 Paveway II (2 × 25) | −50 pts | −50 pts |
+| Aircraft fee (Modern Multi-role) | 0 pts | −400 pts |
+| 4× AGM-65H Maverick (4 × 20) | −80 pts | −80 pts |
 | 2× AIM-120C-5 (2 × 55) | −110 pts | −110 pts |
-| 2× AIM-9X (2 × 45) | −90 pts | −90 pts |
-| **Total on takeoff** | **−330 pts** | **−430 pts** |
+| 2× AIM-9M | free | free |
+| **Total on takeoff** | **−190 pts** | **−590 pts** |
 
-*Land safely after expending all bombs and one AMRAAM, missiles untouched:*
+*Fire all Mavericks and 1 AMRAAM, land with 1 AMRAAM + AIM-9Ms:*
 
 | Refund on landing | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee returned | +0 pts | +100 pts |
+| Aircraft fee returned | +0 pts | +400 pts |
 | 1× AIM-120C-5 on rail (1 × 55) | +55 pts | +55 pts |
-| 2× AIM-9X on rails (2 × 45) | +90 pts | +90 pts |
-| **Net cost (4 JDAMs + 2 Paveways + 1 AMRAAM expended)** | **−185 pts** | **−185 pts** |
+| 2× AIM-9M | free | free |
+| **Net cost (4 Mavericks + 1 AMRAAM expended)** | **−135 pts** | **−135 pts** |
 
 ---
 
-#### Example Sortie — F/A-18C Hornet (Multi-role Loadout)
+#### Example — F/A-18C Hornet: Strike Loadout
 
-**Loadout:** 2× AGM-65H Maverick · 2× GBU-16 Paveway II · 2× AIM-120B · 2× AIM-9M
+**Loadout:** 4× GBU-38 JDAM · 2× GBU-12 Paveway II (free) · 2× AIM-120C-5 · 2× AIM-9X
 
 | Item | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee (Modern Multi-role) | 0 pts | −100 pts |
-| 2× AGM-65H Maverick (2 × 40) | −80 pts | −80 pts |
-| 2× GBU-16 Paveway II (2 × 30) | −60 pts | −60 pts |
-| 2× AIM-120B (2 × 50) | −100 pts | −100 pts |
-| 2× AIM-9M (2 × 30) | −60 pts | −60 pts |
-| **Total on takeoff** | **−300 pts** | **−400 pts** |
+| Aircraft fee (Modern Multi-role) | 0 pts | −400 pts |
+| 4× GBU-38 JDAM (4 × 20) | −80 pts | −80 pts |
+| 2× GBU-12 Paveway II | free | free |
+| 2× AIM-120C-5 (2 × 55) | −110 pts | −110 pts |
+| 2× AIM-9X (2 × 20) | −40 pts | −40 pts |
+| **Total on takeoff** | **−230 pts** | **−630 pts** |
 
-*Land safely after expending one Maverick and both GBU-16s; rest returned:*
+*Drop all JDAMs and GBU-12s, fire 1 AMRAAM, land with 1 AMRAAM + AIM-9Xs:*
 
 | Refund on landing | Main Base | FOB / MOB |
 | :--- | ---: | ---: |
-| Aircraft fee returned | +0 pts | +100 pts |
-| 1× AGM-65H on rail (1 × 40) | +40 pts | +40 pts |
-| 2× AIM-120B on rails (2 × 50) | +100 pts | +100 pts |
-| 2× AIM-9M on rails (2 × 30) | +60 pts | +60 pts |
-| **Net cost (1 Maverick + 2 GBU-16s expended)** | **−100 pts** | **−100 pts** |
+| Aircraft fee returned | +0 pts | +400 pts |
+| 1× AIM-120C-5 on rail (1 × 55) | +55 pts | +55 pts |
+| 2× AIM-9X on rails (2 × 20) | +40 pts | +40 pts |
+| **Net cost (4 JDAMs + 2 LGBs + 1 AMRAAM expended)** | **−135 pts** | **−135 pts** |
+
+---
+
+#### Example — F/A-18C Hornet: Maverick + JDAM Mixed
+
+**Loadout:** 2× AGM-65H Maverick · 4× GBU-38 JDAM · 2× AIM-120B · 2× AIM-9M (free)
+
+| Item | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee (Modern Multi-role) | 0 pts | −400 pts |
+| 2× AGM-65H Maverick (2 × 20) | −40 pts | −40 pts |
+| 4× GBU-38 JDAM (4 × 20) | −80 pts | −80 pts |
+| 2× AIM-120B (2 × 26) | −52 pts | −52 pts |
+| 2× AIM-9M | free | free |
+| **Total on takeoff** | **−172 pts** | **−572 pts** |
+
+*Fire both Mavericks and 2× GBU-38, land with 2 JDAMs + both AMRAAMs:*
+
+| Refund on landing | Main Base | FOB / MOB |
+| :--- | ---: | ---: |
+| Aircraft fee returned | +0 pts | +400 pts |
+| 2× GBU-38 on rails (2 × 20) | +40 pts | +40 pts |
+| 2× AIM-120B on rails (2 × 26) | +52 pts | +52 pts |
+| 2× AIM-9M | free | free |
+| **Net cost (2 Mavericks + 2 JDAMs expended)** | **−80 pts** | **−80 pts** |
 
 ---
 

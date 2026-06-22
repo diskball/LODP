@@ -57,8 +57,8 @@ armamentCost.mainBaseType         = "MAIN BASE"
 armamentCost.aircraftSearchRadius = 3000         -- metres, same as cfxBaseEnforcer
 armamentCost.aircraftCostFallback = 75
 armamentCost.aircraftCosts = {
-    modernMultirolePlane = 100,
-    coldWarBomberPlane   = 75,
+    modernMultirolePlane = 400,
+    coldWarBomberPlane   = 175,
     attackHeli           = 50,
     transportHeli        = 25,
 }
@@ -83,118 +83,118 @@ armamentCost.weaponCosts = {
     ["HOT2T"]            = 30,   -- HOT-2T
 
     -- ── MAVERICKS ─────────────────────────────────────────────────────────────
-    ["AGM_65D"]          = 35,   -- Maverick D  (IR seeker)          ↔ Kh-29T
-    ["AGM_65E"]          = 35,   -- Maverick E  (laser seeker)       ↔ Kh-29L
-    ["AGM_65F"]          = 35,   -- Maverick F  (IR enhanced)
-    ["AGM_65G"]          = 40,   -- Maverick G  (IR, heavy WH)       ↔ Kh-29TE
-    ["AGM_65H"]          = 40,   -- Maverick H  (CCD seeker)
-    ["AGM_65K"]          = 45,   -- Maverick K  (CCD, heavy WH)
-    ["AGM_65L"]          = 40,   -- Maverick L  (laser, heavy WH)
+    ["AGM_65D"]          = 20,   -- Maverick D  (IR seeker)          ↔ Kh-29T
+    ["AGM_65E"]          = 20,   -- Maverick E  (laser seeker)       ↔ Kh-29L
+    ["AGM_65F"]          = 20,   -- Maverick F  (IR enhanced)
+    ["AGM_65G"]          = 20,   -- Maverick G  (IR, heavy WH)       ↔ Kh-29TE
+    ["AGM_65H"]          = 20,   -- Maverick H  (CCD seeker)
+    ["AGM_65K"]          = 20,   -- Maverick K  (CCD, heavy WH)
+    ["AGM_65L"]          = 20,   -- Maverick L  (laser, heavy WH)
 
     -- ── HARM / ANTI-RADIATION (US) ────────────────────────────────────────────
     ["AGM_88"]           = 55,   -- AGM-88A/B HARM                   ↔ Kh-58U / Kh-31P
     ["AGM_88C"]          = 55,   -- AGM-88C HARM Block 5             ↔ Kh-58E / Kh-31PD
-    ["AGM_45"]           = 25,   -- AGM-45 Shrike (old anti-radiation)
-    ["AGM_122"]          = 25,   -- AGM-122 Sidearm (AV-8B)
+    ["AGM_45"]           = 0,   -- AGM-45 Shrike (old anti-radiation)
+    ["AGM_122"]          = 0,   -- AGM-122 Sidearm (AV-8B)
 
     -- ── JSOW ──────────────────────────────────────────────────────────────────
-    ["AGM_154A"]         = 50,   -- AGM-154A JSOW (submunitions, GPS)
+    ["AGM_154A"]         = 30,   -- AGM-154A JSOW (submunitions, GPS)
     ["AGM_154C"]         = 55,   -- AGM-154C JSOW (unitary, GPS + IIR)
 
     -- ── RUSSIAN AGM / ANTI-RADIATION ─────────────────────────────────────────
-    ["Kh_25ML"]          = 30,   -- Kh-25ML  (laser)                ↔ GBU-12 tier
-    ["Kh_25MR"]          = 30,   -- Kh-25MR  (radar seeker)
-    ["Kh_25MP"]          = 35,   -- Kh-25MP  (anti-radiation)
+    ["Kh_25ML"]          = 20,   -- Kh-25ML  (laser)                ↔ GBU-12 tier
+    ["Kh_25MR"]          = 20,   -- Kh-25MR  (radar seeker)
+    ["Kh_25MP"]          = 20,   -- Kh-25MP  (anti-radiation)
     ["Kh_25MPU"]         = 35,   -- Kh-25MPU (anti-radiation, upgraded)
-    ["Kh_29L"]           = 35,   -- Kh-29L   (laser)                ↔ AGM-65E
-    ["Kh_29T"]           = 35,   -- Kh-29T   (TV seeker)            ↔ AGM-65D
-    ["Kh_29TE"]          = 40,   -- Kh-29TE  (enhanced TV)          ↔ AGM-65G
-    ["Kh_31A"]           = 50,   -- Kh-31A   (anti-ship supersonic)
-    ["Kh_31P"]           = 55,   -- Kh-31P   (anti-radiation)       ↔ AGM-88
-    ["Kh_31PD"]          = 55,   -- Kh-31PD  (anti-radiation enhanced) ↔ AGM-88C
-    ["Kh_35"]            = 45,   -- Kh-35    (anti-ship cruise)
-    ["Kh_35UE"]          = 45,   -- Kh-35UE  (upgraded)
-    ["Kh_58U"]           = 55,   -- Kh-58U   (anti-radiation)       ↔ AGM-88
-    ["Kh_58E"]           = 55,   -- Kh-58E   (anti-radiation enhanced) ↔ AGM-88C
-    ["Kh_59M"]           = 60,   -- Kh-59M   (TV cruise missile, long-range)
+    ["Kh_29L"]           = 20,   -- Kh-29L   (laser)                ↔ AGM-65E
+    ["Kh_29T"]           = 20,   -- Kh-29T   (TV seeker)            ↔ AGM-65D
+    ["Kh_29TE"]          = 20,   -- Kh-29TE  (enhanced TV)          ↔ AGM-65G
+    ["Kh_31A"]           = 20,   -- Kh-31A   (anti-ship supersonic)
+    ["Kh_31P"]           = 20,   -- Kh-31P   (anti-radiation)       ↔ AGM-88
+    ["Kh_31PD"]          = 20,   -- Kh-31PD  (anti-radiation enhanced) ↔ AGM-88C
+    ["Kh_35"]            = 20,   -- Kh-35    (anti-ship cruise)
+    ["Kh_35UE"]          = 20,   -- Kh-35UE  (upgraded)
+    ["Kh_58U"]           = 20,   -- Kh-58U   (anti-radiation)       ↔ AGM-88
+    ["Kh_58E"]           = 20,   -- Kh-58E   (anti-radiation enhanced) ↔ AGM-88C
+    ["Kh_59M"]           = 20,   -- Kh-59M   (TV cruise missile, long-range)
 
     -- ── SHORT-RANGE IR AAM: 1950s–60s ─────────────────────────────────────────
-    ["AIM_9B"]           = 5,    -- AIM-9B Sidewinder (front-aspect only)
-    ["AIM_9D"]           = 8,    -- AIM-9D Sidewinder
-    ["AIM_9J"]           = 8,    -- AIM-9J Sidewinder
-    ["R_3S"]             = 5,    -- R-3S (copy of AIM-9B)           ↔ AIM-9B
+    ["AIM_9B"]           = 0,    -- AIM-9B Sidewinder (front-aspect only)
+    ["AIM_9D"]           = 0,    -- AIM-9D Sidewinder
+    ["AIM_9J"]           = 0,    -- AIM-9J Sidewinder
+    ["R_3S"]             = 0,    -- R-3S (copy of AIM-9B)           ↔ AIM-9B
     ["R_3R"]             = 8,    -- R-3R (radar-guided variant)
-    ["R_13M"]            = 10,   -- R-13M (MiG-21 era)
-    ["R_13M1"]           = 12,   -- R-13M1 (improved)
-    ["R_55"]             = 5,    -- RS-2US (MiG-19 beam-rider)
+    ["R_13M"]            = 0,   -- R-13M (MiG-21 era)
+    ["R_13M1"]           = 0,   -- R-13M1 (improved)
+    ["R_55"]             = 0,    -- RS-2US (MiG-19 beam-rider)
 
     -- ── SHORT-RANGE IR AAM: MODERN ────────────────────────────────────────────
-    ["AIM_9P"]           = 15,   -- AIM-9P Sidewinder P             ↔ R-60
-    ["AIM_9P3"]          = 15,   -- AIM-9P3
-    ["AIM_9P5"]          = 18,   -- AIM-9P5 (upgraded)
-    ["R_60"]             = 15,   -- R-60    (no fuze upgrade)        ↔ AIM-9P
-    ["R_60M"]            = 20,   -- R-60M   (proximity fuze)        ↔ AIM-9L
-    ["AIM_9L"]           = 20,   -- AIM-9L  (all-aspect IR)         ↔ R-60M
-    ["AIM_9M"]           = 30,   -- AIM-9M  (IRCCM, snap-turn)      ↔ R-73
-    ["R_73"]             = 30,   -- R-73    (IRCCM, thrust-vector)  ↔ AIM-9M
-    ["AIM_9X"]           = 45,   -- AIM-9X  (HOBS + datalink, top-tier)
+    ["AIM_9P"]           = 0,   -- AIM-9P Sidewinder P             ↔ R-60
+    ["AIM_9P3"]          = 0,   -- AIM-9P3
+    ["AIM_9P5"]          = 0,   -- AIM-9P5 (upgraded)
+    ["R_60"]             = 0,   -- R-60    (no fuze upgrade)        ↔ AIM-9P
+    ["R_60M"]            = 0,   -- R-60M   (proximity fuze)        ↔ AIM-9L
+    ["AIM_9L"]           = 0,   -- AIM-9L  (all-aspect IR)         ↔ R-60M
+    ["AIM_9M"]           = 0,   -- AIM-9M  (IRCCM, snap-turn)      ↔ R-73
+    ["R_73"]             = 0,   -- R-73    (IRCCM, thrust-vector)  ↔ AIM-9M
+    ["AIM_9X"]           = 20,   -- AIM-9X  (HOBS + datalink, top-tier)
 
     -- ── MEDIUM-RANGE AAM: SEMI-ACTIVE RADAR ──────────────────────────────────
-    ["AIM_7D"]           = 20,   -- AIM-7D Sparrow D
-    ["AIM_7E"]           = 22,   -- AIM-7E Sparrow E
-    ["AIM_7E2"]          = 25,   -- AIM-7E-2 Sparrow E2
-    ["AIM_7F"]           = 30,   -- AIM-7F  Sparrow F               ↔ R-23R / R-24R
-    ["AIM_7M"]           = 35,   -- AIM-7M  Sparrow M               ↔ R-27R
-    ["AIM_7MH"]          = 35,   -- AIM-7MH Sparrow MH              ↔ R-27T
-    ["AIM_7P"]           = 40,   -- AIM-7P  Sparrow P               ↔ R-27ER
-    ["R_23R"]            = 30,   -- R-23R   (semi-active)           ↔ AIM-7F
-    ["R_23T"]            = 28,   -- R-23T   (IR version)
-    ["P_24R"]            = 30,   -- R-24R   (semi-active, MiG-23/25) ↔ AIM-7F
-    ["P_24T"]            = 28,   -- R-24T   (IR version)
-    ["R_27R"]            = 35,   -- R-27R   (semi-active)           ↔ AIM-7M
-    ["R_27T"]            = 35,   -- R-27T   (IR seeker)             ↔ AIM-7MH
-    ["R_27ER"]           = 40,   -- R-27ER  (extended range SARH)   ↔ AIM-7P
-    ["R_27ET"]           = 40,   -- R-27ET  (extended range IR)
+    ["AIM_7D"]           = 10,   -- AIM-7D Sparrow D
+    ["AIM_7E"]           = 10,   -- AIM-7E Sparrow E
+    ["AIM_7E2"]          = 10,   -- AIM-7E-2 Sparrow E2
+    ["AIM_7F"]           = 10,   -- AIM-7F  Sparrow F               ↔ R-23R / R-24R
+    ["AIM_7M"]           = 10,   -- AIM-7M  Sparrow M               ↔ R-27R
+    ["AIM_7MH"]          = 10,   -- AIM-7MH Sparrow MH              ↔ R-27T
+    ["AIM_7P"]           = 20,   -- AIM-7P  Sparrow P               ↔ R-27ER
+    ["R_23R"]            = 10,   -- R-23R   (semi-active)           ↔ AIM-7F
+    ["R_23T"]            = 10,   -- R-23T   (IR version)
+    ["P_24R"]            = 10,   -- R-24R   (semi-active, MiG-23/25) ↔ AIM-7F
+    ["P_24T"]            = 10,   -- R-24T   (IR version)
+    ["R_27R"]            = 10,   -- R-27R   (semi-active)           ↔ AIM-7M
+    ["R_27T"]            = 10,   -- R-27T   (IR seeker)             ↔ AIM-7MH
+    ["R_27ER"]           = 20,   -- R-27ER  (extended range SARH)   ↔ AIM-7P
+    ["R_27ET"]           = 20,   -- R-27ET  (extended range IR)
     -- MiG-25 legacy long-range SARH
-    ["R_4R"]             = 20,   -- R-4R  (MiG-25, old)
-    ["R_4T"]             = 20,   -- R-4T  (MiG-25 IR, old)
-    ["R_40R"]            = 25,   -- R-40R (MiG-25, upgraded SARH)
-    ["R_40T"]            = 25,   -- R-40T (MiG-25, IR upgraded)
+    ["R_4R"]             = 10,   -- R-4R  (MiG-25, old)
+    ["R_4T"]             = 10,   -- R-4T  (MiG-25 IR, old)
+    ["R_40R"]            = 10,   -- R-40R (MiG-25, upgraded SARH)
+    ["R_40T"]            = 10,   -- R-40T (MiG-25, IR upgraded)
     -- European SARH equivalents
-    ["Super_530D"]       = 35,   -- Super 530D (Mirage 2000C)       ↔ AIM-7M
-    ["Super_530F"]       = 30,   -- Super 530F (Mirage F1)          ↔ AIM-7F
-    ["Skyflash"]         = 35,   -- Skyflash  (Tornado / Phantom UK) ↔ AIM-7M
-    ["Rb71"]             = 35,   -- Rb 71 Skyflash (AJS37 Viggen)   ↔ AIM-7M
+    ["Super_530D"]       = 10,   -- Super 530D (Mirage 2000C)       ↔ AIM-7M
+    ["Super_530F"]       = 10,   -- Super 530F (Mirage F1)          ↔ AIM-7F
+    ["Skyflash"]         = 10,   -- Skyflash  (Tornado / Phantom UK) ↔ AIM-7M
+    ["Rb71"]             = 10,   -- Rb 71 Skyflash (AJS37 Viggen)   ↔ AIM-7M
 
     -- ── BEYOND-VISUAL-RANGE AAM: ACTIVE RADAR ────────────────────────────────
-    ["AIM_120B"]         = 50,   -- AIM-120B AMRAAM                 ↔ R-77
+    ["AIM_120B"]         = 26,   -- AIM-120B AMRAAM                 ↔ R-77
     ["AIM_120C"]         = 55,   -- AIM-120C AMRAAM C               ↔ R-77-1
     ["AIM_120C_5"]       = 55,   -- AIM-120C-5 AMRAAM               ↔ R-77-1
-    ["R_77"]             = 50,   -- R-77 Adder (active BVR)         ↔ AIM-120B
+    ["R_77"]             = 55,   -- R-77 Adder (active BVR)         ↔ AIM-120B
     ["R_77_1"]           = 55,   -- R-77-1 (improved)               ↔ AIM-120C
-    ["SD_10"]            = 50,   -- PL-12 / SD-10 (JF-17)          ↔ AIM-120B
-    ["PL_12"]            = 50,   -- PL-12 alternate typeName
+    ["SD_10"]            = 55,   -- PL-12 / SD-10 (JF-17)          ↔ AIM-120B
+    ["PL_12"]            = 55,   -- PL-12 alternate typeName
 
     -- ── LONG-RANGE AAM: PHOENIX (F-14) ───────────────────────────────────────
-    ["AIM_54A_Mk47"]     = 60,   -- AIM-54A Phoenix (Mk47 motor)
-    ["AIM_54A_Mk60"]     = 60,   -- AIM-54A Phoenix (Mk60 motor)
-    ["AIM_54C_Mk47"]     = 65,   -- AIM-54C Phoenix C
+    ["AIM_54A_Mk47"]     = 30,   -- AIM-54A Phoenix (Mk47 motor)
+    ["AIM_54A_Mk60"]     = 30,   -- AIM-54A Phoenix (Mk60 motor)
+    ["AIM_54C_Mk47"]     = 30,   -- AIM-54C Phoenix C
 
     -- ── SHORT-RANGE IR AAM: EUROPEAN / OTHER ─────────────────────────────────
-    ["Magic_2"]              = 30,   -- R550 Magic 2 (Mirage 2000/F1)   ↔ AIM-9M / R-73
-    ["Matra_R550_Magic_2"]   = 30,   -- alternate DCS typeName
-    ["R_550_Magic_2"]        = 30,   -- alternate DCS typeName
-    ["Rb24J"]            = 20,   -- Rb 24J (AJS37 Viggen)           ↔ AIM-9L
-    ["Rb74"]             = 30,   -- Rb 74  (AJS37 Viggen)           ↔ AIM-9M
-    ["Mistral"]          = 20,   -- Mistral MANPADS (SA342)         ↔ R-60M
-    ["PL_5EII"]          = 20,   -- PL-5EII (JF-17)                ↔ AIM-9P
+    ["Magic_2"]              = 0,   -- R550 Magic 2 (Mirage 2000/F1)   ↔ AIM-9M / R-73
+    ["Matra_R550_Magic_2"]   = 0,   -- alternate DCS typeName
+    ["R_550_Magic_2"]        = 0,   -- alternate DCS typeName
+    ["Rb24J"]            = 0,   -- Rb 24J (AJS37 Viggen)           ↔ AIM-9L
+    ["Rb74"]             = 0,   -- Rb 74  (AJS37 Viggen)           ↔ AIM-9M
+    ["Mistral"]          = 0,   -- Mistral MANPADS (SA342)         ↔ R-60M
+    ["PL_5EII"]          = 0,   -- PL-5EII (JF-17)                ↔ AIM-9P
 
     -- ── LASER-GUIDED BOMBS ───────────────────────────────────────────────────
-    ["GBU_12"]           = 25,   -- GBU-12 Paveway II 500 lb        ↔ Kh-25ML
-    ["GBU_16"]           = 30,   -- GBU-16 Paveway II 1000 lb       ↔ Kh-29L
-    ["GBU_10"]           = 35,   -- GBU-10 Paveway II 2000 lb
-    ["GBU_24"]           = 35,   -- GBU-24 Paveway III 2000 lb
-    ["GBU_27"]           = 35,   -- GBU-27 (penetrator LGB)
+    ["GBU_12"]           = 0,   -- GBU-12 Paveway II 500 lb        ↔ Kh-25ML
+    ["GBU_16"]           = 0,   -- GBU-16 Paveway II 1000 lb       ↔ Kh-29L
+    ["GBU_10"]           = 0,   -- GBU-10 Paveway II 2000 lb
+    ["GBU_24"]           = 0,   -- GBU-24 Paveway III 2000 lb
+    ["GBU_27"]           = 0,   -- GBU-27 (penetrator LGB)
 
     -- ── JDAM (GPS-GUIDED) ────────────────────────────────────────────────────
     ["GBU_38"]           = 20,   -- GBU-38 JDAM  500 lb
@@ -202,57 +202,57 @@ armamentCost.weaponCosts = {
     ["GBU_31"]           = 30,   -- GBU-31 JDAM 2000 lb
     ["GBU_31_V_2B"]      = 30,   -- GBU-31 JDAM Mk84
     ["GBU_31_V_2_B"]     = 30,   -- alternate DCS typeName variant
-    ["GBU_31_V_3B"]      = 32,   -- GBU-31 BLU-109 penetrator JDAM
-    ["GBU_31_V_4B"]      = 30,   -- GBU-31 V4 JDAM
-    ["GBU_31_V_4_B"]     = 30,   -- alternate DCS typeName variant
-    ["GBU_54"]           = 35,   -- GBU-54 LJDAM (laser + GPS)
+    ["GBU_31_V_3B"]      = 35,   -- GBU-31 BLU-109 penetrator JDAM
+    ["GBU_31_V_4B"]      = 35,   -- GBU-31 V4 JDAM
+    ["GBU_31_V_4_B"]     = 35,   -- alternate DCS typeName variant
+    ["GBU_54"]           = 30,   -- GBU-54 LJDAM (laser + GPS)
 
     -- ── CLUSTER BOMBS ────────────────────────────────────────────────────────
-    ["CBU_87"]           = 15,   -- CBU-87 CEM cluster
-    ["CBU_97"]           = 20,   -- CBU-97 SFW (sensor-fuzed, very effective)
-    ["CBU_103"]          = 18,   -- CBU-103 CEM + WCMD
+    ["CBU_87"]           = 0,   -- CBU-87 CEM cluster
+    ["CBU_97"]           = 10,   -- CBU-97 SFW (sensor-fuzed, very effective)
+    ["CBU_103"]          = 10,   -- CBU-103 CEM + WCMD
     ["CBU_105"]          = 25,   -- CBU-105 SFW + WCMD
     ["KMGU_2"]           = 12,   -- KMGU-2 submunitions dispenser   ↔ CBU tier
 
     -- ── UNGUIDED US BOMBS ────────────────────────────────────────────────────
-    ["Mk_82"]            = 3,    -- Mk 82   500 lb                  ↔ FAB-100/250
-    ["Mk_82SE"]          = 3,    -- Mk 82 Snake Eye
-    ["Mk_82AIR"]         = 3,    -- Mk 82 AIR (retarded)
-    ["Mk_83"]            = 6,    -- Mk 83  1000 lb                  ↔ FAB-250
-    ["Mk_84"]            = 10,   -- Mk 84  2000 lb                  ↔ FAB-500
-    ["BLU_107"]          = 10,   -- BLU-107 Durandal (anti-runway)
-    ["MK_77"]            = 5,    -- Mk 77 napalm canister
+    ["Mk_82"]            = 0,    -- Mk 82   500 lb                  ↔ FAB-100/250
+    ["Mk_82SE"]          = 0,    -- Mk 82 Snake Eye
+    ["Mk_82AIR"]         = 0,    -- Mk 82 AIR (retarded)
+    ["Mk_83"]            = 0,    -- Mk 83  1000 lb                  ↔ FAB-250
+    ["Mk_84"]            = 0,   -- Mk 84  2000 lb                  ↔ FAB-500
+    ["BLU_107"]          = 0,   -- BLU-107 Durandal (anti-runway)
+    ["MK_77"]            = 0,    -- Mk 77 napalm canister
 
     -- ── UNGUIDED RUSSIAN BOMBS ───────────────────────────────────────────────
-    ["FAB_100"]          = 3,    -- FAB-100  (~500 lb class)        ↔ Mk 82
-    ["FAB_250"]          = 6,    -- FAB-250  (~1000 lb class)       ↔ Mk 83
-    ["FAB_500"]          = 10,   -- FAB-500  (~2000 lb class)       ↔ Mk 84
-    ["FAB_500M62"]       = 10,   -- FAB-500 M62 variant
-    ["FAB_500_M62"]      = 10,   -- alternate DCS typeName
-    ["BETAB_500"]        = 10,   -- BetAB-500 (concrete penetrating)
-    ["BETAB_500ShP"]     = 10,   -- BetAB-500ShP
+    ["FAB_100"]          = 0,    -- FAB-100  (~500 lb class)        ↔ Mk 82
+    ["FAB_250"]          = 0,    -- FAB-250  (~1000 lb class)       ↔ Mk 83
+    ["FAB_500"]          = 0,   -- FAB-500  (~2000 lb class)       ↔ Mk 84
+    ["FAB_500M62"]       = 0,   -- FAB-500 M62 variant
+    ["FAB_500_M62"]      = 0,   -- alternate DCS typeName
+    ["BETAB_500"]        = 0,   -- BetAB-500 (concrete penetrating)
+    ["BETAB_500ShP"]     = 0,   -- BetAB-500ShP
 
     -- ── US ROCKETS ───────────────────────────────────────────────────────────
-    ["Hydra_70_M151"]    = 1,    -- Hydra 70 HEAT
-    ["Hydra_70_M229"]    = 1,    -- Hydra 70 HE
-    ["Hydra_70_M257"]    = 1,    -- Hydra 70 Illumination
-    ["Hydra_70_M274"]    = 1,    -- Hydra 70 Smoke
-    ["FFAR_Mk5_HEAT"]    = 1,    -- FFAR Mk 5 HEAT
-    ["Zuni_127"]         = 3,    -- Zuni 5" rocket                  ↔ S-13 tier
+    ["Hydra_70_M151"]    = 0,    -- Hydra 70 HEAT
+    ["Hydra_70_M229"]    = 0,    -- Hydra 70 HE
+    ["Hydra_70_M257"]    = 0,    -- Hydra 70 Illumination
+    ["Hydra_70_M274"]    = 0,    -- Hydra 70 Smoke
+    ["FFAR_Mk5_HEAT"]    = 0,    -- FFAR Mk 5 HEAT
+    ["Zuni_127"]         = 0,    -- Zuni 5" rocket                  ↔ S-13 tier
 
     -- ── RUSSIAN ROCKETS ──────────────────────────────────────────────────────
-    ["S_5KO"]            = 1,    -- S-5KO  57mm                     ↔ Hydra 70
-    ["S_5M"]             = 1,    -- S-5M   57mm
-    ["S_5MO"]            = 1,    -- S-5MO  57mm
-    ["S_5P"]             = 1,    -- S-5P   57mm
-    ["S_8KOM"]           = 2,    -- S-8KOM  80mm
-    ["S_8OFP2"]          = 2,    -- S-8OFP2 80mm
-    ["S_13OF"]           = 4,    -- S-13OF  122mm                   ↔ Zuni
-    ["S_13T"]            = 4,    -- S-13T   122mm
-    ["S_13OFBT"]         = 4,    -- S-13OFBT
-    ["S_24B"]            = 8,    -- S-24B   240mm (large unguided)
-    ["S_25OFM"]          = 12,   -- S-25OFM 340mm (very large)
-    ["S_25L"]            = 15,   -- S-25L   340mm laser-guided
+    ["S_5KO"]            = 0,    -- S-5KO  57mm                     ↔ Hydra 70
+    ["S_5M"]             = 0,    -- S-5M   57mm
+    ["S_5MO"]            = 0,    -- S-5MO  57mm
+    ["S_5P"]             = 0,    -- S-5P   57mm
+    ["S_8KOM"]           = 0,    -- S-8KOM  80mm
+    ["S_8OFP2"]          = 0,    -- S-8OFP2 80mm
+    ["S_13OF"]           = 0,    -- S-13OF  122mm                   ↔ Zuni
+    ["S_13T"]            = 0,    -- S-13T   122mm
+    ["S_13OFBT"]         = 0,    -- S-13OFBT
+    ["S_24B"]            = 0,    -- S-24B   240mm (large unguided)
+    ["S_25OFM"]          = 0,   -- S-25OFM 340mm (very large)
+    ["S_25L"]            = 0,   -- S-25L   340mm laser-guided
 }
 
 -- ─── STATE ────────────────────────────────────────────────────────────────────
